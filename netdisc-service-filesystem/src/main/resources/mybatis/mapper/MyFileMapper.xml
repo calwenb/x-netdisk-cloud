@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wen.mapper.MyFileMapper">
+    <resultMap id="MyFileMap" type="com.wen.pojo.MyFile">
+        <result property="myFileId" column="my_file_id"/>
+        <result property="myFileName" column="my_file_name"/>
+        <result property="fileStoreId" column="file_store_id"/>
+        <result property="myFilePath" column="my_file_path"/>
+        <result property="downloadCount" column="download_count"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="parentFolderId" column="parent_folder_id"/>
+        <result property="size" column="size"/>
+        <result property="type" column="type"/>
+    </resultMap>
+    <sql id="NoAllField">
+        my_file_name,file_store_id,my_file_path,download_count,update_time,parent_folder_id,size,type
+    </sql>
+    <sql id="AllField">
+        my_file_id,my_file_name,my_file.file_store_id,my_file_path,download_count,update_time,parent_folder_id,size,type
+    </sql>
+    <sql id="NoAllProperty">
+        #{myFileName},
+        #{fileStoreId},
+        #{myFilePath},
+        #{downloadCount},
+        #{updateTime},
+        #{parentFolderId},
+        #{size},
+        #{type}
+    </sql>
+    <!--获取自增主键值,并赋值-->
+    <insert id="addFile" useGeneratedKeys="true" keyProperty="myFileId" parameterType="com.wen.pojo.MyFile">
+        insert into my_pan.my_file(<include refid="NoAllField"/>)
+        values
+        (<include refid="NoAllProperty"></include>);
+    </insert>
+
+    <update id="updateByFileId">
+        update my_pan.my_file
+        set my_file_name=#{myFileName},
+            file_store_id=#{fileStoreId},
+            my_file_path=#{myFilePath},
+            download_count=#{downloadCount},
+            update_time=#{updateTime},
+            parent_folder_id =#{parentFolderId},
+            size=#{size},
+            type=#{type}
+        where my_file_id = #{myFileId};
+    </update>
+
+    <select id="queryMyFiles" resultMap="MyFileMap">
+        SELECT
+        <include refid="AllField"></include>
+        FROM
+        my_pan.`user` JOIN my_pan.file_store
+        ON `user`.id=file_store.user_id JOIN my_pan.my_file
+        ON file_store.file_store_id=my_file.file_store_id
+        <where>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            <if test="parentFolderId !=null">
+                AND parent_folder_id = #{parentFolderId}
+            </if>
+        </where>
+        <if test="startRow!=null and showRow!=null"></if>
+        LIMIT #{startRow},#{showRow};
+    </select>
+    <select id="queryFilesByType" resultMap="MyFileMap">
+        SELECT
+        <include refid="AllField"></include>
+        FROM
+        my_pan.`user`
+        JOIN my_pan.file_store ON `user`.id=file_store.user_id
+        JOIN my_pan.my_file ON file_store.file_store_id=my_file.file_store_id
+        <where>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            <if test="type !=null">
+                AND type= #{type}
+            </if>
+        </where>
+        <if test="startRow!=null and showRow!=null"></if>
+        LIMIT #{startRow},#{showRow};
+    </select>
+
+    <select id="queryFileById" resultMap="MyFileMap">
+        SELECT *
+        FROM my_pan.my_file
+        WHERE my_file_id = #{myFileId}
+    </select>
+
+    <select id="queryAllFiles" resultMap="MyFileMap">
+        SELECT *
+        FROM my_pan.my_file;
+    </select>
+
+    <delete id="deleteByMyFileId">
+        delete
+        from my_pan.my_file
+        where my_file_id = #{myFileId};
+    </delete>
+    <delete id="deleteByFoldId">
+        delete
+        from my_pan.my_file
+        where parent_folder_id = #{folderId};
+    </delete>
+
+
+</mapper>

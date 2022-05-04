@@ -1,0 +1,44 @@
+server:
+  port: 9500
+
+spring:
+  application:
+    name: netdisc-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      globalcors: #解决跨域问题
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "*"
+            allowedOriginPatterns: "*"
+            allowCredentials: true
+            allowedMethods: "*"
+
+      routes:
+        - id: netdisc-service-filesystem
+          uri: lb://netdisc-service-filesystem
+          predicates:
+            - Path=/api/file/**,/api/fileFolder/**,/api/search/**
+          filters: #排除/api
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+
+        - id: netdisc-service-user
+          uri: lb://netdisc-service-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+

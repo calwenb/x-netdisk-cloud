@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wen.mapper.UserMapper">
+    <resultMap id="UserMap" type="com.wen.pojo.User">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="userType" column="user_type"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="email" column="email"/>
+        <result property="avatar" column="avatar"/>
+        <result property="registerTime" column="register_time"/>
+    </resultMap>
+
+    <select id="queryUsers" resultMap="UserMap">
+        select *
+        from my_pan.user;
+    </select>
+    <update id="updateUser">
+        update my_pan.user
+        set pass_word=#{passWord}
+        where id = #{id};
+    </update>
+
+    <select id="queryUseById" parameterType="integer" resultMap="UserMap">
+        select *
+        from my_pan.user
+        where id = #{id}
+    </select>
+
+    <select id="login" resultMap="UserMap">
+        select *
+        from my_pan.user
+        where login_name = #{loginName}
+          and pass_word = #{pwd}
+    </select>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.wen.pojo.User">
+        insert into my_pan.user(user_name, login_name, pass_word, user_type, phone_number, email, avatar, register_time)
+        values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar},
+                #{registerTime})
+    </insert>
+
+
+    <select id="getUserById" resultMap="UserMap">
+        select *
+        from my_pan.user
+        where id = #{id}
+    </select>
+
+</mapper>

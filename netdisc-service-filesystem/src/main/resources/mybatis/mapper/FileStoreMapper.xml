@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wen.mapper.FileStoreMapper">
+    <resultMap id="FileStore" type="com.wen.pojo.FileStore">
+        <result property="fileStoreId" column="file_store_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="currentSize" column="current_size"/>
+        <result property="maxSize" column="max_size"/>
+    </resultMap>
+
+    <sql id="allField">
+        user_id,current_size,max_size
+    </sql>
+
+    <insert id="addFileStore" useGeneratedKeys="true" keyProperty="fileStoreId" parameterType="com.wen.pojo.FileStore">
+        insert into my_pan.file_store (<include refid="allField"/>)
+        values (#{userId},#{currentSize},#{maxSize})
+
+    </insert>
+
+    <select id="queryFileStoreByUserId" resultMap="FileStore">
+        select *
+        from my_pan.file_store
+        where user_id = #{userId}
+        limit 1;
+    </select>
+
+    <select id="queryFileStores" resultMap="FileStore">
+        select *
+        from my_pan.file_store;
+    </select>
+    <select id="queryStoreById" resultMap="FileStore">
+        select *
+        from my_pan.file_store
+        where file_store_id = #{fileStoreId};
+    </select>
+
+
+</mapper>
