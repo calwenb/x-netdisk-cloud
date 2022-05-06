@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.data:spring-data-elasticsearch:4.3.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../Java Web/apache-maven-3.8.1/maven-repo/org/springframework/data/spring-data-elasticsearch/4.3.0/spring-data-elasticsearch-4.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../Java Web/apache-maven-3.8.1/maven-repo/org/springframework/data/spring-data-elasticsearch/4.3.0/spring-data-elasticsearch-4.3.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../Java Web/apache-maven-3.8.1/maven-repo/org/springframework/data/spring-data-elasticsearch/4.3.0/spring-data-elasticsearch-4.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

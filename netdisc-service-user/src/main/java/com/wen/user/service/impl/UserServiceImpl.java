@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +21,11 @@ import java.util.Map;
 @Transactional(rollbackFor = Exception.class)
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     UserMapper userMapper;
 
-    /*  @Autowired
-        TokenService tokenService;*/
-    @Autowired
+
+    @Resource
     FileStoreService storeService;
 
 

@@ -16,6 +16,11 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
+        <!--Snetinel 依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
         <!-- Feign Client for loadBalancing -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

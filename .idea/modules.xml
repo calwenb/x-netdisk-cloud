@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/netdisc-cloud.iml" filepath="$PROJECT_DIR$/netdisc-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisc-common/netdisc-common.iml" filepath="$PROJECT_DIR$/netdisc-common/netdisc-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisc-gateway/netdisc-gateway.iml" filepath="$PROJECT_DIR$/netdisc-gateway/netdisc-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisc-oauth/netdisc-oauth.iml" filepath="$PROJECT_DIR$/netdisc-oauth/netdisc-oauth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisc-service-filesystem/netdisc-service-filesystem.iml" filepath="$PROJECT_DIR$/netdisc-service-filesystem/netdisc-service-filesystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netdisc-service-user/netdisc-service-user.iml" filepath="$PROJECT_DIR$/netdisc-service-user/netdisc-service-user.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,5 +1,7 @@
 package com.wen.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.wen.common.annotation.PassToken;
 import com.wen.common.pojo.Result;
@@ -9,24 +11,26 @@ import com.wen.common.utils.ResponseUtil;
 import com.wen.user.service.TokenService;
 import com.wen.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
  * UserController类
  */
-@Slf4j
 @RestController
+@Slf4j
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
+    @Resource
     UserService userService;
-    @Autowired
+
+    @Resource
     TokenService tokenService;
 
     @PassToken
+    @SentinelResource(value = "login", defaultFallback = "userFallback", blockHandler = "loginRegisterHot")
     @GetMapping("/login")
     public String login(@RequestParam("loginName") String loginName,
                         @RequestParam("password") String password) {
@@ -38,11 +42,17 @@ public class UserController {
             return ResponseUtil.error("账号或者密码错误");
         }
         System.out.println(user.getUserName() + "登录");
-        String token = String.valueOf(tokenService.getToken(JSON.toJSONString(user)).getData());
-        return ResponseUtil.success(token);
+        Result result = tokenService.getToken(JSON.toJSONString(user));
+        if (result.getCode() == 200) {
+            String token = String.valueOf(result.getData());
+            return ResponseUtil.success(token);
+        }
+        return ResponseUtil.error("登录错误");
     }
 
+
     @PassToken
+    @SentinelResource(value = "register", defaultFallback = "userFallback", blockHandler = "loginRegisterHot")
     @PostMapping("/register")
     public String register(@RequestParam("loginName") String userName,
                            @RequestParam("loginName") String loginName,
@@ -59,12 +69,20 @@ public class UserController {
         return ResponseUtil.success(token);
     }
 
+    /**
+     * 登录限流，防止大量同一账号恶意登录
+     */
+    public String loginRegisterHot(String loginName, String password, BlockException e) {
+        String msg = "账号:" + loginName + " ，请求频繁，请稍后再试...";
+        return ResponseUtil.error(msg);
+    }
+
+    @SentinelResource(value = "userGlobal", defaultFallback = "userFallback")
     @GetMapping("/getUser")
     public String getUserByToken(@RequestParam("token") String token) {
         if ((NullUtil.hasNull(token))) {
             return NullUtil.msg();
         }
-        log.debug(token);
         Object data = tokenService.getTokenUser(token).getData();
         if (data == null) {
             return ResponseUtil.error("错误令牌!!");
@@ -72,6 +90,7 @@ public class UserController {
         return ResponseUtil.success(JSON.toJSONString(data));
     }
 
+    @SentinelResource(value = "userGlobal", defaultFallback = "userFallback")
     @PutMapping("/updatePassword")
     public String updatePassword(@RequestParam("token") String token,
                                  @RequestParam("password") String password) {
@@ -98,4 +117,17 @@ public class UserController {
         User user = userService.getUserById(Integer.parseInt(userId));
         return Result.success(user);
     }
+
+    /**
+     * user接口通用降级处理方法
+     *
+     * @param e
+     * @return
+     */
+    public String userFallback(Throwable e) {
+        String msg = "错误异常，进入熔断中...";
+        log.error(e.getMessage());
+        return ResponseUtil.error(msg);
+    }
+
 }

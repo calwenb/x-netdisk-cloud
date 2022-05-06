@@ -2,12 +2,13 @@ package com.wen.oauth.serivce.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.wen.common.pojo.Result;
 import com.wen.common.pojo.User;
 import com.wen.oauth.serivce.TokenService;
 import com.wen.oauth.serivce.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TokenServiceImpl implements TokenService {
 
-    @Autowired
+    @Resource
     UserService userService;
 
     /**
@@ -52,8 +53,11 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public User getTokenUser(String token) {
         String userId = JWT.decode(token).getAudience().get(0);
-        User user = userService.getUserById(userId).getData();
-        return user;
+        Result<User> result = userService.getUserById(userId);
+        if (result.getCode() != 200) {
+            throw new RuntimeException("请求用户服务接口失败");
+        }
+        return result.getData();
     }
 
 }

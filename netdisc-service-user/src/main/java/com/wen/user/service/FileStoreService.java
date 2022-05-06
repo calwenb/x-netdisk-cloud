@@ -1,7 +1,7 @@
 package com.wen.user.service;
 
 import com.wen.common.pojo.Result;
-import com.wen.common.utils.ResponseUtil;
+import com.wen.user.service.fallback.UserFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author Mr.文
  */
-@FeignClient(value = "netdisc-service-filesystem", path = "/store")
+@FeignClient(value = "netdisc-service-filesystem", path = "/store", fallback = UserFallback.class)
 public interface FileStoreService {
 
     @PostMapping("/init")
-    Result initStore(@RequestParam("uid") int userId) ;
+    Result initStore(@RequestParam("uid") int userId);
 
 }
