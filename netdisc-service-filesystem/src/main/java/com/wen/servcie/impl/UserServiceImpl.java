@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return rs;
         }
-        if (!storeService.initStore(user.getId())) {
+        if (storeService.initStore(user.getId()) == -1) {
             //回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             rs.put("error", "初始化用户仓库失败");

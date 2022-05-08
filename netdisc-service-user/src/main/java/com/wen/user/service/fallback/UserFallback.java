@@ -25,6 +25,12 @@ public class UserFallback implements FileStoreService, TokenService {
     }
 
     @Override
+    public Result delStore(int storeId) {
+        return null;
+    }
+
+
+    @Override
     public Result getToken(String user) {
         return this.fallback("获得令牌");
     }

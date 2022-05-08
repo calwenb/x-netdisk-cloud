@@ -23,10 +23,10 @@ public class FileStoreServiceImpl implements FileStoreService {
     RedisTemplate redisTemplate;
 
     @Override
-    public boolean initStore(int userId) {
+    public int initStore(int userId) {
         FileStore fileStore = new FileStore(-1, userId, 0, FileUtil.STORE_MAX_SIZE);
         if (fileStoreMapper.addFileStore(fileStore) == 0) {
-            return false;
+            return -1;
         }
         String path = FileUtil.STORE_ROOT_PATH + fileStore.getFileStoreId() + "/";
         try {
@@ -35,9 +35,9 @@ public class FileStoreServiceImpl implements FileStoreService {
             e.printStackTrace();
             //回滚事务
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return false;
+            return -1;
         }
-        return true;
+        return fileStore.getFileStoreId();
     }
 
     @Override

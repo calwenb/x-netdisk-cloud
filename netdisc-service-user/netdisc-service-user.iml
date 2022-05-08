@@ -25,6 +25,62 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.alibaba.cloud:spring-cloud-starter-alibaba-seata:2021.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.6.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.14" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.7" level="project" />
+    <orderEntry type="library" name="Maven: io.seata:seata-spring-boot-starter:1.4.1" level="project" />
+    <orderEntry type="library" name="Maven: io.seata:seata-all:1.4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.14" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.14" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-dns:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-haproxy:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http2:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-memcache:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-mqtt:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-redis:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-smtp:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-stomp:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-xml:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-tcnative-classes:2.0.46.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-rxtx:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-sctp:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-udt:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-classes-epoll:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-unix-common:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-classes-kqueue:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns-classes-macos:4.1.72.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.72.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-epoll:linux-aarch_64:4.1.72.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-kqueue:osx-x86_64:4.1.72.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-kqueue:osx-aarch_64:4.1.72.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-resolver-dns-native-macos:osx-x86_64:4.1.72.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-resolver-dns-native-macos:osx-aarch_64:4.1.72.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.typesafe:config:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.11.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.6" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.7.1" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib:3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.ow2.asm:asm:4.2" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:27.0.1-jre" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:failureaccess:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.checkerframework:checker-qual:2.5.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.j2objc:j2objc-annotations:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.17" level="project" />
+    <orderEntry type="library" name="Maven: com.github.ben-manes.caffeine:caffeine:2.9.3" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:2021.1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-transport-simple-http:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-transport-common:1.8.0" level="project" />
@@ -32,7 +88,6 @@
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-annotation-aspectj:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-core:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.9.7" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.7" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.cloud:spring-cloud-circuitbreaker-sentinel:2021.1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-reactor-adapter:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-spring-webflux-adapter:1.8.0" level="project" />
@@ -42,10 +97,6 @@
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-cluster-server-default:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-cluster-common-default:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.72.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.72.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.72.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.72.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-tcnative-classes:2.0.46.Final" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.csp:sentinel-cluster-client-default:1.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.cloud:spring-cloud-alibaba-sentinel-datasource:2021.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0" level="project" />
@@ -54,12 +105,10 @@
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.68" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.68" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-openfeign-core:3.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.6.2" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign.form:feign-form-spring:3.8.0" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign.form:feign-form:3.8.0" level="project" />
     <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.14" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-commons:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.6.1" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign:feign-core:11.7" level="project" />
@@ -84,12 +133,6 @@
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore-nio:4.4.15" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.13" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba.nacos:nacos-api:1.4.1" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:24.1.1-jre" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
-    <orderEntry type="library" name="Maven: org.checkerframework:checker-compat-qual:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.1.3" level="project" />
-    <orderEntry type="library" name="Maven: com.google.j2objc:j2objc-annotations:1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.1" level="project" />
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient:0.12.0" level="project" />
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient_tracer_otel:0.12.0" level="project" />
@@ -106,8 +149,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.56" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.56" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.14" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.14" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:2.6.0" level="project" />
@@ -151,7 +192,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.jayway.jsonpath:json-path:2.6.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.minidev:json-smart:2.4.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.minidev:accessors-smart:2.4.7" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm:9.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:2.3.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: jakarta.activation:jakarta.activation-api:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.21.0" level="project" />

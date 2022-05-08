@@ -62,6 +62,11 @@ mybatis:
 feign:
   sentinel:
     enabled: true
-
+seata:
+  service:
+    vgroup-mapping:
+      netdisc-service-user-seata-service-group: default
+    grouplist:
+      default: localhost:8091
 
 

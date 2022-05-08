@@ -1,0 +1,318 @@
+2022-05-06 15:54:59,084 INFO GlobalConfig{taskDispatchPeriod=2000, batchSyncKeyCount=1000, syncRetryDelay=5000, dataWarmup=false, expireInstance=true, loadDataRetryDelayMillis=30000}
+
+2022-05-06 15:54:59,878 INFO open empty service auto clean job, initialDelay : 50000 ms, period : 30000 ms
+
+2022-05-06 15:54:59,879 INFO listen for service meta change
+
+2022-05-06 15:55:04,065 INFO [NACOS-DISTRO] healthy server list changed, old: [192.168.1.105:8848], new: [192.168.1.105:8848]
+
+2022-05-06 15:56:15,065 INFO creating empty service public:DEFAULT_GROUP@@netdisc-gateway
+
+2022-05-06 15:56:15,286 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-gateway","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651823775067,"checksum":"fbd6e609ecacdf848d12d2abd4139bdd","clusterMap":{},"empty":true}
+
+2022-05-06 15:56:15,292 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823775044,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 15:56:15,298 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-gateway, value: {"instanceList":[{"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823775044,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 15:56:15,363 INFO creating empty service public:DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 15:56:15,364 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-user","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651823775363,"checksum":"0e125c3458887abf9e4be2bb1bee159f","clusterMap":{},"empty":true}
+
+2022-05-06 15:56:15,365 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823775363,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 15:56:15,365 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823775363,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 15:56:18,624 INFO creating empty service public:DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 15:56:18,626 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-oauth","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651823778624,"checksum":"0f437036c800eeb0ab6a2218dce70f7a","clusterMap":{},"empty":true}
+
+2022-05-06 15:56:18,627 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823778624,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 15:56:18,627 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[{"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823778624,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 15:56:31,825 INFO creating empty service public:DEFAULT_GROUP@@netdisc-service-filesystem
+
+2022-05-06 15:56:31,826 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-filesystem","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651823791825,"checksum":"9a849a82aef1ef0ddc5d50d9393363f6","clusterMap":{},"empty":true}
+
+2022-05-06 15:56:31,826 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8072#DEFAULT#DEFAULT_GROUP@@netdisc-service-filesystem","ip":"192.168.1.105","port":8072,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823791825,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 15:56:31,826 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-filesystem, value: {"instanceList":[{"instanceId":"192.168.1.105#8072#DEFAULT#DEFAULT_GROUP@@netdisc-service-filesystem","ip":"192.168.1.105","port":8072,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651823791825,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:15:38,267 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:15:38,268 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:15:44,551 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:15:46,758 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:15:52,284 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-service-user, ip: {"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651824917699,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 16:15:52,367 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[]}
+
+2022-05-06 16:18:19,884 WARN namespace : public, [DEFAULT_GROUP@@netdisc-service-user] services are automatically cleaned
+
+2022-05-06 16:18:19,896 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-user","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651824952367,"checksum":"ffe66c6adb30069c1d1ec0d28db455dc","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@netdisc-service-user","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"empty":true,"defIPPort":80}},"empty":true}
+
+2022-05-06 16:20:50,674 INFO creating empty service public:DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:20:50,674 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-user","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651825250674,"checksum":"0e125c3458887abf9e4be2bb1bee159f","clusterMap":{},"empty":true}
+
+2022-05-06 16:20:50,674 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651825250674,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 16:20:50,674 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651825250674,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:33:41,954 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826021953,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:33:57,335 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:58,011 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:58,011 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:58,902 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:58,986 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826038985,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:33:59,797 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:59,971 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:59,998 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:59,998 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:33:59,998 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:38:52,199 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826332199,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:39:36,481 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826376481,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:44:14,049 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:14,049 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:14,313 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:14,395 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826654395,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:44:15,376 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:15,404 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:15,404 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:15,404 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:17,942 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 16:44:40,181 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826680181,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:46:31,413 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651826791412,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 16:57:11,696 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651827431696,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:09:09,449 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651828149448,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:23:12,669 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:23:12,713 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:23:12,756 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651828992756,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:23:12,960 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:23:12,961 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:23:12,961 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:23:13,735 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:25:04,214 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829104214,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:25:50,476 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829150476,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:26:47,311 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829207311,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:26:48,273 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:26:48,273 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:26:48,274 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:26:48,292 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:26:50,456 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:48,452 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:48,452 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:50,579 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:51,445 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:51,540 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829331539,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:28:52,524 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:52,552 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:52,552 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:52,553 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:28:53,011 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:29:43,955 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:29:43,955 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:29:50,684 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:29:52,041 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:29:57,968 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-oauth, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829364766,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:29:57,974 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[]}
+
+2022-05-06 17:30:27,732 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:30:27,858 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829427858,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:30:28,623 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:30:28,623 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:30:28,829 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:30:30,672 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:31:42,331 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829502331,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:32:19,884 WARN namespace : public, [DEFAULT_GROUP@@netdisc-oauth] services are automatically cleaned
+
+2022-05-06 17:32:19,887 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-oauth","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651829397974,"checksum":"3cc7f598d0f3f54bdce652362f5b6137","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@netdisc-oauth","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"empty":true,"defIPPort":80}},"empty":true}
+
+2022-05-06 17:32:25,526 INFO creating empty service public:DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:32:25,526 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-oauth","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651829545526,"checksum":"0f437036c800eeb0ab6a2218dce70f7a","clusterMap":{},"empty":true}
+
+2022-05-06 17:32:25,527 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829545525,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 17:32:25,527 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[{"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829545525,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:34:05,861 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:34:06,703 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:34:06,703 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:34:12,842 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:34:15,704 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-oauth, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829625695,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:34:15,707 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[]}
+
+2022-05-06 17:35:03,474 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[{"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829703474,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:35:55,089 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[{"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829755088,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:35:59,154 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:36:00,981 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:36:10,990 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 17:36:13,168 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-service-user, ip: {"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829742567,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:36:13,170 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[]}
+
+2022-05-06 17:36:22,322 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-filesystem, value: {"instanceList":[]}
+
+2022-05-06 17:36:50,966 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-oauth, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829780139,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:36:50,971 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[]}
+
+2022-05-06 17:36:54,856 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-gateway, ip: {"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829781417,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:36:54,857 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-gateway, value: {"instanceList":[]}
+
+2022-05-06 17:37:15,124 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-gateway, value: {"instanceList":[{"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829835123,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:37:19,890 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829839889,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:37:22,246 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[{"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829842246,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:37:28,814 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-filesystem, value: {"instanceList":[{"instanceId":"192.168.1.105#8072#DEFAULT#DEFAULT_GROUP@@netdisc-service-filesystem","ip":"192.168.1.105","port":8072,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829848814,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:38:12,070 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:38:20,347 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 17:38:26,076 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-oauth, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651829872300,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:38:26,078 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[]}
+
+2022-05-06 17:40:49,894 WARN namespace : public, [DEFAULT_GROUP@@netdisc-oauth] services are automatically cleaned
+
+2022-05-06 17:40:49,895 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-oauth","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651829906078,"checksum":"3cc7f598d0f3f54bdce652362f5b6137","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@netdisc-oauth","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"empty":true,"defIPPort":80}},"empty":true}
+
+2022-05-06 17:41:04,607 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651830064607,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 17:51:03,127 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-service-filesystem, ip: {"instanceId":"192.168.1.105#8072#DEFAULT#DEFAULT_GROUP@@netdisc-service-filesystem","ip":"192.168.1.105","port":8072,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651830630275,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:51:03,130 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-filesystem, value: {"instanceList":[]}
+
+2022-05-06 17:51:04,571 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-service-user, ip: {"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651830630698,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:51:04,573 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[]}
+
+2022-05-06 17:51:06,281 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@netdisc-gateway, ip: {"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651830631647,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}
+
+2022-05-06 17:51:06,282 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-gateway, value: {"instanceList":[]}
+
+2022-05-06 17:53:19,879 WARN namespace : public, [DEFAULT_GROUP@@netdisc-gateway] services are automatically cleaned
+
+2022-05-06 17:53:19,879 WARN namespace : public, [DEFAULT_GROUP@@netdisc-service-filesystem] services are automatically cleaned
+
+2022-05-06 17:53:19,879 WARN namespace : public, [DEFAULT_GROUP@@netdisc-service-user] services are automatically cleaned
+
+2022-05-06 17:53:19,880 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-gateway","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651830666282,"checksum":"93d4b319892bc4a2fb291b8e317e0e40","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@netdisc-gateway","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"empty":true,"defIPPort":80}},"empty":true}
+
+2022-05-06 17:53:19,880 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-filesystem","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651830663130,"checksum":"c899f1eccacec66b652586c10e972300","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"empty":true,"defIPPort":80}},"empty":true}
+
+2022-05-06 17:53:19,881 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-user","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651830664573,"checksum":"ffe66c6adb30069c1d1ec0d28db455dc","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@netdisc-service-user","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"empty":true,"defIPPort":80}},"empty":true}
+
+2022-05-06 18:51:25,379 INFO creating empty service public:DEFAULT_GROUP@@netdisc-gateway
+
+2022-05-06 18:51:25,387 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-gateway","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651834285380,"checksum":"fbd6e609ecacdf848d12d2abd4139bdd","clusterMap":{},"empty":true}
+
+2022-05-06 18:51:25,388 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834285377,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 18:51:25,388 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-gateway, value: {"instanceList":[{"instanceId":"192.168.1.105#9500#DEFAULT#DEFAULT_GROUP@@netdisc-gateway","ip":"192.168.1.105","port":9500,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-gateway","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834285377,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 18:51:28,102 INFO creating empty service public:DEFAULT_GROUP@@netdisc-service-user
+
+2022-05-06 18:51:28,103 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-user","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651834288102,"checksum":"0e125c3458887abf9e4be2bb1bee159f","clusterMap":{},"empty":true}
+
+2022-05-06 18:51:28,103 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834288102,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 18:51:28,103 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-user, value: {"instanceList":[{"instanceId":"192.168.1.105#8071#DEFAULT#DEFAULT_GROUP@@netdisc-service-user","ip":"192.168.1.105","port":8071,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-user","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834288102,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 18:51:33,410 INFO creating empty service public:DEFAULT_GROUP@@netdisc-oauth
+
+2022-05-06 18:51:33,410 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-oauth","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651834293410,"checksum":"0f437036c800eeb0ab6a2218dce70f7a","clusterMap":{},"empty":true}
+
+2022-05-06 18:51:33,411 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834293410,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 18:51:33,411 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-oauth, value: {"instanceList":[{"instanceId":"192.168.1.105#8070#DEFAULT#DEFAULT_GROUP@@netdisc-oauth","ip":"192.168.1.105","port":8070,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-oauth","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834293410,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+
+2022-05-06 18:51:40,087 INFO creating empty service public:DEFAULT_GROUP@@netdisc-service-filesystem
+
+2022-05-06 18:51:40,090 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@netdisc-service-filesystem","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1651834300087,"checksum":"9a849a82aef1ef0ddc5d50d9393363f6","clusterMap":{},"empty":true}
+
+2022-05-06 18:51:40,090 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.1.105#8072#DEFAULT#DEFAULT_GROUP@@netdisc-service-filesystem","ip":"192.168.1.105","port":8072,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834300087,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}, will create new cluster with default configuration.
+
+2022-05-06 18:51:40,091 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@netdisc-service-filesystem, value: {"instanceList":[{"instanceId":"192.168.1.105#8072#DEFAULT#DEFAULT_GROUP@@netdisc-service-filesystem","ip":"192.168.1.105","port":8072,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@netdisc-service-filesystem","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1651834300087,"marked":false,"app":"unknown","instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000,"instanceHeartBeatInterval":5000}]}
+

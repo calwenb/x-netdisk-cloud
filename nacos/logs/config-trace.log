@@ -1,0 +1,6 @@
+2022-05-07 13:46:42,294|192.168.1.105|config-client-dev.yaml|DEFAULT_GROUP|null|null|1651902402294|127.0.0.1|persist|remove|-1|null
+2022-05-07 13:46:42,397|192.168.1.105|config-client-dev.yaml|DEFAULT_GROUP|null|null|1651902402294|192.168.1.105|dump|remove-ok|103|0
+2022-05-07 13:46:42,409|192.168.1.105|config-client-dev.yaml|DEFAULT_GROUP|null|null|1651902402294|192.168.1.105|notify|ok|113|192.168.1.105:8848
+2022-05-07 15:11:27,198|192.168.1.105|config-client|DEFAULT_GROUP|null|unknown|-1|pull|not-found|-1|127.0.0.1
+2022-05-07 15:11:27,211|192.168.1.105|config-client.yaml|DEFAULT_GROUP|null|unknown|-1|pull|not-found|-1|127.0.0.1
+2022-05-07 15:11:27,216|192.168.1.105|config-client-dev.yaml|DEFAULT_GROUP|null|unknown|-1|pull|not-found|-1|127.0.0.1

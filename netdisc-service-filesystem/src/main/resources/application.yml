@@ -2,6 +2,8 @@ server:
   port: 8072
 
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: netdisc-service-filesystem
   cloud:
@@ -75,3 +77,10 @@ netdisc:
     #单位 MB
     max-size: 2000
 
+seata:
+  service:
+    vgroup-mapping:
+      # XXX-seata-service-group
+      netdisc-service-filesystem-seata-service-group: default
+    grouplist:
+      default: localhost:8091

@@ -1,0 +1,558 @@
+2022-05-07 13:52:42,237 INFO SEATA_GROUP@@seata-server {SYNC} {IP-NEW} cluster: default, new ips size: 1, content: [192.168.1.105:8091:unknown:default_1.0_true_false_default]
+
+2022-05-07 13:52:42,240 INFO [IP-UPDATED] namespace: public, service: SEATA_GROUP@@seata-server, ips: 192.168.1.105:8091_true,
+
+2022-05-07 14:59:03,410 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8091@default@SEATA_GROUP@@seata-server, region: unknown, msg: client timeout after 15000, last beat: 1651906724948
+
+2022-05-07 14:59:18,445 INFO SEATA_GROUP@@seata-server {SYNC} {IP-DEAD} cluster: default, dead ips size: 1, content: [192.168.1.105:8091:unknown:default_1.0_false_false_default]
+
+2022-05-07 14:59:18,445 INFO [IP-UPDATED] namespace: public, service: SEATA_GROUP@@seata-server, ips: 
+
+2022-05-07 15:11:34,164 INFO DEFAULT_GROUP@@config-client {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:9001:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:11:34,164 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@config-client, ips: 192.168.1.105:9001_true,
+
+2022-05-07 15:11:37,619 INFO DEFAULT_GROUP@@config-client {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:9001:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:11:37,620 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@config-client, ips: 
+
+2022-05-07 15:11:44,981 INFO DEFAULT_GROUP@@spring-cloud-alibaba-provider {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8081:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:11:44,981 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@spring-cloud-alibaba-provider, ips: 192.168.1.105:8081_true,
+
+2022-05-07 15:11:55,160 INFO DEFAULT_GROUP@@spring-cloud-alibaba-provider {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8082:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:11:55,160 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@spring-cloud-alibaba-provider, ips: 192.168.1.105:8082_true,192.168.1.105:8081_true,
+
+2022-05-07 15:12:12,592 INFO DEFAULT_GROUP@@sentinel-service {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8083:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:12:12,592 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@sentinel-service, ips: 192.168.1.105:8083_true,
+
+2022-05-07 15:12:19,662 INFO DEFAULT_GROUP@@spring-cloud-alibaba-consumer81 {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:81:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:12:19,662 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@spring-cloud-alibaba-consumer81, ips: 192.168.1.105:81_true,
+
+2022-05-07 15:12:28,488 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:12:28,489 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_true,
+
+2022-05-07 15:12:29,484 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:12:29,484 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-07 15:12:32,116 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:12:32,116 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-07 15:12:40,000 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:12:40,000 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-07 15:13:17,684 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8083@DEFAULT@DEFAULT_GROUP@@sentinel-service, region: unknown, msg: client timeout after 15000, last beat: 1651907582664
+
+2022-05-07 15:13:19,771 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:81@DEFAULT@DEFAULT_GROUP@@spring-cloud-alibaba-consumer81, region: unknown, msg: client timeout after 15000, last beat: 1651907584768
+
+2022-05-07 15:13:25,139 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8082@DEFAULT@DEFAULT_GROUP@@spring-cloud-alibaba-provider, region: unknown, msg: client timeout after 15000, last beat: 1651907585342
+
+2022-05-07 15:13:25,139 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8081@DEFAULT@DEFAULT_GROUP@@spring-cloud-alibaba-provider, region: unknown, msg: client timeout after 15000, last beat: 1651907585173
+
+2022-05-07 15:13:32,715 INFO DEFAULT_GROUP@@sentinel-service {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8083:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:13:32,715 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@sentinel-service, ips: 
+
+2022-05-07 15:13:34,786 INFO DEFAULT_GROUP@@spring-cloud-alibaba-consumer81 {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:81:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:13:34,786 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@spring-cloud-alibaba-consumer81, ips: 
+
+2022-05-07 15:13:40,174 INFO DEFAULT_GROUP@@spring-cloud-alibaba-provider {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8082:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:13:40,174 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@spring-cloud-alibaba-provider, ips: 192.168.1.105:8081_false,
+
+2022-05-07 15:13:40,175 INFO DEFAULT_GROUP@@spring-cloud-alibaba-provider {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8081:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:13:40,175 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@spring-cloud-alibaba-provider, ips: 
+
+2022-05-07 15:14:11,458 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-07 15:24:15,579 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651908240344
+
+2022-05-07 15:24:16,127 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651908237666
+
+2022-05-07 15:24:25,361 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-07 15:24:30,375 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:24:31,147 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:24:31,147 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 
+
+2022-05-07 15:25:52,680 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:25:52,680 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-07 15:26:40,806 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651908385576
+
+2022-05-07 15:26:43,449 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8070@DEFAULT@DEFAULT_GROUP@@netdisc-oauth, region: unknown, msg: client timeout after 15000, last beat: 1651908383790
+
+2022-05-07 15:26:44,818 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:9500@DEFAULT@DEFAULT_GROUP@@netdisc-gateway, region: unknown, msg: client timeout after 15000, last beat: 1651908385110
+
+2022-05-07 15:26:46,392 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651908387779
+
+2022-05-07 15:26:49,974 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_false,
+
+2022-05-07 15:26:54,852 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_false,
+
+2022-05-07 15:26:54,982 INFO service: DEFAULT_GROUP@@netdisc-gateway {POS} {IP-ENABLED} valid: 192.168.1.105:9500@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:26:55,835 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:26:55,836 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-07 15:26:57,741 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:26:57,742 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-07 15:26:59,858 INFO service: DEFAULT_GROUP@@netdisc-oauth {POS} {IP-ENABLED} valid: 192.168.1.105:8070@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:27:01,424 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:27:01,424 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 
+
+2022-05-07 15:27:06,427 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:27:06,427 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-07 15:28:30,997 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651908492906
+
+2022-05-07 15:28:31,569 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651908496550
+
+2022-05-07 15:28:33,627 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8070@DEFAULT@DEFAULT_GROUP@@netdisc-oauth, region: unknown, msg: client timeout after 15000, last beat: 1651908495020
+
+2022-05-07 15:28:35,055 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:9500@DEFAULT@DEFAULT_GROUP@@netdisc-gateway, region: unknown, msg: client timeout after 15000, last beat: 1651908495172
+
+2022-05-07 15:28:42,778 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_false,
+
+2022-05-07 15:28:46,027 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:28:46,027 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-07 15:28:46,600 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:28:46,600 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 
+
+2022-05-07 15:28:47,786 INFO service: DEFAULT_GROUP@@netdisc-gateway {POS} {IP-ENABLED} valid: 192.168.1.105:9500@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:28:48,072 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_false,
+
+2022-05-07 15:28:50,253 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:28:50,253 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-07 15:28:53,083 INFO service: DEFAULT_GROUP@@netdisc-oauth {POS} {IP-ENABLED} valid: 192.168.1.105:8070@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:28:59,498 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-07 15:28:59,498 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-07 15:30:21,167 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651908605416
+
+2022-05-07 15:30:24,318 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-07 15:30:29,322 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:31:11,805 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651908654673
+
+2022-05-07 15:31:12,574 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_false,
+
+2022-05-07 15:31:17,579 INFO service: DEFAULT_GROUP@@netdisc-service-filesystem {POS} {IP-ENABLED} valid: 192.168.1.105:8072@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:32:25,787 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-07 15:36:25,257 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-07 15:39:52,032 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651909175634
+
+2022-05-07 15:40:03,735 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-07 15:40:08,752 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:40:42,756 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651909223663
+
+2022-05-07 15:40:50,866 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_false,
+
+2022-05-07 15:40:55,868 INFO service: DEFAULT_GROUP@@netdisc-service-filesystem {POS} {IP-ENABLED} valid: 192.168.1.105:8072@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:41:47,865 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651909290926
+
+2022-05-07 15:41:50,924 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_false,
+
+2022-05-07 15:41:55,932 INFO service: DEFAULT_GROUP@@netdisc-service-filesystem {POS} {IP-ENABLED} valid: 192.168.1.105:8072@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:42:00,581 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-07 15:43:47,376 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651909410764
+
+2022-05-07 15:43:48,061 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651909411138
+
+2022-05-07 15:43:48,492 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-07 15:43:53,502 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:43:54,310 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_false,
+
+2022-05-07 15:43:59,322 INFO service: DEFAULT_GROUP@@netdisc-service-filesystem {POS} {IP-ENABLED} valid: 192.168.1.105:8072@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:45:51,117 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-07 15:46:27,595 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651909568751
+
+2022-05-07 15:46:29,669 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-07 15:46:34,674 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:46:58,410 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651909601224
+
+2022-05-07 15:46:59,182 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_false,
+
+2022-05-07 15:47:04,188 INFO service: DEFAULT_GROUP@@netdisc-service-filesystem {POS} {IP-ENABLED} valid: 192.168.1.105:8072@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:53:59,104 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651910019930
+
+2022-05-07 15:54:00,261 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_false,
+
+2022-05-07 15:54:05,272 INFO service: DEFAULT_GROUP@@netdisc-service-filesystem {POS} {IP-ENABLED} valid: 192.168.1.105:8072@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-07 15:54:36,155 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8070@DEFAULT@DEFAULT_GROUP@@netdisc-oauth, region: unknown, msg: client timeout after 15000, last beat: 1651910061038
+
+2022-05-07 15:54:37,582 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:9500@DEFAULT@DEFAULT_GROUP@@netdisc-gateway, region: unknown, msg: client timeout after 15000, last beat: 1651910060726
+
+2022-05-07 15:54:38,370 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651910060587
+
+2022-05-07 15:54:39,181 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651910060295
+
+2022-05-07 15:54:51,174 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:54:51,174 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 
+
+2022-05-07 15:54:52,616 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:54:52,616 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 
+
+2022-05-07 15:54:53,407 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:54:53,407 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-07 15:54:54,218 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-07 15:54:54,218 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 
+
+2022-05-08 13:11:15,949 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:11:15,953 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_true,
+
+2022-05-08 13:11:25,113 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:11:25,113 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-08 13:11:29,449 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:11:29,450 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:11:38,233 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:11:38,234 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-08 13:18:09,213 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:18:09,220 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_true,
+
+2022-05-08 13:18:12,036 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:18:12,036 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-08 13:18:13,207 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:18:13,207 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:18:13,693 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:18:13,693 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-08 13:25:21,982 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:25:21,986 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_true,
+
+2022-05-08 13:25:21,990 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:25:21,990 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-08 13:25:21,990 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:25:21,991 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:25:24,772 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:25:24,772 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-08 13:27:57,070 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:9500@DEFAULT@DEFAULT_GROUP@@netdisc-gateway, region: unknown, msg: client timeout after 15000, last beat: 1651987657314
+
+2022-05-08 13:28:04,884 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_false,
+
+2022-05-08 13:28:09,900 INFO service: DEFAULT_GROUP@@netdisc-gateway {POS} {IP-ENABLED} valid: 192.168.1.105:9500@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 13:28:52,497 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-08 13:29:24,797 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-08 13:30:31,962 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:30:35,109 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651987819931
+
+2022-05-08 13:30:50,203 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:30:50,203 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 
+
+2022-05-08 13:34:32,778 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8070@DEFAULT@DEFAULT_GROUP@@netdisc-oauth, region: unknown, msg: client timeout after 15000, last beat: 1651988053195
+
+2022-05-08 13:34:32,778 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651988057458
+
+2022-05-08 13:34:32,778 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:9500@DEFAULT@DEFAULT_GROUP@@netdisc-gateway, region: unknown, msg: client timeout after 15000, last beat: 1651988055701
+
+2022-05-08 13:34:47,815 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:34:47,815 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 13:34:47,815 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:34:47,815 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 
+
+2022-05-08 13:34:47,815 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:34:47,815 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 
+
+2022-05-08 13:35:27,423 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:9500:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:35:27,423 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_true,
+
+2022-05-08 13:35:32,347 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:35:32,347 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-08 13:35:36,069 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:35:36,069 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:36:07,909 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651988151092
+
+2022-05-08 13:36:08,215 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 13:36:13,225 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 13:37:43,039 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651988243347
+
+2022-05-08 13:37:58,064 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:37:58,064 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 13:41:05,089 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:41:05,089 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:41:33,284 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:41:33,284 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 13:41:43,431 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:9500@DEFAULT@DEFAULT_GROUP@@netdisc-gateway, region: unknown, msg: client timeout after 15000, last beat: 1651988488190
+
+2022-05-08 13:41:43,431 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8070@DEFAULT@DEFAULT_GROUP@@netdisc-oauth, region: unknown, msg: client timeout after 15000, last beat: 1651988488098
+
+2022-05-08 13:41:54,685 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_false,
+
+2022-05-08 13:41:58,471 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:41:58,471 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 
+
+2022-05-08 13:41:58,691 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8070:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:41:58,691 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_true,
+
+2022-05-08 13:41:59,686 INFO service: DEFAULT_GROUP@@netdisc-gateway {POS} {IP-ENABLED} valid: 192.168.1.105:9500@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 13:42:01,501 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:42:01,501 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:42:09,120 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:42:09,120 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-08 13:46:55,683 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651988797056
+
+2022-05-08 13:47:00,451 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 13:47:05,461 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 13:49:08,735 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+
+2022-05-08 13:54:31,515 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989256067
+
+2022-05-08 13:54:38,430 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 13:54:43,433 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 13:55:31,611 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989313465
+
+2022-05-08 13:55:34,629 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 13:55:41,348 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 13:56:01,486 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:56:01,486 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 13:56:23,132 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:56:23,132 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:56:41,738 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:56:41,738 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 13:57:00,012 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:57:00,012 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:57:31,799 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989434843
+
+2022-05-08 13:57:46,829 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 13:57:46,829 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 13:58:06,497 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:58:06,497 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 13:59:46,110 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 13:59:46,110 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:00:05,310 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:00:05,310 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:00:22,105 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989605309
+
+2022-05-08 14:00:37,143 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 14:00:37,143 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:00:56,357 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:00:56,357 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:01:12,197 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989656357
+
+2022-05-08 14:01:27,228 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 14:01:27,228 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:01:40,138 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:01:40,138 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:01:57,290 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989700138
+
+2022-05-08 14:02:12,310 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 14:02:12,310 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:02:32,030 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:02:32,030 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:03:37,446 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989801502
+
+2022-05-08 14:03:49,324 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:04:07,490 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651989829324
+
+2022-05-08 14:04:22,508 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 14:04:22,508 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:04:34,829 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:04:34,829 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:05:29,674 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:05:29,674 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:05:54,299 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:05:54,299 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:07:42,831 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651990044374
+
+2022-05-08 14:07:44,538 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 14:07:49,552 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:09:58,870 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:09:58,870 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 
+
+2022-05-08 14:10:21,872 INFO DEFAULT_GROUP@@netdisc-service-user {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8071:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:10:21,872 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:24:29,411 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651991053074
+
+2022-05-08 14:24:40,174 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 14:24:45,180 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:25:29,050 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_true,
+
+2022-05-08 14:27:14,692 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651991219117
+
+2022-05-08 14:27:26,678 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 14:27:31,683 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:35:00,412 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651991682240
+
+2022-05-08 14:35:08,014 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 14:35:13,023 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:41:01,057 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651992043532
+
+2022-05-08 14:41:07,546 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 14:41:12,555 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:56:30,602 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8070@DEFAULT@DEFAULT_GROUP@@netdisc-oauth, region: unknown, msg: client timeout after 15000, last beat: 1651992974883
+
+2022-05-08 14:56:34,393 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.1.105:9500_true,
+
+2022-05-08 14:56:36,163 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8072@DEFAULT@DEFAULT_GROUP@@netdisc-service-filesystem, region: unknown, msg: client timeout after 15000, last beat: 1651992976419
+
+2022-05-08 14:56:37,482 INFO {POS} {IP-DISABLED} valid: 192.168.1.105:8071@DEFAULT@DEFAULT_GROUP@@netdisc-service-user, region: unknown, msg: client timeout after 15000, last beat: 1651992978466
+
+2022-05-08 14:56:44,581 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.1.105:8070_false,
+
+2022-05-08 14:56:48,215 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-user, ips: 192.168.1.105:8071_false,
+
+2022-05-08 14:56:49,591 INFO service: DEFAULT_GROUP@@netdisc-oauth {POS} {IP-ENABLED} valid: 192.168.1.105:8070@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:56:51,199 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2022-05-08 14:56:51,199 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 
+
+2022-05-08 14:56:53,218 INFO service: DEFAULT_GROUP@@netdisc-service-user {POS} {IP-ENABLED} valid: 192.168.1.105:8071@DEFAULT, region: unknown, msg: client beat ok
+
+2022-05-08 14:57:05,751 INFO DEFAULT_GROUP@@netdisc-service-filesystem {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.1.105:8072:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-05-08 14:57:05,751 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
+

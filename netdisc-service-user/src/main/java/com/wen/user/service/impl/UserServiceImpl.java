@@ -1,12 +1,12 @@
 package com.wen.user.service.impl;
 
+import com.wen.common.pojo.Result;
 import com.wen.common.pojo.User;
 import com.wen.user.mapper.UserMapper;
 import com.wen.user.service.FileStoreService;
 import com.wen.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author Mr.文
  */
-@Transactional(rollbackFor = Exception.class)
+@GlobalTransactional(rollbackFor = Exception.class)
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.login(loginName, pwd);
     }
 
+
     @Override
     public Map<String, Object> register(String userName, String loginName, String pwd) {
         HashMap<String, Object> rs = new HashMap<>(2);
@@ -96,8 +97,8 @@ public class UserServiceImpl implements UserService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return rs;
         }
-
-        if (storeService.initStore(user.getId()).getCode() != 200) {
+        Result result = storeService.initStore(user.getId());
+        if (result.getCode() != 200) {
             //回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             rs.put("error", "初始化用户仓库失败");

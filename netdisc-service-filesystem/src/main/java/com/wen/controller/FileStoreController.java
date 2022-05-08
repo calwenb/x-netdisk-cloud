@@ -18,9 +18,10 @@ public class FileStoreController {
     @PassToken
     @PostMapping("/init")
     public Result initStore(@RequestParam("uid") int userId) {
-        if (fileStoreService.initStore(userId)) {
-            return Result.success(null);
+        int storeId = fileStoreService.initStore(userId);
+        if (storeId == -1) {
+            return Result.error("初始化仓库失败");
         }
-        return Result.error("初始化仓库失败");
+        return Result.success(storeId);
     }
 }
