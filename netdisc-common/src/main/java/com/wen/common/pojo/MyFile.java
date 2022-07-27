@@ -3,17 +3,20 @@ package com.wen.common.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * File实体类
- * @author Mr.文
+ *
+ * @author calwen
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class MyFile implements Serializable {
 
     /**
