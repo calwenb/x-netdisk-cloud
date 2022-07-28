@@ -10,8 +10,11 @@ import com.wen.oauth.api.mapper.UserMapper;
 import com.wen.oauth.api.serivce.TokenService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
 /***
@@ -29,25 +32,29 @@ public class TokenServiceImpl implements TokenService {
     private final static String TOKEN_PREFIX = RedisEnum.TOKEN_PREFIX.getProperty();
 
     @Override
-    public int getTokenUserId(String token) {
+    public String createToken(Integer uid) {
+        return JWT.create()
+                .withAudience(String.valueOf(uid))
+                .sign(Algorithm.HMAC256(JWT_SECRET));
+    }
+
+
+    @Override
+    public Integer getTokenUserId() {
+        String token = headerToken();
         String userId = JWT.decode(token).getAudience().get(0);
         return Integer.parseInt(userId);
     }
 
     @Override
-    public User getTokenUser(String token) {
-        return userMapper.getUserById(this.getTokenUserId(token));
+    public User getTokenUser() {
+        return userMapper.getUserById(this.getTokenUserId());
     }
 
-    @Override
-    public void saveToken(String token, Integer userType, int hour) {
-        LoggerUtil.info("token 保存", TokenServiceImpl.class);
-        redisTemplate.opsForValue().set(TOKEN_PREFIX + token, userType, hour, TimeUnit.HOURS);
-    }
 
     @Override
     public String saveToken(Integer uid, Integer userType, int hour) {
-        String token = this.getToken(uid);
+        String token = this.createToken(uid);
         redisTemplate.opsForValue().set(TOKEN_PREFIX + token, userType, hour, TimeUnit.HOURS);
         return token;
     }
@@ -74,11 +81,12 @@ public class TokenServiceImpl implements TokenService {
         return o != null;
     }
 
-    @Override
-    public String getToken(Integer uid) {
-        return JWT.create()
-                .withAudience(String.valueOf(uid))
-                .sign(Algorithm.HMAC256(JWT_SECRET));
+
+    private String headerToken() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes();
+        HttpServletRequest request = requestAttributes == null ? null : requestAttributes.getRequest();
+        return request.getHeader("token");
     }
 
 

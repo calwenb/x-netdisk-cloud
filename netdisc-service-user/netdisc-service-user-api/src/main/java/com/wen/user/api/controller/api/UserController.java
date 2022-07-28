@@ -6,7 +6,7 @@ import com.wen.common.util.TokenUtil;
 import com.wen.commutil.annotation.PassAuth;
 import com.wen.commutil.utils.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
-import com.wen.oauth.client.rpc.OauthClient;
+import com.wen.oauth.client.feign.OauthClient;
 import com.wen.user.api.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +28,9 @@ public class UserController {
 
     @PassAuth
     @GetMapping("/login")
-    public ResultVO<String> login(@RequestParam("loginName") String loginName, @RequestParam("password") String password, @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
+    public ResultVO<String> login(@RequestParam("loginName") String loginName,
+                                  @RequestParam("password") String password,
+                                  @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
         String token = userService.login(loginName, password, remember);
         return ResultUtil.success(token);
 
@@ -36,7 +38,10 @@ public class UserController {
 
     @PassAuth
     @PostMapping("/register")
-    public ResultVO<String> register(@RequestParam("loginName") String userName, @RequestParam("email") String email, @RequestParam("loginName") String loginName, @RequestParam("password") String password) {
+    public ResultVO<String> register(@RequestParam("loginName") String userName,
+                                     @RequestParam("email") String email,
+                                     @RequestParam("loginName") String loginName,
+                                     @RequestParam("password") String password) {
         User user = new User(-1, userName, loginName, password, 2, "", email, "/#", new Date());
         String token = userService.register(user);
         return ResultUtil.success(token);
@@ -50,13 +55,12 @@ public class UserController {
 
     @GetMapping("/info")
     public ResultVO<User> getUserByToken() {
-        String token = TokenUtil.headerToken();
-        return oauthClient.getUser(token);
+        return oauthClient.getUser();
     }
 
     @PutMapping("/password")
     public ResultVO<User> updatePassword(@RequestParam("password") String password) {
-        User user = userService.getUserByHeader();
+        User user = oauthClient.getUser().getData();
         try {
             user.setPassWord(password);
             userService.updateUser(user);
@@ -122,7 +126,7 @@ public class UserController {
     @GetMapping("/avatar")
     public Object getAvatar() {
         try {
-            User user = userService.getUserByHeader();
+            User user = oauthClient.getUser().getData();
             String avatarPath = user.getAvatar();
             if (avatarPath == null) {
                 return null;
@@ -136,9 +140,8 @@ public class UserController {
 
     @PutMapping("/level")
     public ResultVO<String> applyUpLevel() {
-        Integer uid = userService.getUidByHeader();
-        return userService.applyUpLevel(uid) ?
-                ResultUtil.successDo("申请升级成功，待管理员审批") : ResultUtil.error("请勿多次申请升级");
+        Integer uid = oauthClient.getUserId().getData();
+        return userService.applyUpLevel(uid) ? ResultUtil.successDo("申请升级成功，待管理员审批") : ResultUtil.error("请勿多次申请升级");
     }
 
 }

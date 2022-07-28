@@ -11,15 +11,13 @@ import com.wen.common.pojo.User;
  * @author calwen
  */
 public interface TokenService {
-    void saveToken(String token, Integer userType, int hour);
-
     String saveToken(Integer uid, Integer userType, int hour);
 
-    String getToken(Integer uid);
+    String createToken(Integer uid);
 
-    int getTokenUserId(String token);
+    Integer getTokenUserId();
 
-    User getTokenUser(String token);
+    User getTokenUser();
 
     boolean verifyToken(String token);
 

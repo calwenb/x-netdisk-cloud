@@ -8,7 +8,7 @@ import com.wen.common.util.ConfigUtil;
 import com.wen.common.util.ResultVoUtil;
 import com.wen.common.util.TokenUtil;
 import com.wen.commutil.vo.ResultVO;
-import com.wen.oauth.client.rpc.OauthClient;
+import com.wen.oauth.client.feign.OauthClient;
 import com.wen.user.api.mapper.UserMapper;
 import com.wen.user.api.service.UserService;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -45,15 +45,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByHeader() {
-        String token = TokenUtil.headerToken();
-        ResultVO<User> resultVO = oauthClient.getUser(token);
+        ResultVO<User> resultVO = oauthClient.getUser();
         return resultVO.getData();
     }
 
     @Override
     public Integer getUidByHeader() {
-        String token = TokenUtil.headerToken();
-        ResultVO<Integer> resultVO = oauthClient.getUserId(token);
+        ResultVO<Integer> resultVO = oauthClient.getUserId();
         return resultVO.getData();
     }
 
