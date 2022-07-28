@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.wen.user.mapper.UserMapper">
-    <resultMap id="UserMap" type="com.wen.common.pojo.User">
+    <resultMap id="UserMap" type="com.wen.netdisc.common.pojo.User">
         <result property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="loginName" column="login_name"/>
@@ -39,7 +39,7 @@
           and pass_word = #{pwd}
     </select>
 
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.wen.common.pojo.User">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.wen.netdisc.common.pojo.User">
         insert into my_pan.user(user_name, login_name, pass_word, user_type, phone_number, email, avatar, register_time)
         values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar},
                 #{registerTime})
