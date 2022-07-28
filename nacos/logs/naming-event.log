@@ -556,3 +556,27 @@
 
 2022-05-08 14:57:05,751 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-service-filesystem, ips: 192.168.1.105:8072_true,
 
+2022-07-28 17:17:12,436 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.212.91:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-07-28 17:17:12,437 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.212.91:8000_true,
+
+2022-07-28 17:27:33,363 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.212.91:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-07-28 17:27:33,363 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 
+
+2022-07-28 17:27:46,252 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.212.91:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-07-28 17:27:46,252 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.212.91:8000_true,
+
+2022-07-28 17:31:28,732 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.212.91:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-07-28 17:31:28,732 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 
+
+2022-07-28 17:31:43,747 INFO DEFAULT_GROUP@@netdisc-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.212.91:8000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-07-28 17:31:43,747 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-gateway, ips: 192.168.212.91:8000_true,
+
+2022-07-28 17:33:47,770 INFO DEFAULT_GROUP@@netdisc-oauth {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.212.91:8081:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2022-07-28 17:33:47,770 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@netdisc-oauth, ips: 192.168.212.91:8081_true,
+

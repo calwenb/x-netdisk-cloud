@@ -1,4 +1,4 @@
-package com.wen.commutil.utils;
+package com.wen.commutil.util;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;

@@ -1,4 +1,4 @@
-package com.wen.commutil.utils;
+package com.wen.commutil.util;
 
 import com.wen.commutil.enums.BaseResultEnum;
 import com.wen.commutil.vo.ResultVO;

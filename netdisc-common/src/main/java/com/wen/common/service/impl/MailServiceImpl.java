@@ -1,3 +1,4 @@
+/*
 package com.wen.common.service.impl;
 
 
@@ -30,3 +31,4 @@ public class MailServiceImpl implements MailService {
 
     }
 }
+*/

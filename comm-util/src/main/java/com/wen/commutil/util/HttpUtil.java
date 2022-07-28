@@ -1,4 +1,4 @@
-package com.wen.commutil.utils;
+package com.wen.commutil.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

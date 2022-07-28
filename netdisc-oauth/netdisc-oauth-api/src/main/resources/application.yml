@@ -1,8 +1,9 @@
 server:
-  port: 8070
+  port: 8081
 spring:
   main:
     allow-circular-references: true
+    allow-bean-definition-overriding: true
   application:
     name: netdisc-oauth
   cloud:

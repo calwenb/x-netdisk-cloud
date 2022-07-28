@@ -1,7 +1,6 @@
 package com.wen.filesystem.api.aop;
 
-import com.wen.filesystem.pojo.MyFile;
-import com.wen.filesystem.servcie.EsService;
+import com.wen.filesystem.api.servcie.EsService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

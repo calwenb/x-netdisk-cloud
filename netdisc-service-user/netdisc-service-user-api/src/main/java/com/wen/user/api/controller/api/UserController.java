@@ -4,7 +4,7 @@ import com.wen.common.pojo.User;
 import com.wen.common.util.ResultUtil;
 import com.wen.common.util.TokenUtil;
 import com.wen.commutil.annotation.PassAuth;
-import com.wen.commutil.utils.LoggerUtil;
+import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.oauth.client.feign.OauthClient;
 import com.wen.user.api.service.UserService;
@@ -123,7 +123,7 @@ public class UserController {
         return ResultUtil.error("修改信息失败");
     }
 
-    @GetMapping("/avatar")
+/*    @GetMapping("/avatar")
     public Object getAvatar() {
         try {
             User user = oauthClient.getUser().getData();
@@ -136,7 +136,7 @@ public class UserController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     @PutMapping("/level")
     public ResultVO<String> applyUpLevel() {

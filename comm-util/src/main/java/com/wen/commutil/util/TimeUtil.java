@@ -1,4 +1,4 @@
-package com.wen.commutil.utils;
+package com.wen.commutil.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

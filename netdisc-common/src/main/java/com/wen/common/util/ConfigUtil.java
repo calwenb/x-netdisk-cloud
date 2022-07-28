@@ -1,3 +1,4 @@
+/*
 package com.wen.common.util;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -51,3 +52,4 @@ public class ConfigUtil {
         return trashKeepDay;
     }
 }
+*/

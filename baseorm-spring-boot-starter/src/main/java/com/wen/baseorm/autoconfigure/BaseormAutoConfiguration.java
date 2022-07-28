@@ -30,9 +30,6 @@ public class BaseormAutoConfiguration {
         return new BaseMapperImpl();
     }
 
-
-
-
     @Bean
     @ConditionalOnProperty(prefix = "base-orm.config", name = "logger", havingValue = "true")
     public MapperLogAop mapperLogAop() {

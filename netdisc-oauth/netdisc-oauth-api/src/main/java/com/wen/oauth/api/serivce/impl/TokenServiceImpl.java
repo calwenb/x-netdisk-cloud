@@ -5,7 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.wen.common.enums.RedisEnum;
 import com.wen.common.enums.TokenEnum;
 import com.wen.common.pojo.User;
-import com.wen.commutil.utils.LoggerUtil;
 import com.wen.oauth.api.mapper.UserMapper;
 import com.wen.oauth.api.serivce.TokenService;
 import org.springframework.data.redis.core.RedisTemplate;

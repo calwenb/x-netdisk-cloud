@@ -1,9 +1,9 @@
 package com.wen.commutil.interceptor;
 
 import com.alibaba.fastjson2.JSON;
-import com.wen.commutil.utils.LoggerUtil;
-import com.wen.commutil.utils.NullUtil;
-import com.wen.commutil.utils.BaseResultUtil;
+import com.wen.commutil.util.LoggerUtil;
+import com.wen.commutil.util.NullUtil;
+import com.wen.commutil.util.BaseResultUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;

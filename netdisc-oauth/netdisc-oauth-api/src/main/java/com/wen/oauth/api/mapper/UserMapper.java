@@ -11,12 +11,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author calwen
  */
-@Repository
-@CacheConfig(cacheNames = "user")
+//@CacheConfig(cacheNames = "user")
 public interface UserMapper {
-
-
-    @Cacheable(key = "'uid:'+#p0")
+    //    @Cacheable(key = "'uid:'+#p0")
     User getUserById(int id);
 
 

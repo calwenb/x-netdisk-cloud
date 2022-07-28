@@ -1,4 +1,4 @@
-package com.wen.commutil.utils;
+package com.wen.commutil.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,7 +1,7 @@
 package com.wen.common.exception;
 
 import com.wen.common.util.ResultUtil;
-import com.wen.commutil.utils.LoggerUtil;
+import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;

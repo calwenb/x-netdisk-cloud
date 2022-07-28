@@ -1,5 +1,6 @@
 /*
-package com.wen.user.api.config;
+package com.wen.common.config;
+
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -17,16 +18,12 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
-*
+*/
+/**
  * redis配置类
  * @author Mr.文
-
+ *//*
 
 @EnableCaching
 @Configuration
@@ -52,10 +49,11 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
     //配置事务管理器
-   @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) throws SQLException {
+ */
+/*   @Bean
+    public PlatformTransactionManager transactionManager(   DataSource dataSource) throws SQLException {
         return new DataSourceTransactionManager(dataSource);
-    }
+    }*//*
 
 
     @Bean

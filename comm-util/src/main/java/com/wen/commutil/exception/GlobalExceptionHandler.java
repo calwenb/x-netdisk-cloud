@@ -1,7 +1,8 @@
+/*
 package com.wen.commutil.exception;
 
-import com.wen.commutil.utils.BaseResultUtil;
-import com.wen.commutil.utils.LoggerUtil;
+import com.wen.commutil.util.BaseResultUtil;
+import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,12 +10,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
+*/
 /**
  * 全局异常处理类
  *
  * @author calwen
  * @create 2022/7/12 11:07
- **/
+ **//*
+
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler {
 
@@ -28,3 +31,4 @@ public class GlobalExceptionHandler {
     }
 
 }
+*/
