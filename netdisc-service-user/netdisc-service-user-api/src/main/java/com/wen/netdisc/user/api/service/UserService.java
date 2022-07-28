@@ -10,7 +10,9 @@ import java.util.List;
  */
 public interface UserService {
     User getUserByHeader();
+
     Integer getUidByHeader();
+
     /**
      * 查询全部用户
      *
@@ -28,7 +30,7 @@ public interface UserService {
      * @param user
      * @return 修改状态
      */
-    int addUser(User user);
+//    int addUser(User user);
 
     int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword);
 
@@ -90,10 +92,10 @@ public interface UserService {
 
     boolean repwd(String loginName, String password);
 
-    boolean uploadHead(MultipartFile file, String userId);
+//    boolean uploadHead(MultipartFile file, String userId);
 
 
-    boolean upLevel(Integer uid);
+    /*    boolean upLevel(Integer uid);*/
 
     boolean applyUpLevel(Integer uid);
 }

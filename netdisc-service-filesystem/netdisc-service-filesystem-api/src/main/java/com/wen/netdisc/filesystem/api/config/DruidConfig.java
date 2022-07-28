@@ -1,3 +1,4 @@
+/*
 package com.wen.netdisc.filesystem.api.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -14,33 +15,39 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+*/
 /**
  * Druid配置类
  * @author Mr.文
- */
+ *//*
+
 @Configuration
 public class DruidConfig {
 
-    /**
+    */
+/**
      * @return
      * @Description 绑定配置文件中的相关属性
      * @Author xw
      * @Date 17:34 2020/2/25
      * @Param * @param null
-     **/
+     **//*
+
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource druid() {
         return new DruidDataSource();
     }
 
-    /**
+    */
+/**
      * @return org.springframework.boot.web.servlet.ServletRegistrationBean
      * @Description 配置Druid的监控, 配置一个管理后台的Servlet
      * @Author xw
      * @Date 17:35 2020/2/25
      * @Param []
-     **/
+     **//*
+
     @Bean
     public ServletRegistrationBean statViewServlet() {
         ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
@@ -53,13 +60,15 @@ public class DruidConfig {
         return bean;
     }
 
-    /**
+    */
+/**
      * @return org.springframework.boot.web.servlet.FilterRegistrationBean
      * @Description 配置一个web监控的filter
      * @Author xw
      * @Date 17:35 2020/2/25
      * @Param []
-     **/
+     **//*
+
     @Bean
     public FilterRegistrationBean webStatFilter() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
@@ -70,4 +79,4 @@ public class DruidConfig {
         bean.setUrlPatterns(Arrays.asList("/*"));
         return bean;
     }
-}
+}*/

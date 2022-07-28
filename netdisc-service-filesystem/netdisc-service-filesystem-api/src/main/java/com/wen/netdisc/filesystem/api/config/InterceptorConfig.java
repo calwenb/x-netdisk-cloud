@@ -1,3 +1,4 @@
+/*
 package com.wen.netdisc.filesystem.api.config;
 
 import com.wen.filesystem.interceptor.AuthenticationInterceptor;
@@ -6,10 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
+*/
 /**
  * Token验证拦截器规则配置类
  * @author Mr.文
- */
+ *//*
+
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 
@@ -19,4 +22,4 @@ public class InterceptorConfig implements WebMvcConfigurer {
         return new AuthenticationInterceptor();
     }
 
-}
+}*/

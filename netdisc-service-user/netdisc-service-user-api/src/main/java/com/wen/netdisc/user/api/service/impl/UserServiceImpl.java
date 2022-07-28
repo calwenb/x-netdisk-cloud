@@ -7,6 +7,7 @@ import com.wen.netdisc.common.util.ResultVoUtil;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.mapper.UserMapper;
+import com.wen.netdisc.user.api.service.MailService;
 import com.wen.netdisc.user.api.service.UserService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,13 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     @Resource
     OauthClient oauthClient;
-    @Resource
-    FileStoreService storeService;
+
     @Resource
     MailService mailService;
     @Resource
     RedisTemplate redisTemplate;
-    /*    @Resource
-        FileService fileService;*/
+    /* @Resource
+     FileService fileService;*/
     @Resource
     BaseMapper baseMapper;
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      * @return 修改状态
      */
-    @Override
+/*    @Override
     public int addUser(User user) {
         if (user == null) {
             return 0;
@@ -95,8 +95,7 @@ public class UserServiceImpl implements UserService {
             return 0;
         }
         return baseMapper.insertTarget(user);
-    }
-
+    }*/
     @Override
     public int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword) {
         User superAdmin = new User(-10, superAdminName, superAdminLoginName, superAdminPassword, 0, null, null, null, new Date());
@@ -238,7 +237,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
+/*    @Override
     public boolean uploadHead(MultipartFile file, String userId) {
         if (file.isEmpty()) {
             throw new RuntimeException("空文件");
@@ -252,13 +251,13 @@ public class UserServiceImpl implements UserService {
             return userMapper.updateUser(user) > 0;
         }
         return false;
-    }
+    }*/
 
     /**
      * @param uid
      * @return
      */
-    @Override
+  /*  @Override
     public boolean upLevel(Integer uid) {
         User user = userMapper.getUserById(uid);
         Integer type = user.getUserType();
@@ -273,7 +272,7 @@ public class UserServiceImpl implements UserService {
         }
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         return false;
-    }
+    }*/
 
     /**
      * @param uid

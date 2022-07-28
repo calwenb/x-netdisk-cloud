@@ -1,3 +1,4 @@
+/*
 package com.wen.netdisc.filesystem.api.config;
 
 import org.apache.http.HttpHost;
@@ -7,12 +8,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+*/
 /**
  * ElasticSearchClientConfig配置类
  * 配置连接信息
  *
  * @author Mr.文
- */
+ *//*
+
 @Configuration
 public class ElasticSearchClientConfig {
     @Value("${netdisc.elasticsearch.host}")
@@ -28,3 +31,4 @@ public class ElasticSearchClientConfig {
         return client;
     }
 }
+*/

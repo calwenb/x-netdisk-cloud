@@ -1,7 +1,5 @@
-package com.wen.netdisc.common.service;/*
-package com.wen.common.service;
+package com.wen.netdisc.user.api.service;
 
 public interface MailService {
     void sendSimpleMail(String to, String subject, String content);
 }
-*/

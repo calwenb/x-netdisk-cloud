@@ -5,7 +5,7 @@ spring:
   main:
     allow-circular-references: true
   application:
-    name: netdisc-service-filesystem
+    name: netdisc-filesystem
   cloud:
     nacos:
       discovery:

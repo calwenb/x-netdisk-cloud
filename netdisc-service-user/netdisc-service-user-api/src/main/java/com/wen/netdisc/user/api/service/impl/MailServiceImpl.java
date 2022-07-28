@@ -1,8 +1,7 @@
-/*
-package com.wen.common.service.impl;
+package com.wen.netdisc.user.api.service.impl;
 
 
-import com.wen.common.service.MailService;
+import com.wen.netdisc.user.api.service.MailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -31,4 +30,3 @@ public class MailServiceImpl implements MailService {
 
     }
 }
-*/

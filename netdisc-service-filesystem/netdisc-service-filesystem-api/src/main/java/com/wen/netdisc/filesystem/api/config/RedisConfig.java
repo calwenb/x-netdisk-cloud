@@ -1,3 +1,4 @@
+/*
 package com.wen.netdisc.filesystem.api.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -17,10 +18,12 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+*/
 /**
  * redis配置类
  * @author Mr.文
- */
+ *//*
+
 @EnableCaching
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
@@ -45,10 +48,12 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
     //配置事务管理器
- /*   @Bean
+ */
+/*   @Bean
     public PlatformTransactionManager transactionManager(   DataSource dataSource) throws SQLException {
         return new DataSourceTransactionManager(dataSource);
-    }*/
+    }*//*
+
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
@@ -71,3 +76,4 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 }
 
+*/

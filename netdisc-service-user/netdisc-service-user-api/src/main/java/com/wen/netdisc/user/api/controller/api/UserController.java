@@ -94,13 +94,13 @@ public class UserController {
         return ResultUtil.error("密码重置失败");
     }
 
-    @PostMapping("/upload-head")
+/*    @PostMapping("/upload-head")
     public ResultVO<String> uploadHead(@RequestParam("file") MultipartFile file, @RequestParam("userId") String userId) {
         if (userService.uploadHead(file, userId)) {
             return ResultUtil.success("头像上传成功");
         }
         return ResultUtil.error("头像上传失败");
-    }
+    }*/
 
     @PutMapping("/{id}")
     public ResultVO<String> updateUser(@PathVariable Integer id, @RequestParam("userName") String userName, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("email") String email) {

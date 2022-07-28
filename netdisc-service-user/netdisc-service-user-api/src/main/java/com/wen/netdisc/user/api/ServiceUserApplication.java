@@ -8,12 +8,12 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@SpringBootApplication
+@EnableFeignClients("com.wen.netdisc")
+@ComponentScan({"com.wen.netdisc.user.api", "com.wen.netdisc.common"})
 @EnableDiscoveryClient
 @EnableAutoDataSourceProxy
-@EnableFeignClients
 @EnableTransactionManagement
-@SpringBootApplication
-@ComponentScan(value = "com.wen")
 public class ServiceUserApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceUserApplication.class, args);

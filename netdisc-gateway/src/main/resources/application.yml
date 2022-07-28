@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8090
 
 spring:
   application:
@@ -18,18 +18,18 @@ spring:
             allowedMethods: "*"
 
       routes:
-        - id: netdisc-service-filesystem
-          uri: lb://netdisc-service-filesystem
+        - id: netdisc-filesystem
+          uri: lb://netdisc-filesystem
           predicates:
-            - Path=/api/file/**,/api/fileFolder/**,/api/search/**
+            - Path=/api/files/**,/api/fileFolder/**,/api/search/**
           filters: #排除/api
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar
 
-        - id: netdisc-service-user
-          uri: lb://netdisc-service-user
+        - id: netdisc-user
+          uri: lb://netdisc-user
           predicates:
-            - Path=/api/user/**
+            - Path=/api/users/**
           filters:
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar

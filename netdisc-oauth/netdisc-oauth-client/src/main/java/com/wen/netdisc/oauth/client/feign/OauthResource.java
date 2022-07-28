@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
  * @Author calwen
  * @create 2022/7/28 9:22
  */
-@FeignClient(value = "netdisc-oauth", path = "/rpc/tokens")
 public interface OauthResource {
     /**
      * 用户id生成token
@@ -32,8 +31,10 @@ public interface OauthResource {
     ResultVO<Integer> getUserId();
 
     @PostMapping
-    ResultVO<String> saveToken(Integer uid, Integer userType, Integer hour);
+    ResultVO<String> saveToken(@RequestParam("uid") Integer uid,
+                               @RequestParam("userType") Integer userType,
+                               @RequestParam("hour") Integer hour);
 
     @DeleteMapping
-    ResultVO<String> removeToken(String token);
+    ResultVO<String> removeToken(@RequestParam("token") String token);
 }
