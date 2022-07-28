@@ -1,5 +1,6 @@
 package com.wen.common.pojo;
 
+import com.wen.baseorm.core.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,19 +11,24 @@ import java.util.Date;
 /**
  * User实体类
  *
- * @author Mr.文
+ * @author calwen
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@TableName("user")
 public class User implements Serializable {
-    private int id;
+    // @IdField(idType = IdTypeEnum.AUTO)
+    private Integer id;
+
     private String userName;
     private String loginName;
     private String passWord;
-    private int userType;
+    private Integer userType;
     private String phoneNumber;
     private String email;
     private String avatar;
     private Date registerTime;
+
+
 }

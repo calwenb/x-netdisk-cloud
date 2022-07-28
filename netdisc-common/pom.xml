@@ -34,5 +34,17 @@
             <artifactId>java-jwt</artifactId>
             <version>3.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.wen</groupId>
+            <artifactId>comm-util</artifactId>
+            <version>1.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wen.baseorm</groupId>
+            <artifactId>baseorm-spring-boot-starter</artifactId>
+            <version>1.0.1</version>
+        </dependency>
     </dependencies>
 </project>

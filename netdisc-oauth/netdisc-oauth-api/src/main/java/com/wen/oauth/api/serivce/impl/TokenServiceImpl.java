@@ -1,0 +1,85 @@
+package com.wen.oauth.api.serivce.impl;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.wen.common.enums.RedisEnum;
+import com.wen.common.enums.TokenEnum;
+import com.wen.common.pojo.User;
+import com.wen.commutil.utils.LoggerUtil;
+import com.wen.oauth.api.mapper.UserMapper;
+import com.wen.oauth.api.serivce.TokenService;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
+
+/***
+ * token 下发
+ * @author
+ */
+@Service
+public class TokenServiceImpl implements TokenService {
+    @Resource
+    UserMapper userMapper;
+
+    @Resource
+    RedisTemplate redisTemplate;
+    private final static String JWT_SECRET = TokenEnum.JWT_SECRET.getProperty();
+    private final static String TOKEN_PREFIX = RedisEnum.TOKEN_PREFIX.getProperty();
+
+    @Override
+    public int getTokenUserId(String token) {
+        String userId = JWT.decode(token).getAudience().get(0);
+        return Integer.parseInt(userId);
+    }
+
+    @Override
+    public User getTokenUser(String token) {
+        return userMapper.getUserById(this.getTokenUserId(token));
+    }
+
+    @Override
+    public void saveToken(String token, Integer userType, int hour) {
+        LoggerUtil.info("token 保存", TokenServiceImpl.class);
+        redisTemplate.opsForValue().set(TOKEN_PREFIX + token, userType, hour, TimeUnit.HOURS);
+    }
+
+    @Override
+    public String saveToken(Integer uid, Integer userType, int hour) {
+        String token = this.getToken(uid);
+        redisTemplate.opsForValue().set(TOKEN_PREFIX + token, userType, hour, TimeUnit.HOURS);
+        return token;
+    }
+
+    @Override
+    public boolean removeToken(String token) {
+        return redisTemplate.delete(TOKEN_PREFIX + token);
+    }
+
+    @Override
+    public Long getExpireTime(String token) {
+        return redisTemplate.opsForValue().getOperations().getExpire(TOKEN_PREFIX + token);
+    }
+
+    @Override
+    public boolean renew(String token, int hour) {
+        return redisTemplate.expire(TOKEN_PREFIX + token, hour, TimeUnit.HOURS);
+    }
+
+
+    @Override
+    public boolean verifyToken(String token) {
+        Object o = redisTemplate.opsForValue().get(TOKEN_PREFIX + token);
+        return o != null;
+    }
+
+    @Override
+    public String getToken(Integer uid) {
+        return JWT.create()
+                .withAudience(String.valueOf(uid))
+                .sign(Algorithm.HMAC256(JWT_SECRET));
+    }
+
+
+}
