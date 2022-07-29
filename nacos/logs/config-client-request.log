@@ -1,4 +1,0 @@
-2022-05-07 13:46:42,296|64|true|127.0.0.1|remove|config-client-dev.yaml|DEFAULT_GROUP||null|null
-2022-05-07 15:11:27,199|3|null|127.0.0.1|get|config-client|DEFAULT_GROUP|||unknown
-2022-05-07 15:11:27,211|0|null|127.0.0.1|get|config-client.yaml|DEFAULT_GROUP|||unknown
-2022-05-07 15:11:27,216|0|null|127.0.0.1|get|config-client-dev.yaml|DEFAULT_GROUP|||unknown
