@@ -1,5 +1,7 @@
 package com.wen.netdisc.user.api.controller.api;
 
+import com.wen.commutil.util.NullUtil;
+import com.wen.netdisc.common.exception.OauthException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.common.util.TokenUtil;
@@ -27,7 +29,7 @@ public class UserController {
 
 
     @PassAuth
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResultVO<String> login(@RequestParam("loginName") String loginName,
                                   @RequestParam("password") String password,
                                   @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
@@ -50,6 +52,9 @@ public class UserController {
     @GetMapping("/out-login")
     public ResultVO<String> outLogin() {
         String token = TokenUtil.headerToken();
+        if (NullUtil.hasNull(token)) {
+            throw new OauthException("未携带token");
+        }
         return oauthClient.removeToken(token);
     }
 

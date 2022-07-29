@@ -47,7 +47,11 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public User getTokenUser() {
-        return userMapper.getUserById(this.getTokenUserId());
+        User user = userMapper.getUserById(this.getTokenUserId());
+        if (user != null) {
+            user.setPassWord(null);
+        }
+        return user;
     }
 
 

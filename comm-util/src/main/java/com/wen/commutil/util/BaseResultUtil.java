@@ -61,7 +61,7 @@ public class BaseResultUtil {
     }
 
     public static <T> ResultVO<T> unauthorized(String msg) {
-        return buildErrorVO(BaseResultEnum.UNAUTHORIZED.getCode(), msg);
+        return buildErrorVO(BaseResultEnum.UNAUTHORIZED.getCode(), BaseResultEnum.UNAUTHORIZED.getMessage());
     }
 
     private static <T> ResultVO<T> buildSuccessVO(T data, String msg) {

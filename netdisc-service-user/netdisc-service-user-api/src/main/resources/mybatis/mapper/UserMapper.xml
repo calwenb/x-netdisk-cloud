@@ -20,6 +20,7 @@
         select *
         from my_pan.user;
     </select>
+
     <update id="updateUser">
         update my_pan.user
         set pass_word=#{passWord}

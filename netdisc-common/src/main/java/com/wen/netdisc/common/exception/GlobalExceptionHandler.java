@@ -17,6 +17,11 @@ import javax.servlet.http.HttpServletRequest;
  **/
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler {
+    @ExceptionHandler(OauthException.class)
+    public ResultVO<String> OauthException(Exception e) {
+        LoggerUtil.warn("\n [验证失败] ：===> " + e.getMessage(), GlobalExceptionHandler.class);
+        return ResultUtil.unauthorized();
+    }
 
     @ExceptionHandler(FailException.class)
     public ResultVO<String> failException(Exception e) {
@@ -32,7 +37,7 @@ public class GlobalExceptionHandler {
 
     //TODO 修改统一响应体
     @ExceptionHandler(Exception.class)
-    public ResultVO<String> exception(Exception e, HttpServletRequest request) {
+    public ResultVO<String> exception(Exception e) {
         LoggerUtil.error("\n [发生异常]：===> " + e, GlobalExceptionHandler.class);
         return ResultUtil.exception("发生了一些错误，错误信息: " + e.getMessage());
     }
