@@ -19,18 +19,18 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 101.43.95.238:9070
     sentinel:
       transport:
         #配置 Sentinel dashboard 地址
-        dashboard: 127.0.0.1:8080
+        dashboard: 101.43.95.238:8080
         #默认8719端口，假如被占用会自动从8719开始依次+1扫描,直至找到未被占用的端口
         port: 8719
   datasource:
     # 配置数据源
     username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/my_pan?serverTimezone=Hongkong&useAffectedRows=true
+    password: WHL531124
+    url: jdbc:mysql://101.43.95.238:3306/my_pan?serverTimezone=Hongkong&useAffectedRows=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 配置druid数据源
@@ -48,10 +48,10 @@ spring:
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
   redis:
-    host: 127.0.0.1
+    host: 101.43.95.238
     port: 6379
     database: 0 #Redis数据库索引（默认为0）
-    password: WHL123456
+    password: WHL531124
     timeout: 1800000 #连接超时时间（毫秒）
     jedis:
       pool:
