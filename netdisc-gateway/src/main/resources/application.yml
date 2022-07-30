@@ -21,7 +21,7 @@ spring:
         - id: netdisc-filesystem
           uri: lb://netdisc-filesystem
           predicates:
-            - Path=/api/files/**,/api/fileFolder/**,/api/search/**
+            - Path=/api/files/**,/api/folders/**,/api/stores/**,/api/search/**
           filters: #排除/api
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar

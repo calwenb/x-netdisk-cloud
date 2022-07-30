@@ -1,13 +1,15 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.common.util.FileUtil;
-import com.wen.filesystem.mapper.FileFolderMapper;
-import com.wen.filesystem.mapper.FileStoreMapper;
-import com.wen.filesystem.mapper.MyFileMapper;
-import com.wen.filesystem.pojo.FileFolder;
-import com.wen.filesystem.pojo.FileStore;
-import com.wen.filesystem.pojo.MyFile;
-import com.wen.filesystem.servcie.FileService;
+import com.wen.netdisc.common.pojo.FileFolder;
+import com.wen.netdisc.common.pojo.FileStore;
+import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
+import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
+import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
+import com.wen.netdisc.filesystem.api.servcie.FileService;
+import com.wen.netdisc.filesystem.api.servcie.StoreService;
+import com.wen.netdisc.filesystem.api.util.FileUtil;
+import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
@@ -31,20 +33,27 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class FileServiceImpl implements FileService {
     @Resource
-    MyFileMapper myFileMapper;
+    MyFileMapper fileMapper;
     @Resource
-    FileStoreMapper fileStoreMapper;
+    StoreMapper storeMapper;
     @Resource
-    FileFolderMapper fileFolderMapper;
+    FolderMapper folderMapper;
+    @Resource
+    StoreService storeService;
     @Resource
     RedisTemplate redisTemplate;
 
+//    @Resource
+//    TrashService trashService;
+
+
+//    @Resource
+//    TokenService tokenService;
 
     @Override
     public boolean uploadFile(MultipartFile file, int userId, String fatherFileFolderId) {
         try {
-
-            FileStore fileStore = fileStoreMapper.queryFileStoreByUserId(userId);
+            FileStore fileStore = storeMapper.queryStoreById(userId);
             int fileStoreId = fileStore.getFileStoreId();
             // 获取文件名
             String fileName = file.getOriginalFilename();
@@ -62,13 +71,16 @@ public class FileServiceImpl implements FileService {
             if ("0".equals(fatherFileFolderId)) {
                 filePath = FileUtil.STORE_ROOT_PATH + fileStoreId + "/";
             } else {
-                FileFolder fileFolder = fileFolderMapper.queryFileFolderById(Integer.parseInt(fatherFileFolderId));
+                FileFolder fileFolder = folderMapper.queryFileFolderById(Integer.parseInt(fatherFileFolderId));
                 String fileFolderPath = fileFolder.getFileFolderPath();
                 filePath = fileFolderPath + "/";
             }
 
+            FolderUtil.autoFolder(filePath);
+
             //如果有相同的文件名 加后缀
             File[] broFiles = new File(filePath).listFiles();
+            assert broFiles != null;
             for (File broFile : broFiles) {
                 if (broFile.getName().equals(fileName)) {
                     String pureName = broFile.getName().substring(0, fileName.lastIndexOf(suffixName));
@@ -89,13 +101,19 @@ public class FileServiceImpl implements FileService {
                 // 新建文件夹
                 dest.getParentFile().mkdirs();
             }
-            // 文件写入
-            file.transferTo(dest);
-            System.out.println("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
             String type = FileUtil.getFileType(suffixName);
             MyFile myFile = new MyFile(-1, fileName, fileStoreId, path, 0, new Date(), Integer.parseInt(fatherFileFolderId), size, type);
-            myFileMapper.addFile(myFile);
-            return true;
+            Integer i = fileMapper.addFile(myFile);
+            if (i > 0) {
+                file.transferTo(dest);
+                //
+             /*   FileStore store = storeService.queryStoreByUserId(userId);
+                store.setCurrentSize(store.getCurrentSize() + file.getSize());
+                storeService.updateStore(store);*/
+                System.out.println("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+                return true;
+            }
+            return false;
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -116,12 +134,13 @@ public class FileServiceImpl implements FileService {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
         }
-        List<MyFile> myFiles = myFileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
+        List<MyFile> myFiles = fileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
         return myFiles;
     }
 
+
     @Override
-    public List<MyFile> queryFilesByType(int userId, String type, int pageNum) {
+    public List<MyFile> queryFilesByUid(int userId, int pageNum) {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
         /**
@@ -131,27 +150,68 @@ public class FileServiceImpl implements FileService {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
         }
-        List<MyFile> myFiles = myFileMapper.queryFilesByType(userId, FileUtil.getTypeChinese(type), startRow, showRow);
-        return myFiles;
+        return fileMapper.queryFilesByUid(userId, startRow, showRow);
     }
+
+    public List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException {
+        if (preview) {
+            int showRow = FileUtil.FILE_SHOW_ROW;
+            int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
+            /**
+             * 不指定页数，即不分页
+             */
+            if (pageNum == -1) {
+                startRow = 0;
+                showRow = Integer.MAX_VALUE;
+            }
+            List<MyFile> files = fileMapper.queryFileByUidOrdDate(userId, startRow, showRow);
+/*            if (files != null && files.size() != 0) {
+                return FileUtil.previewImage(files);
+            }*/
+        }
+        return null;
+    }
+
 
     @Override
     public boolean deleteByMyFileId(int fileId) {
-        MyFile file = myFileMapper.queryFileById(fileId);
-        File delFile = new File(file.getMyFilePath());
-        boolean isDelete = false;
-        if (delFile.isFile() && delFile.exists()) {
-            isDelete = delFile.delete();
+/*        MyFile file = fileMapper.queryFileById(fileId);
+        if (fileMapper.deleteByMyFileId(fileId) > 0) {
+            int uid = tokenService.getTokenUserId();
+            return trashService.addTrash(file, uid);
         }
-        return myFileMapper.deleteByMyFileId(fileId) > 0 && isDelete;
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();*/
+        return false;
     }
 
     @Override
-    public ResponseEntity<InputStreamResource> downloadByMyFileId(int fileId) throws IOException {
-        //从数据库查询文件信息
-        MyFile file = myFileMapper.queryFileById(fileId);
+    public ResponseEntity<InputStreamResource> downloadFile(int fileId, boolean preview) throws IOException {
+        //从数据库查询文件信息 换取文件路径
+        MyFile file = fileMapper.queryFileById(fileId);
         String filePath = file.getMyFilePath();
-        FileSystemResource downloadFile = new FileSystemResource(filePath);
+        return this.download(filePath);
+    }
+
+    @Override
+    public ResponseEntity<InputStreamResource> downloadComm(String path) throws IOException {
+        return this.download(path);
+    }
+
+
+    /**
+     * 通用下载方法
+     * 通过文件路径 获得本地文件
+     * 自定义响应 将文件流放入响应体中
+     *
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    private ResponseEntity<InputStreamResource> download(String path) throws IOException {
+        FileSystemResource downloadFile = new FileSystemResource(path);
+        if (!downloadFile.exists()) {
+            return null;
+        }
         //设置响应头
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -159,17 +219,13 @@ public class FileServiceImpl implements FileService {
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        return ResponseEntity
-                .ok()
-                .headers(headers)
-                .contentLength(downloadFile.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new InputStreamResource(downloadFile.getInputStream()));
+        return ResponseEntity.ok().headers(headers).contentLength(downloadFile.contentLength()).contentType(MediaType.parseMediaType("application/octet-stream")).body(new InputStreamResource(downloadFile.getInputStream()));
     }
+
 
     @Override
     public boolean updateFileName(int fileId, String newName) {
-        MyFile file = myFileMapper.queryFileById(fileId);
+        MyFile file = fileMapper.queryFileById(fileId);
         String filePath = file.getMyFilePath();
         String path = filePath.substring(0, filePath.lastIndexOf('/') + 1);
         String newFilePath = path + newName;
@@ -188,7 +244,7 @@ public class FileServiceImpl implements FileService {
             }
             //修改文件类型
             file.setType(FileUtil.getFileType(suffixName));
-            return myFileMapper.updateByFileId(file) > 0;
+            return fileMapper.updateByFileId(file) > 0;
         } else {
             return false;
         }
@@ -208,6 +264,7 @@ public class FileServiceImpl implements FileService {
             }
         }
         try {
+
             //SessionCallback事务
             SessionCallback<Object> callback = new SessionCallback<Object>() {
                 @Override
@@ -235,21 +292,39 @@ public class FileServiceImpl implements FileService {
         if (fileId == null) {
             return null;
         }
-        MyFile file = myFileMapper.queryFileById((int) fileId);
+        MyFile file = fileMapper.queryFileById((int) fileId);
         return file;
     }
 
     @Override
     public List<String> clearBadFile() {
         ArrayList<String> list = new ArrayList<>();
-        List<MyFile> fileList = myFileMapper.queryAllFiles();
+        List<MyFile> fileList = fileMapper.queryAllFiles();
         for (MyFile file : fileList) {
             String filePath = file.getMyFilePath();
             if (!new File(filePath).exists()) {
-                myFileMapper.deleteByMyFileId(file.getMyFileId());
+                fileMapper.deleteByMyFileId(file.getMyFileId());
                 list.add(filePath);
             }
         }
         return list;
+    }
+
+    @Override
+    public boolean uploadFileComm(MultipartFile file, String path) {
+        try {
+            File dest = new File(path);
+            // 检测是否存在目录
+            if (!dest.getParentFile().exists()) {
+                // 新建文件夹
+                dest.getParentFile().mkdirs();
+            }
+            file.transferTo(dest);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

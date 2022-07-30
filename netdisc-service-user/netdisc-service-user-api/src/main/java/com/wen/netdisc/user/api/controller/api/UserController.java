@@ -1,13 +1,14 @@
 package com.wen.netdisc.user.api.controller.api;
 
+import com.wen.commutil.annotation.PassAuth;
+import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.util.NullUtil;
+import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.OauthException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.common.util.TokenUtil;
-import com.wen.commutil.annotation.PassAuth;
-import com.wen.commutil.util.LoggerUtil;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,12 @@ public class UserController {
     UserService userService;
     @Resource
     OauthClient oauthClient;
+    @Resource
+    FilesystemClient filesystemClient;
 
 
     @PassAuth
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResultVO<String> login(@RequestParam("loginName") String loginName,
                                   @RequestParam("password") String password,
                                   @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
@@ -49,7 +52,7 @@ public class UserController {
         return ResultUtil.success(token);
     }
 
-    @GetMapping("/out-login")
+    @PostMapping("/out-login")
     public ResultVO<String> outLogin() {
         String token = TokenUtil.headerToken();
         if (NullUtil.hasNull(token)) {
@@ -87,7 +90,7 @@ public class UserController {
 
 
     @PassAuth
-    @PostMapping("/re-pwd")
+    @PutMapping("/re-pwd")
     public ResultVO<String> repwd(@RequestParam("loginName") String loginName, @RequestParam("password") String password, @RequestParam("code") String code) {
 
         if (!userService.verifyCode(loginName, code)) {
@@ -99,13 +102,13 @@ public class UserController {
         return ResultUtil.error("密码重置失败");
     }
 
-/*    @PostMapping("/upload-head")
-    public ResultVO<String> uploadHead(@RequestParam("file") MultipartFile file, @RequestParam("userId") String userId) {
+    @PostMapping("/upload-head")
+    public ResultVO<String> uploadHead(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
         if (userService.uploadHead(file, userId)) {
             return ResultUtil.success("头像上传成功");
         }
         return ResultUtil.error("头像上传失败");
-    }*/
+    }
 
     @PutMapping("/{id}")
     public ResultVO<String> updateUser(@PathVariable Integer id, @RequestParam("userName") String userName, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("email") String email) {
@@ -128,20 +131,15 @@ public class UserController {
         return ResultUtil.error("修改信息失败");
     }
 
-/*    @GetMapping("/avatar")
+    @GetMapping("/avatar")
     public Object getAvatar() {
-        try {
-            User user = oauthClient.getUser().getData();
-            String avatarPath = user.getAvatar();
-            if (avatarPath == null) {
-                return null;
-            }
-            return fileService.downloadUtil(avatarPath);
-        } catch (Exception e) {
-            e.printStackTrace();
+        User user = oauthClient.getUser().getData();
+        String avatarPath = user.getAvatar();
+        if (avatarPath == null) {
             return null;
         }
-    }*/
+        return filesystemClient.downloadComm(avatarPath).getData();
+    }
 
     @PutMapping("/level")
     public ResultVO<String> applyUpLevel() {

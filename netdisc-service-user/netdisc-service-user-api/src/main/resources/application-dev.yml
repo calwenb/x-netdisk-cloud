@@ -17,7 +17,7 @@ spring:
     # 配置数据源
     username: root
     password: WHL531124
-    url: jdbc:mysql://101.43.95.238:3306/my_pan?serverTimezone=Hongkong&useAffectedRows=true
+    url: jdbc:mysql://101.43.95.238:3306/my_pan_test?serverTimezone=Hongkong&useAffectedRows=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 配置druid数据源
@@ -64,10 +64,9 @@ spring:
     redis:
       cache-null-values: true #是否缓存null数据，默认是false，可以用来解决缓存穿透
       use-key-prefix: true    #缓存数据key是否使用前缀，默认是true
-
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.wen.common.pojo
+  type-aliases-package: com.wen.netdisc.common.pojo
 
 #激活sentinel对 Feign支持
 feign:
@@ -77,7 +76,7 @@ seata:
   service:
     vgroup-mapping:
       netdisc-service-user-seata-service-group: default
-    grouplist:
-      default: localhost:8091
+#    grouplist:
+#      default: localhost:8091
 
 

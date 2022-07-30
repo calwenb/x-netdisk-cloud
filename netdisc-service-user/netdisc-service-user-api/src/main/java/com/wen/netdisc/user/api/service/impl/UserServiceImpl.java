@@ -2,9 +2,11 @@ package com.wen.netdisc.user.api.service.impl;
 
 import com.wen.baseorm.core.mapper.BaseMapper;
 import com.wen.baseorm.core.wrapper.QueryWrapper;
+import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultVoUtil;
-import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.mapper.UserMapper;
 import com.wen.netdisc.user.api.service.MailService;
@@ -16,7 +18,10 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,16 +33,17 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
     @Resource
-    OauthClient oauthClient;
-
-    @Resource
     MailService mailService;
     @Resource
     RedisTemplate redisTemplate;
-    /* @Resource
-     FileService fileService;*/
+
     @Resource
     BaseMapper baseMapper;
+
+    @Resource
+    OauthClient oauthClient;
+    @Resource
+    FilesystemClient filesystemClient;
 
 
     @Override
@@ -81,7 +87,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 增加全部用户
      *
-     * @param user
+     * @param superAdminName
      * @return 修改状态
      */
 /*    @Override
@@ -159,7 +165,8 @@ public class UserServiceImpl implements UserService {
         if (remember) {
             resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 30 * 24);
         } else {
-            resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
+            ResultVO<String> vo = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
+            resultVO = vo;
         }
         ResultVoUtil.isSuccess(resultVO);
         return resultVO.getData();
@@ -173,11 +180,11 @@ public class UserServiceImpl implements UserService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new RuntimeException("注册失败，账号已存在");
         }
-/*        if (!storeService.initStore(user.getId())) {
+        if (!filesystemClient.initStore(user.getId()).getData()) {
             //回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new RuntimeException("初始化用户仓库失败");
-        }*/
+        }
 
         ResultVO<String> resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
         ResultVoUtil.isSuccess(resultVO);
@@ -194,10 +201,10 @@ public class UserServiceImpl implements UserService {
     public boolean sendCode(String loginName, String email) {
         User user = userMapper.getUserByLName(loginName);
         if (user == null) {
-            return false;
+            throw new FailException("用户不存在");
         }
         if (!email.equals(user.getEmail())) {
-            return false;
+            throw new FailException("输入邮箱不一致或未预留");
         }
         try {
             String code = this.createCode();
@@ -233,25 +240,20 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         user.setPassWord(password);
-        userMapper.updatepwd(user);
-        return true;
+
+        return userMapper.updatepwd(user) > 0;
     }
 
-/*    @Override
-    public boolean uploadHead(MultipartFile file, String userId) {
+    @Override
+    public boolean uploadHead(MultipartFile file, Integer userId) {
         if (file.isEmpty()) {
             throw new RuntimeException("空文件");
         }
-        String headRoot = FileUtil.getRootPath() + "head/";
-        String path = headRoot + file.getOriginalFilename();
-        System.out.println(path);
-        if (fileService.uploadFileComm(file, path)) {
-            User user = userMapper.getUserById(Integer.parseInt(userId));
-            user.setAvatar(path);
-            return userMapper.updateUser(user) > 0;
-        }
-        return false;
-    }*/
+        String path = filesystemClient.uploadHead(file).getData();
+        User user = userMapper.getUserById(userId);
+        user.setAvatar(path);
+        return userMapper.updateUser(user) > 0;
+    }
 
     /**
      * @param uid
@@ -283,10 +285,9 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserById(uid);
         Integer type = user.getUserType();
         if (type > 10) {
-            return false;
+            throw new FailException("请勿多次申请");
         }
         user.setUserType(type + 10);
-
         return userMapper.updateUser(user) > 0;
     }
 

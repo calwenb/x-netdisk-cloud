@@ -1,35 +1,41 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
-import com.wen.filesystem.pojo.MyFile;
+import com.wen.netdisc.common.pojo.MyFile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * FileService业务类
  * 对File进行上传、下载、删除、查询、修改、分享、清除无效文件
  * 并操作服务器I/O
- * @author Mr.文
+ *
+ * @author calwen
  */
-@Service
 public interface FileService {
 
     boolean uploadFile(MultipartFile file, int userId, String fatherFileFolderId);
 
     List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum);
 
-    List<MyFile> queryFilesByType(int userId, String type, int pageNum);
+    List<MyFile> queryFilesByUid(int userId, int pageNum);
+
+    List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException;
+
 
     boolean deleteByMyFileId(int fileId);
 
     /**
      * 文件下载业务
      */
-    ResponseEntity<InputStreamResource> downloadByMyFileId(int fileId) throws IOException;
+    ResponseEntity<InputStreamResource> downloadFile(int fileId, boolean preview) throws IOException;
+
+    ResponseEntity<InputStreamResource> downloadComm(String path) throws IOException;
+
 
     boolean updateFileName(int fileId, String newName);
 
@@ -51,4 +57,6 @@ public interface FileService {
     MyFile getShareFile(String shareCode);
 
     List<String> clearBadFile();
+
+    boolean uploadFileComm(MultipartFile file, String path);
 }

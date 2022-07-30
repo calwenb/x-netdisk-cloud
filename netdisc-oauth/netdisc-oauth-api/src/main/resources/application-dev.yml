@@ -66,7 +66,7 @@ seata:
   service:
     vgroup-mapping:
       netdisc-service-user-seata-service-group: default
-    grouplist:
-      default: 101.43.95.238:8091
+#    grouplist:
+#      default: localhost:8091
 
 

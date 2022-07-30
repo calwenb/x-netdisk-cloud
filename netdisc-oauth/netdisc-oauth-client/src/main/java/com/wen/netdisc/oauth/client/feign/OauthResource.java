@@ -1,14 +1,15 @@
 package com.wen.netdisc.oauth.client.feign;
 
-import com.wen.netdisc.common.pojo.User;
 import com.wen.commutil.vo.ResultVO;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.wen.netdisc.common.annotation.PrcVerify;
+import com.wen.netdisc.common.pojo.User;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author calwen
  * @create 2022/7/28 9:22
  */
+@PrcVerify
 public interface OauthResource {
     /**
      * 用户id生成token
@@ -20,7 +21,6 @@ public interface OauthResource {
     /**
      * 用token换取user
      */
-
     @GetMapping("/user")
     ResultVO<User> getUser();
 
@@ -37,4 +37,8 @@ public interface OauthResource {
 
     @DeleteMapping
     ResultVO<String> removeToken(@RequestParam("token") String token);
+
+    @GetMapping("/verify")
+    ResultVO<Boolean> verifyToken();
+
 }

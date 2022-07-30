@@ -19,13 +19,13 @@ public interface TokenService {
 
     User getTokenUser();
 
-    boolean verifyToken(String token);
+    boolean verifyToken();
 
-    boolean removeToken(String token);
+    boolean removeToken();
 
-    Long getExpireTime(String token);
+    Long getExpireTime();
 
-    boolean renew(String token, int hour);
+    boolean renew( Integer hour);
 
 
 }

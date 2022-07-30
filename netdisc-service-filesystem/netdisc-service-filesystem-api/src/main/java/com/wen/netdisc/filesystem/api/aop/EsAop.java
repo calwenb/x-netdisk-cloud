@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.aop;
 
+import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.filesystem.api.servcie.EsService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -21,7 +22,7 @@ public class EsAop {
     @Resource
     EsService esService;
 
-    @Around("execution(* com.wen.filesystem.mapper.MyFileMapper.addFile(..))")
+    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.addFile(..))")
     public int addEsData(ProceedingJoinPoint pjp) throws Throwable {
         Object rs = pjp.proceed();
         MyFile file = (MyFile) pjp.getArgs()[0];
@@ -34,7 +35,7 @@ public class EsAop {
         return (int) rs;
     }
 
-    @Around("execution(* com.wen.filesystem.mapper.MyFileMapper.deleteByMyFileId(..))")
+    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.deleteByMyFileId(..))")
     public int delEsData(ProceedingJoinPoint pjp) throws Throwable {
         Object rs = pjp.proceed();
         String id = String.valueOf(pjp.getArgs()[0]);
@@ -47,7 +48,7 @@ public class EsAop {
         return (int) rs;
     }
 
-    @Around("execution(* com.wen.filesystem.mapper.MyFileMapper.updateByFileId(..))")
+    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.updateByFileId(..))")
     public int updateEsData(ProceedingJoinPoint pjp) throws Throwable {
         Object rs = pjp.proceed();
         MyFile file = (MyFile) pjp.getArgs()[0];

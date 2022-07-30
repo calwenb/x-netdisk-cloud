@@ -1,5 +1,6 @@
 package com.wen.netdisc.oauth.api.controller.rpc;
 
+import com.wen.commutil.annotation.PassAuth;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.commutil.vo.ResultVO;
@@ -36,6 +37,7 @@ public class OauthResourceImpl implements OauthResource {
         return ResultUtil.success(userId);
     }
 
+    @PassAuth
     @Override
     @PostMapping
     public ResultVO<String> saveToken(Integer uid, Integer userType, Integer hour) {
@@ -46,10 +48,17 @@ public class OauthResourceImpl implements OauthResource {
     @Override
     @DeleteMapping
     public ResultVO<String> removeToken(String token) {
-        if (tokenService.removeToken(token)) {
+        if (tokenService.removeToken()) {
             return ResultUtil.successDo();
         }
         return ResultUtil.errorDo();
+    }
+
+    @Override
+    @GetMapping("/verify")
+    public ResultVO<Boolean> verifyToken() {
+        //已经过验证拦截器，可直接返回true
+        return ResultUtil.success(true);
     }
 
 

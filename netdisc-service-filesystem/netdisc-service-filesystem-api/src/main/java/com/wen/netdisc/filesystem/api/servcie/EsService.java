@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
-import com.wen.filesystem.pojo.MyFile;
+import com.wen.netdisc.common.pojo.MyFile;
 
 import java.io.IOException;
 import java.util.List;

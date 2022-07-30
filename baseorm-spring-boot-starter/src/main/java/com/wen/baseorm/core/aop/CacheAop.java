@@ -67,7 +67,6 @@ public class CacheAop {
         }
         String key = "cache:" + tableName + ":" + keySuffix;
         Object cache = redisTemplate.opsForValue().get(key);
-        System.out.println(key);
 
         if (cache != null) {
             System.out.println("有缓存==> key: " + key);

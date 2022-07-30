@@ -63,23 +63,27 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public boolean removeToken(String token) {
+    public boolean removeToken() {
+        String token = headerToken();
         return redisTemplate.delete(TOKEN_PREFIX + token);
     }
 
     @Override
-    public Long getExpireTime(String token) {
+    public Long getExpireTime() {
+        String token = headerToken();
         return redisTemplate.opsForValue().getOperations().getExpire(TOKEN_PREFIX + token);
     }
 
     @Override
-    public boolean renew(String token, int hour) {
+    public boolean renew(Integer hour) {
+        String token = headerToken();
         return redisTemplate.expire(TOKEN_PREFIX + token, hour, TimeUnit.HOURS);
     }
 
 
     @Override
-    public boolean verifyToken(String token) {
+    public boolean verifyToken() {
+        String token = headerToken();
         Object o = redisTemplate.opsForValue().get(TOKEN_PREFIX + token);
         return o != null;
     }

@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.mapper;
 
-import com.wen.filesystem.pojo.MyFile;
+import com.wen.netdisc.common.pojo.MyFile;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,7 +11,8 @@ import java.util.List;
 
 /**
  * FileMapper类 持久层
- * @author Mr.文
+ *
+ * @author calwen
  */
 @Mapper
 @Repository
@@ -21,7 +22,11 @@ public interface MyFileMapper {
 
     List<MyFile> queryMyFiles(int userId, int parentFolderId, int startRow, int showRow);
 
-    List<MyFile> queryFilesByType(int userId, String type, int startRow, int showRow);
+    /*List<MyFile> queryFilesByType(int userId, String type, int startRow, int showRow);*/
+
+    List<MyFile> queryFilesByUid(int userId, int startRow, int showRow);
+
+    List<MyFile> queryFileByUidOrdDate(int userId, int startRow, int showRow);
 
     Integer addFile(MyFile myFile);
 

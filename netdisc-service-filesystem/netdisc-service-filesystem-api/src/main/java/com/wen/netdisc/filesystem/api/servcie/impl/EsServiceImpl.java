@@ -1,10 +1,10 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.wen.common.util.KeyUtil;
-import com.wen.filesystem.mapper.MyFileMapper;
-import com.wen.filesystem.pojo.MyFile;
-import com.wen.filesystem.servcie.EsService;
+import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
+import com.wen.netdisc.filesystem.api.servcie.EsService;
+import com.wen.netdisc.filesystem.api.util.ConfigUtil;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -38,6 +38,8 @@ public class EsServiceImpl implements EsService {
     RestHighLevelClient client;
     @Resource
     MyFileMapper fileMapper;
+    @Resource
+    ConfigUtil configUtil;
 
     @Override
     public boolean addData(List<MyFile> list) {
@@ -46,7 +48,7 @@ public class EsServiceImpl implements EsService {
 
     @Override
     public boolean addData(MyFile file) {
-        IndexRequest request = new IndexRequest(KeyUtil.ES_INDEX);
+        IndexRequest request = new IndexRequest(configUtil.getEsIndex());
         request.id(String.valueOf(file.getMyFileId()));
         request.timeout("1m");
         request.source(JSON.toJSONString(file), XContentType.JSON);
@@ -62,7 +64,7 @@ public class EsServiceImpl implements EsService {
 
     @Override
     public boolean updateData(MyFile file) {
-        UpdateRequest request = new UpdateRequest(KeyUtil.ES_INDEX, String.valueOf(file.getMyFileId()));
+        UpdateRequest request = new UpdateRequest(configUtil.getEsIndex(), String.valueOf(file.getMyFileId()));
         request.timeout("5s");
         request.doc(JSON.toJSONString(file), XContentType.JSON);
         try {
@@ -76,7 +78,7 @@ public class EsServiceImpl implements EsService {
 
     @Override
     public boolean delDate(String id) {
-        DeleteRequest request = new DeleteRequest(KeyUtil.ES_INDEX, id);
+        DeleteRequest request = new DeleteRequest(configUtil.getEsIndex(), id);
         request.timeout("5s");
         try {
             DeleteResponse resp = client.delete(request, RequestOptions.DEFAULT);
@@ -91,7 +93,7 @@ public class EsServiceImpl implements EsService {
     @Override
     public List<Map<String, Object>> searchData(int storeId, String keyword) throws IOException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
-        SearchRequest request = new SearchRequest(KeyUtil.ES_INDEX);
+        SearchRequest request = new SearchRequest(configUtil.getEsIndex());
 
         //两个条件 根据用户仓库 以及文件名 搜索
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -117,7 +119,7 @@ public class EsServiceImpl implements EsService {
         bulkRequest.timeout("1m");
         for (MyFile file : files) {
             bulkRequest.add(
-                    new IndexRequest(KeyUtil.ES_INDEX)
+                    new IndexRequest(configUtil.getEsIndex())
                             .id(String.valueOf(file.getMyFileId()))
                             .source(JSON.toJSONString(file), XContentType.JSON)
             );

@@ -92,7 +92,7 @@ public interface UserService {
 
     boolean repwd(String loginName, String password);
 
-//    boolean uploadHead(MultipartFile file, String userId);
+    boolean uploadHead(MultipartFile file, Integer userId);
 
 
     /*    boolean upLevel(Integer uid);*/

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.wen.netdisc.user.api.mapper.UserMapper">
-    <resultMap id="UserMap" type="com.wen.netdisc.common.pojo.User">
+    <resultMap id="UserMap" type="User">
         <result property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="loginName" column="login_name"/>
@@ -21,9 +21,43 @@
         from my_pan.user;
     </select>
 
-    <update id="updateUser">
+    <update id="updatepwd">
         update my_pan.user
         set pass_word=#{passWord}
+        where id = #{id};
+    </update>
+
+
+    <update id="updateUser">
+        update my_pan.user
+        <set>
+            <if test="userName!=null and userName!=''">
+                user_name=#{userName},
+            </if>
+            <if test="loginName!=null and loginName!=''">
+                login_name=#{loginName},
+            </if>
+            <if test="passWord!=null and passWord!=''">
+                pass_word=#{passWord},
+            </if>
+            <if test="userType!=null and userType!=''">
+                user_type=#{userType},
+            </if>
+            <if test="phoneNumber!=null and phoneNumber!=''">
+                phone_number=#{phoneNumber},
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email},
+            </if>
+            <if test="avatar!=null and avatar!=''">
+                avatar=#{avatar},
+            </if>
+            <if test="registerTime!=null ">
+                register_time=#{registerTime}
+            </if>
+
+        </set>
+
         where id = #{id};
     </update>
 
@@ -40,7 +74,7 @@
           and pass_word = #{pwd}
     </select>
 
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.wen.netdisc.common.pojo.User">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
         insert into my_pan.user(user_name, login_name, pass_word, user_type, phone_number, email, avatar, register_time)
         values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar},
                 #{registerTime})
@@ -51,6 +85,11 @@
         select *
         from my_pan.user
         where id = #{id}
+    </select>
+    <select id="getUserByLName" resultType="User">
+        select *
+        from my_pan.user
+        where login_name = #{loginName}
     </select>
 
 </mapper>
