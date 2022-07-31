@@ -4,6 +4,7 @@ import com.wen.commutil.annotation.PassAuth;
 import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.util.NullUtil;
 import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.exception.OauthException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
@@ -11,10 +12,13 @@ import com.wen.netdisc.common.util.TokenUtil;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.service.UserService;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -33,9 +37,7 @@ public class UserController {
 
     @PassAuth
     @GetMapping("/login")
-    public ResultVO<String> login(@RequestParam("loginName") String loginName,
-                                  @RequestParam("password") String password,
-                                  @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
+    public ResultVO<String> login(@RequestParam("loginName") String loginName, @RequestParam("password") String password, @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
         String token = userService.login(loginName, password, remember);
         return ResultUtil.success(token);
 
@@ -43,10 +45,7 @@ public class UserController {
 
     @PassAuth
     @PostMapping("/register")
-    public ResultVO<String> register(@RequestParam("loginName") String userName,
-                                     @RequestParam("email") String email,
-                                     @RequestParam("loginName") String loginName,
-                                     @RequestParam("password") String password) {
+    public ResultVO<String> register(@RequestParam("loginName") String userName, @RequestParam("email") String email, @RequestParam("loginName") String loginName, @RequestParam("password") String password) {
         User user = new User(-1, userName, loginName, password, 2, "", email, "/#", new Date());
         String token = userService.register(user);
         return ResultUtil.success(token);
@@ -75,7 +74,7 @@ public class UserController {
             return ResultUtil.success(user);
         } catch (Exception e) {
             LoggerUtil.error(e.getMessage(), UserController.class);
-            throw new RuntimeException("修改失败");
+            throw new FailException("修改失败");
         }
     }
 
@@ -132,13 +131,17 @@ public class UserController {
     }
 
     @GetMapping("/avatar")
-    public Object getAvatar() {
+    public ResponseEntity<InputStreamResource> getAvatar() {
         User user = oauthClient.getUser().getData();
         String avatarPath = user.getAvatar();
         if (avatarPath == null) {
-            return null;
+            throw new FailException("未上传头像");
         }
-        return filesystemClient.downloadComm(avatarPath).getData();
+        try {
+            return filesystemClient.downloadComm(avatarPath);
+        } catch (IOException e) {
+            throw new FailException("获取头像失败");
+        }
     }
 
     @PutMapping("/level")

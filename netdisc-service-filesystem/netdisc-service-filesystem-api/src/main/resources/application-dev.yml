@@ -92,7 +92,7 @@ x-netdisc:
       login-name: admin
       password: 1234
   elasticsearch:
-    host: 112.74.78.182
+    host: 101.43.95.238
     port: 9206
     index: x-netdisc-cloud
   file:
@@ -101,7 +101,7 @@ x-netdisc:
     show-row: 10
 
   store:
-    root-path: E:/wen/tp/x-webalbum/store/
+    root-path: E:/wen/tp/x-netdisk/store/
     root-id: 0
     #单位 MB
     max-size: 2000

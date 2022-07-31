@@ -137,6 +137,22 @@
         SELECT *
         FROM my_file;
     </select>
+    <select id="queryFilesByType" resultMap="MyFileMap">
+        SELECT
+        <include refid="AllField"></include>
+        FROM `user` JOIN file_store ON `user`.id=file_store.user_id
+                    JOIN my_file ON file_store.file_store_id=my_file.file_store_id
+        <where>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            <if test="type !=null">
+                AND type= #{type}
+            </if>
+        </where>
+        <if test="startRow!=null and showRow!=null"></if>
+        LIMIT #{startRow},#{showRow};
+    </select>
 
     <delete id="deleteByMyFileId">
         delete

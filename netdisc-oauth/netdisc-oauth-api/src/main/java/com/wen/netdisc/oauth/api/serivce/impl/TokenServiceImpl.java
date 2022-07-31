@@ -4,9 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.enums.TokenEnum;
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
-import com.wen.netdisc.oauth.api.serivce.TokenService;
 import com.wen.netdisc.oauth.api.mapper.UserMapper;
+import com.wen.netdisc.oauth.api.serivce.TokenService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,9 +49,10 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public User getTokenUser() {
         User user = userMapper.getUserById(this.getTokenUserId());
-        if (user != null) {
-            user.setPassWord(null);
+        if (user == null) {
+            throw new FailException("获取用户信息失败");
         }
+        user.setPassWord(null);
         return user;
     }
 

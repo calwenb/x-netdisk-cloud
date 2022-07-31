@@ -12,6 +12,6 @@ public class ResultVoUtil {
         if (resultVO != null && Objects.equals(resultVO.getCode(), successCode)) {
             return;
         }
-        throw new RuntimeException("rpc 调用失败");
+        throw new FailException("rpc 调用失败");
     }
 }*/

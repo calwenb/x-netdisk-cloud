@@ -4,11 +4,14 @@ package com.wen.netdisc.filesystem.api.controller.api;
 import com.alibaba.fastjson2.JSON;
 import com.wen.commutil.annotation.PassAuth;
 import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,13 +32,21 @@ public class FileController extends BaseController {
         return ResultUtil.success(list);
     }
 
+    @GetMapping
+    public ResultVO<List<MyFile>> queryFilesByType(@RequestParam("type") String type,
+                                                   @RequestParam("page") String page) {
+        Integer uid = oauthClient.getUserId().getData();
+        List<MyFile> list = fileService.queryFilesByType(uid, type, Integer.parseInt(page));
+        return ResultUtil.success(list);
+    }
+
 
     @GetMapping("/data/p/{page}")
     public ResultVO<List<Map<String, String>>> queryFilesData(@PathVariable String page) throws IOException {
         Integer uid = oauthClient.getUserId().getData();
         return ResultUtil.success(fileService.queryFilesByUid(uid, Integer.parseInt(page), true));
-
     }
+
 
     @PostMapping("/upload")
     public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("fatherFileFolderId") String fatherFileFolderId) {
@@ -50,7 +61,7 @@ public class FileController extends BaseController {
 
         Integer uid = oauthClient.getUserId().getData();
         if (fileService.uploadFile(file, uid, fatherFileFolderId)) {
-            return ResultUtil.success(file.getOriginalFilename() + " 上传文件成功");
+            return ResultUtil.successDo(file.getOriginalFilename() + " 上传文件成功");
         }
         return ResultUtil.error("上传文件失败");
     }
@@ -87,13 +98,12 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/download")
-    public Object downByFileIds(@RequestParam("fileIdList") String fileIdList, @RequestParam(value = "preview", defaultValue = "false") String preview) {
-        List<String> list = com.alibaba.fastjson2.JSON.parseArray(fileIdList, String.class);
+    public ResponseEntity<InputStreamResource> downByFileIds(@RequestParam("fileIdList") String fileIdList, @RequestParam(value = "preview", defaultValue = "false") String preview) {
+        List<String> list = JSON.parseArray(fileIdList, String.class);
         try {
             return fileService.downloadFile(Integer.parseInt(list.get(0)), Boolean.parseBoolean(preview));
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResultUtil.error("下载失败");
+            throw new FailException("下载文件失败");
         }
     }
 

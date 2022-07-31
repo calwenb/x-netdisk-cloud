@@ -1,6 +1,6 @@
 //package com.wen.netdisc.filesystem.api.task;
 //
-//import com.wen.filesystem.servcie.FileService;
+//import com.wen.xwebalbum.servcie.FileService;
 //import org.springframework.stereotype.Component;
 //
 //import javax.annotation.Resource;
@@ -9,7 +9,7 @@
 ///**
 // * ClearFileTask 任务类
 // * 清理无效的文件，以便减少磁盘资源的占用
-// * @author Mr.文
+// * @author calwen
 // */
 //@Component
 //public class ClearFileTask {

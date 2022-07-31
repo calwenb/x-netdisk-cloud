@@ -22,7 +22,7 @@ public interface MyFileMapper {
 
     List<MyFile> queryMyFiles(int userId, int parentFolderId, int startRow, int showRow);
 
-    /*List<MyFile> queryFilesByType(int userId, String type, int startRow, int showRow);*/
+    List<MyFile> queryFilesByType(int userId, String type, int startRow, int showRow);
 
     List<MyFile> queryFilesByUid(int userId, int startRow, int showRow);
 

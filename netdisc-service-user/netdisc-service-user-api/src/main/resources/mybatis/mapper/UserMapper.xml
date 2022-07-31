@@ -18,18 +18,18 @@
 
     <select id="queryUsers" resultMap="UserMap">
         select *
-        from my_pan.user;
+        from user;
     </select>
 
     <update id="updatepwd">
-        update my_pan.user
+        update user
         set pass_word=#{passWord}
         where id = #{id};
     </update>
 
 
     <update id="updateUser">
-        update my_pan.user
+        update user
         <set>
             <if test="userName!=null and userName!=''">
                 user_name=#{userName},
@@ -63,19 +63,19 @@
 
     <select id="queryUseById" parameterType="integer" resultMap="UserMap">
         select *
-        from my_pan.user
+        from user
         where id = #{id}
     </select>
 
     <select id="login" resultMap="UserMap">
         select *
-        from my_pan.user
+        from user
         where login_name = #{loginName}
           and pass_word = #{pwd}
     </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
-        insert into my_pan.user(user_name, login_name, pass_word, user_type, phone_number, email, avatar, register_time)
+        insert into user(user_name, login_name, pass_word, user_type, phone_number, email, avatar, register_time)
         values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar},
                 #{registerTime})
     </insert>
@@ -83,12 +83,12 @@
 
     <select id="getUserById" resultMap="UserMap">
         select *
-        from my_pan.user
+        from user
         where id = #{id}
     </select>
     <select id="getUserByLName" resultType="User">
         select *
-        from my_pan.user
+        from user
         where login_name = #{loginName}
     </select>
 

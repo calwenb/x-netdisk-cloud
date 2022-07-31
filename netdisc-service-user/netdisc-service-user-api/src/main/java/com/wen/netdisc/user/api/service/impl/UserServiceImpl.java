@@ -3,10 +3,10 @@ package com.wen.netdisc.user.api.service.impl;
 import com.wen.baseorm.core.mapper.BaseMapper;
 import com.wen.baseorm.core.wrapper.QueryWrapper;
 import com.wen.commutil.vo.ResultVO;
-import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultVoUtil;
+import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.mapper.UserMapper;
 import com.wen.netdisc.user.api.service.MailService;
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
     public String login(String loginName, String pwd, boolean remember) {
         User user = userMapper.login(loginName, pwd);
         if (user == null) {
-            throw new RuntimeException("账号密码错误或未注册");
+            throw new FailException("账号密码错误或未注册");
         }
         ResultVO<String> resultVO;
         //记住密码给30天，否则12小时
@@ -178,12 +178,13 @@ public class UserServiceImpl implements UserService {
             userMapper.addUser(user);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new RuntimeException("注册失败，账号已存在");
+            e.printStackTrace();
+            throw new FailException("注册失败，账号已存在");
         }
         if (!filesystemClient.initStore(user.getId()).getData()) {
             //回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new RuntimeException("初始化用户仓库失败");
+            throw new FailException("初始化用户仓库失败");
         }
 
         ResultVO<String> resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
@@ -247,7 +248,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean uploadHead(MultipartFile file, Integer userId) {
         if (file.isEmpty()) {
-            throw new RuntimeException("空文件");
+            throw new FailException("空文件");
         }
         String path = filesystemClient.uploadHead(file).getData();
         User user = userMapper.getUserById(userId);

@@ -60,7 +60,7 @@ X 云盘是基于 Spring Cloud Alibaba、 Spring Boot + Vue 开发的云盘系�
 
 #### 安装教程
 
-1.  创建my_pan数据库，将sql文件夹下my_pan.sql执行。
+1.  创建my_pan_test数据库，将sql文件夹下my_pan_test.sql执行。
 2.  配置application.yml 文件，修改mysql、redis、ElasticSearch连接信息。
 3.  修改netdisc.store.root-path 为文件系统根目录。
 4.  启动Nacos、Sentinel。

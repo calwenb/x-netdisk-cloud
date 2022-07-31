@@ -15,8 +15,8 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-    <dependencies>
 
+    <dependencies>
         <!-- Feign Client for loadBalancing -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

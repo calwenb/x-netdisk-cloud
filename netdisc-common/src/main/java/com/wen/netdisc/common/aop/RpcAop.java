@@ -9,6 +9,7 @@ import com.wen.netdisc.common.exception.RpcException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 
@@ -24,10 +25,16 @@ import org.springframework.stereotype.Component;
 public class RpcAop {
     @Around("@within(com.wen.netdisc.common.annotation.PrcVerify)")
     public <T> Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        ResultVO<T> resultVO = (ResultVO<T>) joinPoint.proceed();
-        if (resultVO == null) {
-            throw new RpcException("prc调用时响应体不应为空");
+        Object o = joinPoint.proceed();
+        //处理非标准响应体
+        if (!(o instanceof ResultVO)) {
+            if (o instanceof ResponseEntity) {
+                return o;
+            }
+            throw new RpcException("未知rcp响应体");
         }
+        //处理标准响应体，传递响应体
+        ResultVO<T> resultVO = (ResultVO<T>) o;
         switch (resultVO.getCode()) {
             case 2000:
                 return resultVO;
@@ -39,8 +46,9 @@ public class RpcAop {
                 throw new BadRequestException(resultVO.getMessage());
             case 5000:
                 throw new Exception(resultVO.getMessage());
+            default:
+                LoggerUtil.error("[异常] 未知异常返回状态", RpcAop.class);
+                throw new RpcException("未知异常返回状态");
         }
-        LoggerUtil.warn("[异常] 未知异常返回状态", RpcAop.class);
-        throw new RpcException("未知异常返回状态");
     }
 }

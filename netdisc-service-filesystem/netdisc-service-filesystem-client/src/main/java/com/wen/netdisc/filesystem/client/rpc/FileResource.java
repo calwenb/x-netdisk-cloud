@@ -2,10 +2,14 @@ package com.wen.netdisc.filesystem.client.rpc;
 
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PrcVerify;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @PrcVerify
 public interface FileResource {
@@ -20,5 +24,5 @@ public interface FileResource {
     ResultVO<Boolean> initStore(@RequestParam("uid") Integer uid);
 
     @GetMapping("/downloadComm")
-    ResultVO<Object> downloadComm(@RequestParam("path") String path);
+    ResponseEntity<InputStreamResource> downloadComm(@RequestParam("path") String path) throws IOException;
 }

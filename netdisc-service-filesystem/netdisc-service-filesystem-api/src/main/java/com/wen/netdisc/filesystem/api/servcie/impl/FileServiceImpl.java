@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
@@ -47,13 +48,13 @@ public class FileServiceImpl implements FileService {
 //    TrashService trashService;
 
 
-//    @Resource
-//    TokenService tokenService;
-
     @Override
     public boolean uploadFile(MultipartFile file, int userId, String fatherFileFolderId) {
         try {
-            FileStore fileStore = storeMapper.queryStoreById(userId);
+            FileStore fileStore = storeMapper.queryStoreByUid(userId);
+            if (fileStore == null) {
+                throw new FailException("获取用户仓库失败");
+            }
             int fileStoreId = fileStore.getFileStoreId();
             // 获取文件名
             String fileName = file.getOriginalFilename();
@@ -153,6 +154,20 @@ public class FileServiceImpl implements FileService {
         return fileMapper.queryFilesByUid(userId, startRow, showRow);
     }
 
+    @Override
+    public List<MyFile> queryFilesByType(Integer uid, String type, int pageNum) {
+        int showRow = FileUtil.FILE_SHOW_ROW;
+        int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
+        /**
+         * 不指定页数，即不分页
+         */
+        if (pageNum == -1) {
+            startRow = 0;
+            showRow = Integer.MAX_VALUE;
+        }
+        return fileMapper.queryFilesByType(uid, FileUtil.getTypeChinese(type), startRow, showRow);
+    }
+
     public List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException {
         if (preview) {
             int showRow = FileUtil.FILE_SHOW_ROW;
@@ -208,18 +223,25 @@ public class FileServiceImpl implements FileService {
      * @throws IOException
      */
     private ResponseEntity<InputStreamResource> download(String path) throws IOException {
-        FileSystemResource downloadFile = new FileSystemResource(path);
-        if (!downloadFile.exists()) {
-            return null;
-        }
-        //设置响应头
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", downloadFile.getFilename()));
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        return ResponseEntity.ok().headers(headers).contentLength(downloadFile.contentLength()).contentType(MediaType.parseMediaType("application/octet-stream")).body(new InputStreamResource(downloadFile.getInputStream()));
+        FileSystemResource downloadFile = new FileSystemResource(path);
+        if (!downloadFile.exists()) {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(0)
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(null);
+        }
+        //设置响应头
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(downloadFile.contentLength())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(downloadFile.getInputStream()));
     }
 
 
@@ -264,7 +286,6 @@ public class FileServiceImpl implements FileService {
             }
         }
         try {
-
             //SessionCallback事务
             SessionCallback<Object> callback = new SessionCallback<Object>() {
                 @Override

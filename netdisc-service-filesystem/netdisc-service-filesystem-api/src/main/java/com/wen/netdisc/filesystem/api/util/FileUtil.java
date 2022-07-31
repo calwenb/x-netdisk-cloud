@@ -51,6 +51,32 @@ public class FileUtil {
         fileTypeMap.put("视频", videoType);
     }
 
+    public static String getTypeChinese(String typeE) {
+        String rs = "";
+        switch (typeE) {
+            case "document":
+                rs = "文档";
+                break;
+            case "code":
+                rs = "代码";
+                break;
+            case "image":
+                rs = "图片";
+                break;
+            case "compressedFile":
+                rs = "压缩包";
+                break;
+            case "audio":
+                rs = "音频";
+                break;
+            case "video":
+                rs = "视频";
+                break;
+            default:
+                rs = "其他";
+        }
+        return rs;
+    }
 
     public static String getRootPath() {
         String storeRootPath = STORE_ROOT_PATH;
@@ -125,7 +151,7 @@ public class FileUtil {
                     map.put("data", "data:image/jpg;base64," + base64Str);
                     rs[finalI] = map;
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    throw new FailException(e);
                 } finally {
                     latch.countDown();
                 }

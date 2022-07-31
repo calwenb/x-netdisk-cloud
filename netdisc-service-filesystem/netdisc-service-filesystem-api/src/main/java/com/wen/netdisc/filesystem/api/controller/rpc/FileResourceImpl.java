@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.controller.rpc;
 
+import com.wen.commutil.annotation.PassAuth;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.util.ResultUtil;
@@ -45,6 +46,7 @@ public class FileResourceImpl implements FileResource {
     }
 
     @Override
+    @PassAuth
     @PostMapping("/initStore")
     public ResultVO<Boolean> initStore(Integer uid) {
         boolean b = storeService.initStore(uid);
@@ -54,12 +56,7 @@ public class FileResourceImpl implements FileResource {
 
     @Override
     @GetMapping("/downloadComm")
-    public ResultVO<Object> downloadComm(String path) {
-        try {
-            ResponseEntity<InputStreamResource> entity = fileService.downloadComm(path);
-            return ResultUtil.success(entity);
-        } catch (IOException e) {
-            throw new FailException("获取资源失败");
-        }
+    public ResponseEntity<InputStreamResource> downloadComm(String path) throws IOException {
+        return fileService.downloadComm(path);
     }
 }

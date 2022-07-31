@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 50734
  Source Host           : XXX:3306
- Source Schema         : my_pan
+ Source Schema         : my_pan_test
 
  Target Server Type    : MySQL
  Target Server Version : 50734

@@ -59,4 +59,6 @@ public interface FileService {
     List<String> clearBadFile();
 
     boolean uploadFileComm(MultipartFile file, String path);
+
+    List<MyFile> queryFilesByType(Integer uid, String type, int pageNum);
 }

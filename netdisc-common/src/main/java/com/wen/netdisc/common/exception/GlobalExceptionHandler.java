@@ -18,7 +18,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OauthException.class)
     public ResultVO<String> OauthException(Exception e) {
         LoggerUtil.warn("\n [验证失败] ：===> " + e.getMessage(), GlobalExceptionHandler.class);
-        e.printStackTrace();
         return ResultUtil.unauthorized();
     }
 
@@ -46,7 +45,7 @@ public class GlobalExceptionHandler {
     public ResultVO<String> exception(Exception e) {
         LoggerUtil.error("\n [发生异常]：===> " + e, GlobalExceptionHandler.class);
         e.printStackTrace();
-        return ResultUtil.exception("发生了一些错误，错误信息 " );
+        return ResultUtil.exception("发生了一些错误，错误信息 ");
     }
 
 
