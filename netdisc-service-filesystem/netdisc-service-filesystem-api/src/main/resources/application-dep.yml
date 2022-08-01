@@ -47,6 +47,12 @@ spring:
   main:
     allow-circular-references: true
     allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      # 设置单个文件大小
+      max-file-size: 2000MB
+      # 设置单次请求文件的总大小
+      max-request-size: 2000MB
 
   redis:
     host: 101.43.95.238

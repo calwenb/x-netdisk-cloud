@@ -44,6 +44,12 @@ spring:
     properties.mail.smtp.starttls.required: true
     properties.mail.smtp.ssl.enable: true
     default-encoding: utf-8
+  servlet:
+    multipart:
+      # 设置单个文件大小
+      max-file-size: 2000MB
+      # 设置单次请求文件的总大小
+      max-request-size: 2000MB
   main:
     allow-circular-references: true
     allow-bean-definition-overriding: true
@@ -101,7 +107,7 @@ x-netdisc:
     show-row: 10
 
   store:
-    root-path: E:/wen/tp/x-netdisk/store/
+    root-path: D:/project-support/x-netdisk/store/
     root-id: 0
     #单位 MB
     max-size: 2000

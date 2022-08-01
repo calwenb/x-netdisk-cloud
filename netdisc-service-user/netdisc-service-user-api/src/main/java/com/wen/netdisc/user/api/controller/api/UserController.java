@@ -36,7 +36,7 @@ public class UserController {
 
 
     @PassAuth
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResultVO<String> login(@RequestParam("loginName") String loginName, @RequestParam("password") String password, @RequestParam(value = "remember", defaultValue = "false") boolean remember) {
         String token = userService.login(loginName, password, remember);
         return ResultUtil.success(token);
