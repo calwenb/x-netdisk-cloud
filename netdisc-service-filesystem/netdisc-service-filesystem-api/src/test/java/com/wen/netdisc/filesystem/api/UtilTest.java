@@ -13,7 +13,6 @@ public class UtilTest {
 
     @Test
     void t1() {
-        System.out.println(configUtil.getEsIndex());
 
 
     }

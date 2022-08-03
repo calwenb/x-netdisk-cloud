@@ -5,7 +5,7 @@ import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;
-import com.wen.netdisc.oauth.client.feign.OauthClient;
+import com.wen.netdisc.filesystem.api.util.UserUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -14,14 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/stores")
 public class StoreController {
-    @Resource
-    OauthClient oauthClient;
+
     @Resource
     StoreService storeService;
 
     @GetMapping("/my")
     public ResultVO<FileStore> queryStore() {
-        int uid = oauthClient.getUserId().getData();
+        int uid = UserUtil.getUid();
         FileStore store = storeService.queryStoreByUid(uid);
         if (store != null) {
             return ResultUtil.success(store);

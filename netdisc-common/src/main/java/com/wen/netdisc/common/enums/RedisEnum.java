@@ -6,6 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RedisEnum {
-    TOKEN_PREFIX("token:");
+    TOKEN_PREFIX("token:"),
+
+    TRASH_PREFIX("trash:");
+
     private String property;
 }

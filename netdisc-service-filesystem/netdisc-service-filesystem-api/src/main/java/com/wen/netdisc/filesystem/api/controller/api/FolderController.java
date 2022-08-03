@@ -7,6 +7,7 @@ import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.TreeNode;
 import com.wen.netdisc.common.util.ResultUtil;
+import com.wen.netdisc.filesystem.api.util.UserUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class FolderController extends BaseController {
     public ResultVO<String> addFolder(@RequestParam("parent_id") String pFolderId,
                                       @RequestParam("name") String folderName) {
         try {
-            Integer uid = oauthClient.getUserId().getData();
+            Integer uid = UserUtil.getUid();
             FileStore store = storeService.queryStoreByUid(uid);
             FileFolder fileFolder = new FileFolder(-1, folderName, Integer.parseInt(pFolderId), store.getFileStoreId(), "");
             if (!folderService.addFileFolder(fileFolder)) {
@@ -61,7 +62,7 @@ public class FolderController extends BaseController {
 
     @GetMapping("/tree")
     public ResultVO<TreeNode> getFolderTree() {
-        int userId = oauthClient.getUserId().getData();
+        int userId = UserUtil.getUid();
         TreeNode folderTree = folderService.getFolderTree(userId);
         return ResultUtil.success(folderTree);
     }

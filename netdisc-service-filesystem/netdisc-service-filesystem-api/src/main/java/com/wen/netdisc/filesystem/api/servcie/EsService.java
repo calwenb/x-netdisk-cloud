@@ -2,7 +2,6 @@ package com.wen.netdisc.filesystem.api.servcie;
 
 import com.wen.netdisc.common.pojo.MyFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import java.util.Map;
 /**
  * ElasticSearch业务类
  * 对es进行数据同步操作，以及预热
+ *
  * @author Mr.文
  */
 public interface EsService {
@@ -21,7 +21,7 @@ public interface EsService {
 
     boolean delDate(String id);
 
-    List<Map<String, Object>> searchData(int storeId, String keyword) throws IOException;
+    List<Map<String, Object>> searchData(int storeId, String keyword);
 
     boolean esWarmUp();
 }

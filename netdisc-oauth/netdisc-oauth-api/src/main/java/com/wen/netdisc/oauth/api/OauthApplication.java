@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableFeignClients("com.wen.netdisc")
-@ComponentScan({"com.wen.netdisc", "com.wen.netdisc.common"})
+@ComponentScan({"com.wen.netdisc.oauth.api", "com.wen.netdisc.common"})
 @EnableDiscoveryClient
 public class OauthApplication {
     public static void main(String[] args) {

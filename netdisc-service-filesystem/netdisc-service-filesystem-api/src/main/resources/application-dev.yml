@@ -90,8 +90,6 @@ seata:
 
 # 自定义配置文件
 x-netdisc:
-  trash:
-    keep-day: 7
   user:
     super-admin:
       userName: admin
@@ -102,6 +100,7 @@ x-netdisc:
     port: 9206
     index: x-netdisc-cloud
   file:
+    trash-keep-day: 7
     #单位 MB
     max-size: 2000
     show-row: 10
@@ -112,10 +111,10 @@ x-netdisc:
     #单位 MB
     max-size: 2000
 
-base-orm:
-  config:
-    logger: true
-    camel-case: true
+#base-orm:
+#  config:
+#    logger: true
+#    camel-case: true
 
 
 

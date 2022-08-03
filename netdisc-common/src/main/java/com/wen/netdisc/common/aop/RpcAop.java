@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 对rpc调用进行环绕增强
+ * 确保rpc调用结果正确且成功
  * 1.直接抛出 rpc错误的返回ResultVO
  *
  * @author calwen

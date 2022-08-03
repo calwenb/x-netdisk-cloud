@@ -91,7 +91,7 @@ public class EsServiceImpl implements EsService {
     }
 
     @Override
-    public List<Map<String, Object>> searchData(int storeId, String keyword) throws IOException {
+    public List<Map<String, Object>> searchData(int storeId, String keyword) {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         SearchRequest request = new SearchRequest(configUtil.getEsIndex());
 
@@ -104,7 +104,12 @@ public class EsServiceImpl implements EsService {
 
         request.source(sourceBuilder);
 
-        SearchResponse resp = client.search(request, RequestOptions.DEFAULT);
+        SearchResponse resp;
+        try {
+            resp = client.search(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException("es服务错误");
+        }
         for (SearchHit hit : resp.getHits().getHits()) {
             list.add(hit.getSourceAsMap());
         }

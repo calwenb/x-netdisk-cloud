@@ -9,8 +9,10 @@ import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
 import com.wen.netdisc.filesystem.api.servcie.FileService;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;
+import com.wen.netdisc.filesystem.api.servcie.TrashService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
+import com.wen.netdisc.filesystem.api.util.UserUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
@@ -22,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -43,9 +46,9 @@ public class FileServiceImpl implements FileService {
     StoreService storeService;
     @Resource
     RedisTemplate redisTemplate;
+    @Resource
+    TrashService trashService;
 
-//    @Resource
-//    TrashService trashService;
 
 
     @Override
@@ -190,12 +193,13 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean deleteByMyFileId(int fileId) {
-/*        MyFile file = fileMapper.queryFileById(fileId);
+        MyFile file = fileMapper.queryFileById(fileId);
         if (fileMapper.deleteByMyFileId(fileId) > 0) {
-            int uid = tokenService.getTokenUserId();
-            return trashService.addTrash(file, uid);
+            int uid = UserUtil.getUid();
+            FileStore store = storeService.queryStoreByUid(uid);
+            return trashService.addTrash(file, uid) && storeService.updateStore(store);
         }
-        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();*/
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         return false;
     }
 
@@ -230,18 +234,10 @@ public class FileServiceImpl implements FileService {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         FileSystemResource downloadFile = new FileSystemResource(path);
         if (!downloadFile.exists()) {
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(0)
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
-                    .body(null);
+            return ResponseEntity.ok().headers(headers).contentLength(0).contentType(MediaType.parseMediaType("application/octet-stream")).body(null);
         }
         //设置响应头
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(downloadFile.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new InputStreamResource(downloadFile.getInputStream()));
+        return ResponseEntity.ok().headers(headers).contentLength(downloadFile.contentLength()).contentType(MediaType.parseMediaType("application/octet-stream")).body(new InputStreamResource(downloadFile.getInputStream()));
     }
 
 

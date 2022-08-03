@@ -9,4 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigUtil {
     @Value("${x-netdisc.elasticsearch.index}")
     private String esIndex;
+    @Value("${x-netdisc.file.trash-keep-day}")
+    private Integer trashKeepDay = 7;
 }

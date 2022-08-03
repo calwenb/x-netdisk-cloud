@@ -4,7 +4,6 @@ package com.wen.netdisc.filesystem.api.controller.api;
 import com.wen.netdisc.filesystem.api.servcie.FileService;
 import com.wen.netdisc.filesystem.api.servcie.FolderService;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;
-import com.wen.netdisc.oauth.client.feign.OauthClient;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -23,8 +22,7 @@ public abstract class BaseController {
     @Resource
     StoreService storeService;
 
-    @Resource
-    OauthClient oauthClient;
+
 
 
 }

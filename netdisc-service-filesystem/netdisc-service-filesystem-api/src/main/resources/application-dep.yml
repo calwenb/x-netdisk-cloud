@@ -105,6 +105,7 @@ x-netdisc:
     #单位 MB
     max-size: 2000
     show-row: 10
+    trash-keep-day: 7
 
   store:
     root-path: /wen/project-support/x-pan-cloud/store/

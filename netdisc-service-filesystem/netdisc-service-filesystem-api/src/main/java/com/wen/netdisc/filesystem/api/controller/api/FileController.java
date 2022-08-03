@@ -10,6 +10,7 @@ import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
+import com.wen.netdisc.filesystem.api.util.UserUtil;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class FileController extends BaseController {
 
     @GetMapping("/p/{page}")
     public ResultVO<List<MyFile>> queryFiles(@PathVariable String page) {
-        Integer uid = oauthClient.getUserId().getData();
+        Integer uid = UserUtil.getUid();
         List<MyFile> list = fileService.queryFilesByUid(uid, Integer.parseInt(page));
         return ResultUtil.success(list);
     }
@@ -35,7 +36,7 @@ public class FileController extends BaseController {
     @GetMapping
     public ResultVO<List<MyFile>> queryFilesByType(@RequestParam("type") String type,
                                                    @RequestParam("page") String page) {
-        Integer uid = oauthClient.getUserId().getData();
+        Integer uid = UserUtil.getUid();
         List<MyFile> list = fileService.queryFilesByType(uid, type, Integer.parseInt(page));
         return ResultUtil.success(list);
     }
@@ -43,7 +44,7 @@ public class FileController extends BaseController {
 
     @GetMapping("/data/p/{page}")
     public ResultVO<List<Map<String, String>>> queryFilesData(@PathVariable String page) throws IOException {
-        Integer uid = oauthClient.getUserId().getData();
+        Integer uid = UserUtil.getUid();
         return ResultUtil.success(fileService.queryFilesByUid(uid, Integer.parseInt(page), true));
     }
 
@@ -59,7 +60,7 @@ public class FileController extends BaseController {
             return ResultUtil.error("上传文件大于2GB ");
         }
 
-        Integer uid = oauthClient.getUserId().getData();
+        Integer uid = UserUtil.getUid();
         if (fileService.uploadFile(file, uid, fatherFileFolderId)) {
             return ResultUtil.successDo(file.getOriginalFilename() + " 上传文件成功");
         }
@@ -71,7 +72,7 @@ public class FileController extends BaseController {
         List<MyFile> myFiles;
         List<FileFolder> fileFolders;
         List<Object> fileAndFolds = new ArrayList();
-        Integer uid = oauthClient.getUserId().getData();
+        Integer uid = UserUtil.getUid();
         FileStore store = storeService.queryStoreByUid(uid);
         myFiles = fileService.queryMyFiles(uid, parentFolderId, -1);
         fileFolders = folderService.queryFoldersByPId(store.getFileStoreId(), parentFolderId);

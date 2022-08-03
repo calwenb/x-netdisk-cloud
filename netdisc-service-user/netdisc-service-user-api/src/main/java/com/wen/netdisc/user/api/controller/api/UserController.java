@@ -12,6 +12,7 @@ import com.wen.netdisc.common.util.TokenUtil;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.service.UserService;
+import com.wen.netdisc.user.api.util.UserUtil;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,7 @@ public class UserController {
 
     @PutMapping("/password")
     public ResultVO<User> updatePassword(@RequestParam("password") String password) {
-        User user = oauthClient.getUser().getData();
+        User user = UserUtil.getUser();
         try {
             user.setPassWord(password);
             userService.updateUser(user);
@@ -132,7 +133,7 @@ public class UserController {
 
     @GetMapping("/avatar")
     public ResponseEntity<InputStreamResource> getAvatar() {
-        User user = oauthClient.getUser().getData();
+        User user = UserUtil.getUser();
         String avatarPath = user.getAvatar();
         if (avatarPath == null) {
             throw new FailException("未上传头像");
@@ -146,7 +147,7 @@ public class UserController {
 
     @PutMapping("/level")
     public ResultVO<String> applyUpLevel() {
-        Integer uid = oauthClient.getUserId().getData();
+        Integer uid = UserUtil.getUid();
         return userService.applyUpLevel(uid) ? ResultUtil.successDo("申请升级成功，待管理员审批") : ResultUtil.error("请勿多次申请升级");
     }
 
