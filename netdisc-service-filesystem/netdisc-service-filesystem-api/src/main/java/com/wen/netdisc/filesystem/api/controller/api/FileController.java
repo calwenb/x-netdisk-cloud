@@ -50,7 +50,7 @@ public class FileController extends BaseController {
 
 
     @PostMapping("/upload")
-    public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("fatherFileFolderId") String fatherFileFolderId) {
+    public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("fid") String fid) {
 
         if (file.isEmpty()) {
             return ResultUtil.error("文件为空");
@@ -61,7 +61,7 @@ public class FileController extends BaseController {
         }
 
         Integer uid = UserUtil.getUid();
-        if (fileService.uploadFile(file, uid, fatherFileFolderId)) {
+        if (fileService.uploadFile(file, uid, fid)) {
             return ResultUtil.successDo(file.getOriginalFilename() + " 上传文件成功");
         }
         return ResultUtil.error("上传文件失败");
