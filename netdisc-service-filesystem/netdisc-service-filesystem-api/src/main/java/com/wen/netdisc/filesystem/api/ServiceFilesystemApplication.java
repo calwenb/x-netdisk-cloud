@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients("com.wen.netdisc")
 @ComponentScan({"com.wen.netdisc.filesystem.api", "com.wen.netdisc.common"})
 public class ServiceFilesystemApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ServiceFilesystemApplication.class, args);
         System.out.println("ServiceFilesystemApplication" + " run~");

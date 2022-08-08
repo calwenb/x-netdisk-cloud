@@ -1,6 +1,9 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
+import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.filesystem.api.dto.ChunkDto;
+import com.wen.netdisc.filesystem.api.vo.ChunkVo;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +21,9 @@ import java.util.Map;
  */
 public interface FileService {
 
-    boolean uploadFile(MultipartFile file, int userId, String fatherFileFolderId);
+    boolean uploadFile(MultipartFile file, int userId, String faFolderId);
+
+    ResultVO<ChunkVo> uploadBigFile(ChunkDto chunk);
 
     List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum);
 
