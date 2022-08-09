@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class MyCommandLineRunner implements CommandLineRunner {
+    private static final String CHUNK_PATH = "D:/project-support/x-netdisk/temp/chunk";
+    private static final String BACKUP_PATH = "D:/project-support/x-netdisk/temp/backup";
+
     @Override
     public void run(String... args) {
         initFolder();
@@ -21,6 +24,9 @@ public class MyCommandLineRunner implements CommandLineRunner {
         }
         if (FolderUtil.autoFolder(rootPath + "head")) {
             log.info("项目 头像 文件夹 初始化完成");
+        }
+        if (FolderUtil.autoFolder(CHUNK_PATH) && FolderUtil.autoFolder(BACKUP_PATH)) {
+            log.info("项目 临时文件 文件夹 初始化完成");
         }
     }
 }

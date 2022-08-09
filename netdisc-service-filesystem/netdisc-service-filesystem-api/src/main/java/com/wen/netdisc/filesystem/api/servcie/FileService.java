@@ -21,9 +21,8 @@ import java.util.Map;
  */
 public interface FileService {
 
-    boolean uploadFile(MultipartFile file, int userId, String faFolderId);
+    boolean uploadFile(MultipartFile file, int userId, Integer faFolderId);
 
-    ResultVO<ChunkVo> uploadBigFile(ChunkDto chunk);
 
     List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum);
 

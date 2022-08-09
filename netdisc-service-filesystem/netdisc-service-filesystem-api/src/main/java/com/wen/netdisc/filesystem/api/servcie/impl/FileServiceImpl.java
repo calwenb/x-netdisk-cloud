@@ -6,8 +6,6 @@ import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
-import com.wen.netdisc.common.util.ResultVoUtil;
-import com.wen.netdisc.filesystem.api.dto.Chunk;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
@@ -19,6 +17,7 @@ import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
 import com.wen.netdisc.filesystem.api.vo.ChunkVo;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -61,7 +60,7 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public boolean uploadFile(MultipartFile file, int userId, String fatherFileFolderId) {
+    public boolean uploadFile(MultipartFile file, int userId, Integer faFolderId) {
         try {
             FileStore fileStore = storeMapper.queryStoreByUid(userId);
             if (fileStore == null) {
@@ -81,10 +80,10 @@ public class FileServiceImpl implements FileService {
             }
             String filePath;
             //Pid=0，保存到根文件夹,否则获取父文件夹的路径
-            if ("0".equals(fatherFileFolderId)) {
+            if (faFolderId == 0) {
                 filePath = FileUtil.STORE_ROOT_PATH + fileStoreId + "/";
             } else {
-                FileFolder fileFolder = folderMapper.queryFileFolderById(Integer.parseInt(fatherFileFolderId));
+                FileFolder fileFolder = folderMapper.queryFileFolderById(faFolderId);
                 String fileFolderPath = fileFolder.getFileFolderPath();
                 filePath = fileFolderPath + "/";
             }
@@ -115,7 +114,7 @@ public class FileServiceImpl implements FileService {
                 dest.getParentFile().mkdirs();
             }
             String type = FileUtil.getFileType(suffixName);
-            MyFile myFile = new MyFile(-1, fileName, fileStoreId, path, 0, new Date(), Integer.parseInt(fatherFileFolderId), size, type);
+            MyFile myFile = new MyFile(-1, fileName, fileStoreId, path, 0, new Date(), faFolderId, size, type);
             Integer i = fileMapper.addFile(myFile);
             if (i > 0) {
                 file.transferTo(dest);
@@ -136,98 +135,99 @@ public class FileServiceImpl implements FileService {
         return false;
     }
 
-    @Override
-    public ResultVO<ChunkVo> uploadBigFile(ChunkDto chunk) {
-        Integer storeId = chunk.getStoreId();
-        Integer faFolderId = chunk.getFaFolderId();
-        MultipartFile file = chunk.getFile();
 
-        if (file.isEmpty()) {
-            return ResultUtil.error("文件为空");
-        }
-        // 判断上传文件大小
-        if (!FileUtil.checkFileSize(file)) {
-            return ResultUtil.error("上传文件大于2GB ");
-        }
-        String path = "";
-        try {
-            //第一块
-            if (chunk.getNumber() == 1) {
-                // 获取文件名
-                String fileName = file.getOriginalFilename();
-                String suffixName;
-                if (fileName.lastIndexOf(".") == -1) {
-                    //文件没有后缀
-                    suffixName = "null";
-                } else {
-                    suffixName = fileName.substring(fileName.lastIndexOf("."));
-                }
-                String filePath;
-                //Pid=0，保存到根文件夹,否则获取父文件夹的路径
-                if (faFolderId == 0) {
-                    filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
-                } else {
-                    FileFolder fileFolder = folderMapper.queryFileFolderById(faFolderId);
-                    String folderPath = fileFolder.getFileFolderPath();
-                    filePath = folderPath + "/";
-                }
-
-                FolderUtil.autoFolder(filePath);
-                //如果有相同的文件名 加后缀
-                File[] broFiles = new File(filePath).listFiles();
-                assert broFiles != null;
-                for (File broFile : broFiles) {
-                    if (broFile.getName().equals(fileName)) {
-                        String pureName = broFile.getName().substring(0, fileName.lastIndexOf(suffixName));
-                        int len = pureName.length();
-                        if (pureName.charAt(len - 2) == '_') {
-                            int count = Integer.parseInt(pureName.substring(len - 1)) + 1;
-                            fileName = pureName.substring(0, pureName.lastIndexOf('_') + 1) + count + suffixName;
-                        } else {
-                            fileName = pureName + "_1" + suffixName;
-                        }
-                    }
-                }
-                FolderUtil.autoFolder(filePath);
-                //设置文件存储路径
-                path = filePath + fileName;
-                File dest = new File(path);
-                file.transferTo(dest);
-                ChunkVo vo = new ChunkVo();
-                BeanUtils.copyProperties(chunk, vo);
-
-                vo.setPath(path);
-                vo.setFilename(fileName);
-                return ResultUtil.success(vo);
-            }
-
-            File chunkFile = new File(chunk.getPath());
-            InputStream is = file.getInputStream();
-            RandomAccessFile raf = new RandomAccessFile(chunkFile, "rw");
-
-            int len;
-            byte[] buffer = new byte[1024];
-            raf.seek((chunk.getNumber() - 1) * 1024 * 1024 * 5);
-            while ((len = is.read(buffer)) != -1) {
-                raf.write(buffer, 0, len);
-            }
-            if (Objects.equals(chunk.getNumber(), chunk.getSum())) {
-                //保存
-                String type = FileUtil.getFileType(".java");
-                MyFile myFile = new MyFile(-1, chunk.getFilename(), storeId, chunk.getPath(), 0, new Date(), faFolderId, chunk.getSize(), type);
-                Integer i = fileMapper.addFile(myFile);
-            }
-            return null;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-
-        return ResultUtil.error("上传文件失败");
-    }
+//    @Override
+//    public ResultVO<ChunkVo> uploadBigFile(ChunkDto chunk) {
+//        Integer storeId = chunk.getStoreId();
+//        Integer faFolderId = chunk.getFaFolderId();
+//        MultipartFile file = chunk.getFile();
+//
+////        if (file.isEmpty()) {
+////            return ResultUtil.error("文件为空");
+////        }
+////        // 判断上传文件大小
+////        if (!FileUtil.checkFileSize(file)) {
+////            return ResultUtil.error("上传文件大于2GB ");
+////        }
+//        String path = "";
+//        try {
+//            //第一块
+//            if (chunk.getChunkNumber() == 1) {
+//                // 获取文件名
+//                String fileName = file.getOriginalFilename();
+//                String suffixName;
+//                if (fileName.lastIndexOf(".") == -1) {
+//                    //文件没有后缀
+//                    suffixName = "null";
+//                } else {
+//                    suffixName = fileName.substring(fileName.lastIndexOf("."));
+//                }
+//                String filePath;
+//                //Pid=0，保存到根文件夹,否则获取父文件夹的路径
+//                if (faFolderId == 0) {
+//                    filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
+//                } else {
+//                    FileFolder fileFolder = folderMapper.queryFileFolderById(faFolderId);
+//                    String folderPath = fileFolder.getFileFolderPath();
+//                    filePath = folderPath + "/";
+//                }
+//
+//                FolderUtil.autoFolder(filePath);
+//                //如果有相同的文件名 加后缀
+//                File[] broFiles = new File(filePath).listFiles();
+//                assert broFiles != null;
+//                for (File broFile : broFiles) {
+//                    if (broFile.getName().equals(fileName)) {
+//                        String pureName = broFile.getName().substring(0, fileName.lastIndexOf(suffixName));
+//                        int len = pureName.length();
+//                        if (pureName.charAt(len - 2) == '_') {
+//                            int count = Integer.parseInt(pureName.substring(len - 1)) + 1;
+//                            fileName = pureName.substring(0, pureName.lastIndexOf('_') + 1) + count + suffixName;
+//                        } else {
+//                            fileName = pureName + "_1" + suffixName;
+//                        }
+//                    }
+//                }
+//                FolderUtil.autoFolder(filePath);
+//                //设置文件存储路径
+//                path = filePath + fileName;
+//                File dest = new File(path);
+////              file.transferTo(dest);
+//                FileUtils.copyInputStreamToFile(file.getInputStream(), dest);
+//
+//                ChunkVo vo = new ChunkVo();
+//                BeanUtils.copyProperties(chunk, vo);
+////                vo.setType();
+//                vo.setPath(path);
+//                vo.setFilename(fileName);
+//                return ResultUtil.success(vo);
+//            }
+//
+//            File chunkFile = new File(chunk.getPath());
+//            InputStream is = file.getInputStream();
+//            RandomAccessFile raf = new RandomAccessFile(chunkFile, "rw");
+//
+//            int len;
+//            byte[] buffer = new byte[1024];
+//            raf.seek((long) (chunk.getChunkNumber() - 1) * 1024 * 1024 * 5);
+//            while ((len = is.read(buffer)) != -1) {
+//                raf.write(buffer, 0, len);
+//            }
+//            if (Objects.equals(chunk.getChunkNumber(), chunk.getTotalChunks())) {
+//                //保存
+//                String type = FileUtil.getFileType(".java");
+//                MyFile myFile = new MyFile(-1, chunk.getFilename(), storeId, chunk.getPath(), 0, new Date(), faFolderId, chunk.getTotalSize(), type);
+//                Integer i = fileMapper.addFile(myFile);
+//            }
+//            return null;
+//        } catch (IllegalStateException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return ResultUtil.error("上传文件失败");
+//    }
 
     @Override
     public List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum) {
@@ -323,10 +323,6 @@ public class FileServiceImpl implements FileService {
      * 通用下载方法
      * 通过文件路径 获得本地文件
      * 自定义响应 将文件流放入响应体中
-     *
-     * @param path
-     * @return
-     * @throws IOException
      */
     private ResponseEntity<InputStreamResource> download(String path) throws IOException {
         HttpHeaders headers = new HttpHeaders();

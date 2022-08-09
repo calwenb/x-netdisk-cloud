@@ -11,30 +11,28 @@ import java.io.Serializable;
 @Data
 public class ChunkDto implements Serializable {
 
-    Integer storeId;
-    Integer faFolderId;
     /**
      * 当前文件块，从1开始
      */
-    private Integer number;
+    private Integer chunkNumber;
     /**
      * 分块大小
      */
-    private Long size;
+    private Long chunkSize;
     /**
      * 当前分块大小
      */
-    private Long currentSize;
+    private Long currentChunkSize;
     /**
      * 总块数
      */
-    private Integer sum;
+    private Integer totalChunks;
     /**
      * 总大小
      */
     private Long totalSize;
     /**
-     * 文件标识
+     * 文件标识，即md5
      */
     private String identifier;
     /**
@@ -44,13 +42,25 @@ public class ChunkDto implements Serializable {
     /**
      * 相对路径
      */
-    private String path;
+    private String relativePath;
 
 
     /**
      * 二进制文件
      */
     private MultipartFile file;
+
+    private String path;
+
+    Integer storeId;
+
+    Integer faFolderId;
+    /**
+     * 文件类型
+     */
+    private String type;
+    private String md5;
+
 }
 
 

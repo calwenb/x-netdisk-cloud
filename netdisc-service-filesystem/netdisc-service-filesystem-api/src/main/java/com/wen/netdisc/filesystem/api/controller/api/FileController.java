@@ -10,6 +10,7 @@ import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
+import com.wen.netdisc.filesystem.api.servcie.ChunkService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
 import com.wen.netdisc.filesystem.api.vo.ChunkVo;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +38,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping
-    public ResultVO<List<MyFile>> queryFilesByType(@RequestParam("type") String type,
-                                                   @RequestParam("page") String page) {
+    public ResultVO<List<MyFile>> queryFilesByType(@RequestParam("type") String type, @RequestParam("page") String page) {
         Integer uid = UserUtil.getUid();
         List<MyFile> list = fileService.queryFilesByType(uid, type, Integer.parseInt(page));
         return ResultUtil.success(list);
@@ -52,7 +53,7 @@ public class FileController extends BaseController {
 
 
     @PostMapping("/upload")
-    public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("fid") String fid) {
+    public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("fid") Integer fid) {
 
         if (file.isEmpty()) {
             return ResultUtil.error("文件为空");
@@ -69,14 +70,28 @@ public class FileController extends BaseController {
         return ResultUtil.error("上传文件失败");
     }
 
+    @Resource
+    ChunkService chunkService;
+
     //大文件上传
     @PostMapping("/upload-big")
-    public ResultVO<ChunkVo> uploadBigFile(@RequestBody ChunkDto chunkDto) {
-        return fileService.uploadBigFile(chunkDto);
+    public ResultVO<ChunkVo> saveChunk(ChunkDto chunkDto) {
+        return chunkService.saveChunk(chunkDto);
+    }
+
+    @PostMapping("/upload-big/merge")
+    public ResultVO<ChunkVo> mergeChunk(@RequestBody ChunkDto chunkDto) {
+        return chunkService.merge(chunkDto);
+    }
+
+    @GetMapping("/upload-big")
+    public ResultVO<Integer> skipFile(ChunkDto chunkDto) {
+        return chunkService.skip(chunkDto);
     }
 
 
     @GetMapping("/file-folder")
+
     public ResultVO<List<Object>> queryFiles(@RequestParam("parentFolderId") Integer parentFolderId) {
         List<MyFile> myFiles;
         List<FileFolder> fileFolders;
