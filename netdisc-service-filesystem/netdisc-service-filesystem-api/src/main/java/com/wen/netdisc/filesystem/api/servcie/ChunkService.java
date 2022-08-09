@@ -4,7 +4,6 @@ import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.vo.ChunkVo;
 
-import java.io.IOException;
 
 /**
  * @author calwen
@@ -12,9 +11,24 @@ import java.io.IOException;
  * @since 2022/8/9
  */
 public interface ChunkService {
+    /**
+     * 保存片
+     *
+     * @param chunk
+     * @return
+     */
     ResultVO<ChunkVo> saveChunk(ChunkDto chunk);
 
+    /**
+     * 合并片，保存数据
+     */
     ResultVO<ChunkVo> merge(ChunkDto chunk);
 
-    ResultVO<Integer> skip(ChunkDto chunk) ;
+    /**
+     * 秒传，保存数据
+     *
+     * @param chunk
+     * @return
+     */
+    ResultVO<Integer> skip(ChunkDto chunk);
 }

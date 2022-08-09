@@ -79,6 +79,11 @@ public class FileController extends BaseController {
     @Resource
     ChunkService chunkService;
 
+    @GetMapping("/upload-big")
+    public ResultVO<Integer> skipFile(ChunkDto chunkDto) {
+        return chunkService.skip(chunkDto);
+    }
+
     //大文件上传
     @PostMapping("/upload-big")
     public ResultVO<ChunkVo> saveChunk(ChunkDto chunkDto) {
@@ -89,12 +94,6 @@ public class FileController extends BaseController {
     public ResultVO<ChunkVo> mergeChunk(@RequestBody ChunkDto chunkDto) {
         return chunkService.merge(chunkDto);
     }
-
-    @GetMapping("/upload-big")
-    public ResultVO<Integer> skipFile(ChunkDto chunkDto) {
-        return chunkService.skip(chunkDto);
-    }
-
 
     @GetMapping("/file-folder")
 

@@ -8,7 +8,9 @@ import lombok.Getter;
 public enum RedisEnum {
     TOKEN_PREFIX("token:"),
 
-    TRASH_PREFIX("trash:");
+    TRASH_PREFIX("trash:"),
+
+    CHUNK_PREFIX("chunk:");
 
     private String property;
 }
