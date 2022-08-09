@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -271,6 +273,18 @@ public class FileServiceImpl implements FileService {
             showRow = Integer.MAX_VALUE;
         }
         return fileMapper.queryFilesByType(uid, FileUtil.getTypeChinese(type), startRow, showRow);
+    }
+
+    @Override
+    public boolean updateData(MultipartFile file, Integer id) {
+        MyFile myFile = fileMapper.queryFileById(id);
+        String path = myFile.getMyFilePath();
+        try {
+            Files.write(Paths.get(path), file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
     public List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException {

@@ -65,4 +65,7 @@ public interface FileService {
     boolean uploadFileComm(MultipartFile file, String path);
 
     List<MyFile> queryFilesByType(Integer uid, String type, int pageNum);
+
+    boolean updateData(MultipartFile file, Integer id);
+
 }

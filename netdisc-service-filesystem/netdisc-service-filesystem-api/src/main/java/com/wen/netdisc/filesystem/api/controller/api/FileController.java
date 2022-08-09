@@ -44,6 +44,12 @@ public class FileController extends BaseController {
         return ResultUtil.success(list);
     }
 
+    @PutMapping("/data")
+    public ResultVO<String> updateData(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id) {
+        fileService.updateData(file, id);
+        return ResultUtil.successDo();
+    }
+
 
     @GetMapping("/data/p/{page}")
     public ResultVO<List<Map<String, String>>> queryFilesData(@PathVariable String page) throws IOException {
@@ -53,7 +59,7 @@ public class FileController extends BaseController {
 
 
     @PostMapping("/upload")
-    public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("fid") Integer fid) {
+    public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId) {
 
         if (file.isEmpty()) {
             return ResultUtil.error("文件为空");
@@ -64,7 +70,7 @@ public class FileController extends BaseController {
         }
 
         Integer uid = UserUtil.getUid();
-        if (fileService.uploadFile(file, uid, fid)) {
+        if (fileService.uploadFile(file, uid, folderId)) {
             return ResultUtil.successDo(file.getOriginalFilename() + " 上传文件成功");
         }
         return ResultUtil.error("上传文件失败");
