@@ -22,8 +22,8 @@ public interface FolderMapper {
 
     int addFileFolder(FileFolder fileFolder);
 
-    @Cacheable(key = "'fdid:'+#p0")
-    FileFolder queryFileFolderById(int fileFolderId);
+    @Cacheable(key = "'fdid:'+#p0", unless = "#result == null")
+    FileFolder queryFolderById(int fileFolderId);
 
     List<FileFolder> queryFoldersByPId(int storeId, int parentFolderId);
 

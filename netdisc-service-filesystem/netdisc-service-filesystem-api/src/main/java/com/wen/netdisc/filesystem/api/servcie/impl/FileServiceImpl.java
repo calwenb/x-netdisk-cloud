@@ -85,7 +85,7 @@ public class FileServiceImpl implements FileService {
             if (faFolderId == 0) {
                 filePath = FileUtil.STORE_ROOT_PATH + fileStoreId + "/";
             } else {
-                FileFolder fileFolder = folderMapper.queryFileFolderById(faFolderId);
+                FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
                 String fileFolderPath = fileFolder.getFileFolderPath();
                 filePath = fileFolderPath + "/";
             }
@@ -169,7 +169,7 @@ public class FileServiceImpl implements FileService {
 //                if (faFolderId == 0) {
 //                    filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
 //                } else {
-//                    FileFolder fileFolder = folderMapper.queryFileFolderById(faFolderId);
+//                    FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
 //                    String folderPath = fileFolder.getFileFolderPath();
 //                    filePath = folderPath + "/";
 //                }

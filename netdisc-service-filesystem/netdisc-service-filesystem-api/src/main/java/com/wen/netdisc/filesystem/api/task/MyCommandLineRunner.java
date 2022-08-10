@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class MyCommandLineRunner implements CommandLineRunner {
-    private static final String CHUNK_PATH = "D:/project-support/x-netdisk/temp/chunk";
-    private static final String BACKUP_PATH = "D:/project-support/x-netdisk/temp/backup";
+    private static final String CHUNK_PATH = "temp/chunk";
+    private static final String BACKUP_PATH = "temp/backup";
+
+    private static final String STORE_PATH = "store";
+    private static final String HEAD_PATH = "head";
 
     @Override
     public void run(String... args) {
@@ -19,13 +22,14 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
     private void initFolder() {
         String rootPath = FileUtil.getRootPath();
-        if (FolderUtil.autoFolder(rootPath + "store")) {
+        if (FolderUtil.autoFolder(rootPath + STORE_PATH)) {
             log.info("项目 仓库 文件夹 初始化完成");
         }
-        if (FolderUtil.autoFolder(rootPath + "head")) {
+        if (FolderUtil.autoFolder(rootPath + HEAD_PATH)) {
             log.info("项目 头像 文件夹 初始化完成");
         }
-        if (FolderUtil.autoFolder(CHUNK_PATH) && FolderUtil.autoFolder(BACKUP_PATH)) {
+        if (FolderUtil.autoFolder(rootPath + CHUNK_PATH)
+                && FolderUtil.autoFolder(rootPath + BACKUP_PATH)) {
             log.info("项目 临时文件 文件夹 初始化完成");
         }
     }

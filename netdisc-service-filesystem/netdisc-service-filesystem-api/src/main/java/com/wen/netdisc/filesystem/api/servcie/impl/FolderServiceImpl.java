@@ -1,7 +1,9 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
 import com.wen.baseorm.core.mapper.BaseMapper;
+import com.wen.baseorm.core.wrapper.AbstractWrapper;
 import com.wen.baseorm.core.wrapper.QueryWrapper;
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
@@ -12,6 +14,7 @@ import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
 import com.wen.netdisc.filesystem.api.servcie.FolderService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
+import com.wen.netdisc.filesystem.api.util.UserUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +59,7 @@ public class FolderServiceImpl implements FolderService {
                 if (pid == 0) {
                     break;
                 }
-                pff = folderMapper.queryFileFolderById(pid);
+                pff = folderMapper.queryFolderById(pid);
             }
             while (!stack.isEmpty()) {
                 path.append("/").append(stack.pop());
@@ -84,8 +87,12 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public boolean delFolder(int folderId) {
-        FileFolder folder = folderMapper.queryFileFolderById(folderId);
+    public boolean delFolder(int id) {
+        FileFolder folder = folderMapper.queryFolderById(id);
+        if (folder == null) {
+            throw new FailException("文件不存在");
+        }
+        del(storeMapper.queryStoreByUid(UserUtil.getUid()).getFileStoreId(), id);
         File delFolder = new File(folder.getFileFolderPath());
         try {
             FileUtils.deleteDirectory(delFolder);
@@ -93,12 +100,29 @@ public class FolderServiceImpl implements FolderService {
             e.printStackTrace();
             return false;
         }
-        return folderMapper.delFolderById(folderId) > 0;
+        return true;
+    }
+
+    /**
+     * 数据库中删除文件夹、文件
+     * dfs
+     */
+    private void del(Integer sid, Integer id) {
+        folderMapper.delFolderById(id);
+        baseMapper.deleteTarget(MyFile.class, new QueryWrapper().eq("parent_folder_id", id));
+        List<FileFolder> childs = folderMapper.queryFoldersByPId(sid, id);
+        if (childs == null || childs.isEmpty()) {
+            return;
+        }
+        for (FileFolder child : childs) {
+            del(sid, child.getFileFolderId());
+        }
+
     }
 
     @Override
     public boolean updateFolderName(int folderId, String newName) {
-        FileFolder folder = folderMapper.queryFileFolderById(folderId);
+        FileFolder folder = folderMapper.queryFolderById(folderId);
         folder.setFileFolderName(newName);
         String oldPath = folder.getFileFolderPath();
         String path = oldPath.substring(0, oldPath.lastIndexOf('/') + 1) + newName;

@@ -48,7 +48,7 @@
         where file_folder_id = #{fileFolderId};
     </update>
 
-    <select id="queryFileFolderById" resultMap="FileFolderMap">
+    <select id="queryFolderById" resultMap="FileFolderMap">
         select *
         from file_folder
         <where>

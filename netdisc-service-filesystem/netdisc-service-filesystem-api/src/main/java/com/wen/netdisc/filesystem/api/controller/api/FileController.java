@@ -45,7 +45,7 @@ public class FileController extends BaseController {
     }
 
     @PutMapping("/data")
-    public ResultVO<String> updateData(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id) {
+    public ResultVO<String> updateData(@RequestParam("data") MultipartFile file, @RequestParam("id") Integer id) {
         fileService.updateData(file, id);
         return ResultUtil.successDo();
     }

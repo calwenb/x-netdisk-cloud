@@ -2,6 +2,7 @@ package com.wen.netdisc.filesystem.api.servcie.impl;
 
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.enums.RedisEnum;
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.servcie.ChunkService;
@@ -31,9 +32,9 @@ import java.nio.file.StandardOpenOption;
  */
 @Service
 public class ChunkServiceImpl implements ChunkService {
-    private static final String CHUNK_PATH = FileUtil.ROOT_PATH + "/temp/chunk";
-    private static final String BACKUP_PATH = FileUtil.ROOT_PATH + "/temp/backup";
-    private static final String REDIS_PREFIX = RedisEnum.CHUNK_PREFIX.getProperty();
+    private final String CHUNK_PATH = "temp/chunk";
+    private final String BACKUP_PATH = "temp/backup";
+    private final String REDIS_PREFIX = RedisEnum.CHUNK_PREFIX.getProperty();
     @Resource
     FileService fileService;
     @Resource
@@ -53,32 +54,37 @@ public class ChunkServiceImpl implements ChunkService {
     @Override
     public ResultVO<ChunkVo> merge(ChunkDto chunk) {
         //创建合并后的文件
-        String mergePath = BACKUP_PATH + "/" + chunk.getFilename();
+        String mergePath = FileUtil.ROOT_PATH + BACKUP_PATH + "/" + chunk.getFilename();
+        String chunkPath = FileUtil.ROOT_PATH + CHUNK_PATH;
         try {
             new File(mergePath).createNewFile();
-            Files.list(Paths.get(CHUNK_PATH + "/" + chunk.getIdentifier())).filter(p -> p.getFileName().toString().contains(chunk.getIdentifier() + "_")).sorted((o1, o2) -> {
-                String f1 = o1.getFileName().toString();
-                String f2 = o2.getFileName().toString();
-                String n1 = f1.substring(f1.lastIndexOf("_") + 1);
-                String n2 = f2.substring(f2.lastIndexOf("_") + 1);
-                return Integer.valueOf(n1).compareTo(Integer.valueOf(n2));
-            }).forEach((path -> {
-                try {
-                    Files.write(Paths.get(mergePath), Files.readAllBytes(path), StandardOpenOption.APPEND);
-                    Files.delete(path);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }));
-            Files.delete(Paths.get(CHUNK_PATH + "/" + chunk.getIdentifier()));
+            Files.list(Paths.get(chunkPath + "/" + chunk.getIdentifier()))
+                    .filter(p -> p.getFileName().toString().contains(chunk.getIdentifier() + "_"))
+                    .sorted((o1, o2) -> {
+                        String f1 = o1.getFileName().toString();
+                        String f2 = o2.getFileName().toString();
+                        String n1 = f1.substring(f1.lastIndexOf("_") + 1);
+                        String n2 = f2.substring(f2.lastIndexOf("_") + 1);
+                        return Integer.valueOf(n1).compareTo(Integer.valueOf(n2));
+                    }).forEach((path -> {
+                        try {
+                            Files.write(Paths.get(mergePath), Files.readAllBytes(path), StandardOpenOption.APPEND);
+                            Files.delete(path);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }));
+            Files.delete(Paths.get(chunkPath + "/" + chunk.getIdentifier()));
             //照常走上传文件逻辑
-            MultipartFile multipartFile = new MockMultipartFile(chunk.getFilename(), chunk.getFilename(), ContentType.APPLICATION_OCTET_STREAM.toString(), Files.newInputStream(Paths.get(mergePath)));
+            MultipartFile multipartFile = new MockMultipartFile(chunk.getFilename(), chunk.getFilename(),
+                    ContentType.APPLICATION_OCTET_STREAM.toString(), Files.newInputStream(Paths.get(mergePath)));
             fileService.uploadFile(multipartFile, UserUtil.getUid(), chunk.getFaFolderId());
             //保存路径,秒传
             redisTemplate.opsForValue().set(REDIS_PREFIX + chunk.getIdentifier(), mergePath);
 //            redisTemplate.opsForValue().set(REDIS_PREFIX + chunk.getMd5(), mergePath, 1, TimeUnit.DAYS);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new FailException("合并文件失败");
         }
         return ResultUtil.successDo();
     }
@@ -95,7 +101,8 @@ public class ChunkServiceImpl implements ChunkService {
         }
         try {
             //照常走上传文件逻辑
-            MultipartFile multipartFile = new MockMultipartFile(chunk.getRelativePath(), chunk.getRelativePath(), ContentType.APPLICATION_OCTET_STREAM.toString(), Files.newInputStream(path));
+            MultipartFile multipartFile = new MockMultipartFile(chunk.getRelativePath(), chunk.getRelativePath()
+                    , ContentType.APPLICATION_OCTET_STREAM.toString(), Files.newInputStream(path));
             fileService.uploadFile(multipartFile, UserUtil.getUid(), chunk.getFaFolderId());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -104,7 +111,7 @@ public class ChunkServiceImpl implements ChunkService {
     }
 
     private String generatePath(ChunkDto chunk) {
-        String folder = CHUNK_PATH + "/" + chunk.getIdentifier();
+        String folder = FileUtil.ROOT_PATH + CHUNK_PATH + "/" + chunk.getIdentifier();
         FolderUtil.autoFolder(folder);
         return folder + "/" + chunk.getIdentifier() + "_" + chunk.getChunkNumber();
     }
