@@ -1,12 +1,9 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
-import com.wen.netdisc.common.util.ResultUtil;
-import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
@@ -16,9 +13,6 @@ import com.wen.netdisc.filesystem.api.servcie.TrashService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
-import com.wen.netdisc.filesystem.api.vo.ChunkVo;
-import org.apache.commons.io.FileUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
@@ -36,12 +30,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -426,17 +419,51 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<String> clearBadFile() {
-        ArrayList<String> list = new ArrayList<>();
-        List<MyFile> fileList = fileMapper.queryAllFiles();
-        for (MyFile file : fileList) {
+    public Map<String, Integer> clearBadFile() {
+        HashMap<String, Integer> map = new HashMap<>();
+        List<MyFile> files = fileMapper.queryAllFiles();
+        int sum = 0;
+        for (MyFile file : files) {
             String filePath = file.getMyFilePath();
             if (!new File(filePath).exists()) {
                 fileMapper.deleteByMyFileId(file.getMyFileId());
-                list.add(filePath);
+                sum++;
             }
         }
-        return list;
+        map.put("db文件数：", sum);
+        File store = new File(FileUtil.STORE_ROOT_PATH);
+        Set<String> validPath = files.stream().collect(Collectors.groupingBy((f) -> f.getMyFilePath().replace('/', '\\'))).keySet();
+        delBadFile(validPath, store);
+
+        sum = 0;
+        List<FileFolder> folders = folderMapper.queryFolders();
+        for (FileFolder folder : folders) {
+            if (!Files.exists(Paths.get(folder.getFileFolderPath()))) {
+                folderMapper.delFolderById(folder.getFileFolderId());
+                sum++;
+            }
+        }
+        map.put("db文件夹数：", sum);
+        return map;
+    }
+
+    private void delBadFile(Set<String> validPath, File file) {
+        File[] list = file.listFiles();
+        if (list == null || list.length == 0) {
+            return;
+        }
+        for (File f : list) {
+            if (f.isDirectory()) {
+                delBadFile(validPath, f);
+            }
+            if (f.isFile()) {
+                if (!validPath.contains(f.getPath())) {
+                    f.delete();
+                }
+            }
+
+        }
+
     }
 
     @Override

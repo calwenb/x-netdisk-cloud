@@ -1,9 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
-import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.pojo.MyFile;
-import com.wen.netdisc.filesystem.api.dto.ChunkDto;
-import com.wen.netdisc.filesystem.api.vo.ChunkVo;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +57,7 @@ public interface FileService {
      */
     MyFile getShareFile(String shareCode);
 
-    List<String> clearBadFile();
+    Map<String, Integer> clearBadFile();
 
     boolean uploadFileComm(MultipartFile file, String path);
 
