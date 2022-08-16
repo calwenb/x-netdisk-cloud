@@ -20,7 +20,6 @@ import java.util.Date;
 public class User implements Serializable {
     // @IdField(idType = IdTypeEnum.AUTO)
     private Integer id;
-
     private String userName;
     private String loginName;
     private String passWord;

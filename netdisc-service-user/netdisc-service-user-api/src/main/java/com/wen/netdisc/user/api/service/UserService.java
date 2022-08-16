@@ -1,6 +1,7 @@
 package com.wen.netdisc.user.api.service;
 
 import com.wen.netdisc.common.pojo.User;
+import com.wen.netdisc.user.api.dto.UserDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -51,17 +52,17 @@ public interface UserService {
      * @param user
      * @return 修改状态
      */
-    int updateUser(User user);
+    int updateUser(UserDto dto);
 
+    void upPassword(UserDto userDto);
 
     /**
      * 登录
      *
-     * @param loginName
-     * @param pwd
+
      * @return
      */
-    String login(String loginName, String pwd, boolean remember);
+    String login(UserDto dto);
 
     /**
      * 注册业务
@@ -69,7 +70,7 @@ public interface UserService {
      *
      * @param user
      */
-    String register(User user);
+    String register(UserDto userDto);
 
     /**
      * 通过Id获得user信息

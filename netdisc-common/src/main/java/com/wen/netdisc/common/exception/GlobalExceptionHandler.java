@@ -3,6 +3,7 @@ package com.wen.netdisc.common.exception;
 import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.util.ResultUtil;
+import feign.FeignException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,19 +34,18 @@ public class GlobalExceptionHandler {
         return ResultUtil.badRequest(e.getMessage());
     }
 
-    @ExceptionHandler(RpcException.class)
+    @ExceptionHandler({RpcException.class, FeignException.class})
     public ResultVO<String> rpcException(Exception e) {
         LoggerUtil.error("\n [rpc调用错误]：===> " + e, GlobalExceptionHandler.class);
         e.printStackTrace();
-        return ResultUtil.exception("发生了一些错误，错误信息: " + e.getMessage());
+        return ResultUtil.exception("rpc调用错误");
     }
 
-    //TODO 修改统一响应体
-    @ExceptionHandler(Exception.class)
-    public ResultVO<String> exception(Exception e) {
+    @ExceptionHandler({RuntimeException.class, Exception.class, Throwable.class})
+    public ResultVO<String> RuntimeException(Exception e) {
         LoggerUtil.error("\n [发生异常]：===> " + e, GlobalExceptionHandler.class);
         e.printStackTrace();
-        return ResultUtil.exception("发生了一些错误，错误信息 ");
+        return ResultUtil.exception(e.getMessage());
     }
 
 

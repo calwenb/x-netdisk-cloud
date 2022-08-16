@@ -75,9 +75,8 @@
     </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
-        insert into user(user_name, login_name, pass_word, user_type, phone_number, email, avatar, register_time)
-        values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar},
-                #{registerTime})
+        insert into user(user_name, login_name, pass_word, user_type, phone_number, email, avatar)
+        values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar})
     </insert>
 
 

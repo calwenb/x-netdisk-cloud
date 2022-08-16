@@ -38,7 +38,7 @@ public class FileUtil {
 
     static {
         String textType = ".txt .doc .docx .xls .xlsx .csv .PPTX .md";
-        String codeType = ".c .cpp .java .py .sql .html .js .css .vue .json .xml .yml .jsp";
+        String codeType = ".c .cpp .java .py .go .sql .html .js .css .vue .json .xml .yml .jsp";
         String pictureType = ".bmp .gif .jpg .pic .png .tif .pdf .PNG";
         String compressionType = ".rar .zip";
         String soundType = ".wav .mp3";

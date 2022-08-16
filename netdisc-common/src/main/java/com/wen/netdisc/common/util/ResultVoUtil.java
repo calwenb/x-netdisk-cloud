@@ -7,6 +7,14 @@ import com.wen.netdisc.common.exception.RpcException;
 
 import java.util.Objects;
 
+/**
+ * 已有全局prc调用失败AOP
+ * 不必使用
+ *
+ * @author calwen
+ * @since 2022/8/15
+ */
+@Deprecated
 public class ResultVoUtil {
     public static <T> void isSuccess(ResultVO<T> resultVO) {
         Integer successCode = BaseResultEnum.SUCCESS.getCode();

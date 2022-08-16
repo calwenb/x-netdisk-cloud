@@ -348,7 +348,6 @@ public class BaseMapperImpl implements BaseMapper {
                     return Arrays.asList(selectFields).contains(sqlField);
                 }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 sql.append(wrapper.getSelectField());
-                System.out.println(resultMap);
             } else {
                 sql.append(" * ");
             }

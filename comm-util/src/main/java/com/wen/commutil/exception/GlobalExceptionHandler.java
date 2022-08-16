@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler {
 
-    //TODO 修改统一响应体
     @ExceptionHandler(Exception.class)
     public ResultVO<String> exception(Exception e, HttpServletRequest request) {
         e.printStackTrace();

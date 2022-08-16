@@ -58,9 +58,6 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.wen.common.pojo
 
-base-orm:
-  config:
-    logger: true
 #激活sentinel对 Feign支持
 feign:
   sentinel:

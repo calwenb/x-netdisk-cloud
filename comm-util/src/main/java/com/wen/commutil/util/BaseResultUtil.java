@@ -40,7 +40,7 @@ public class BaseResultUtil {
 
 
     public static <T> ResultVO<T> exception() {
-        return buildErrorVO(BaseResultEnum.EXCEPTION.getCode(), BaseResultEnum.EXCEPTION.getMessage() + "未知异常");
+        return buildErrorVO(BaseResultEnum.EXCEPTION.getCode(), BaseResultEnum.EXCEPTION.getMessage());
     }
 
     public static <T> ResultVO<T> exception(String msg) {

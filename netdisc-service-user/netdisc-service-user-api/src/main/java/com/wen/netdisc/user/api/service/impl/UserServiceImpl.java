@@ -5,12 +5,14 @@ import com.wen.baseorm.core.wrapper.QueryWrapper;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
-import com.wen.netdisc.common.util.ResultVoUtil;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
+import com.wen.netdisc.user.api.dto.UserDto;
 import com.wen.netdisc.user.api.mapper.UserMapper;
 import com.wen.netdisc.user.api.service.MailService;
 import com.wen.netdisc.user.api.service.UserService;
+import com.wen.netdisc.user.api.util.UserUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -138,57 +137,69 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改全部用户
-     *
-     * @param user
-     * @return 修改状态
      */
     @Override
-    public int updateUser(User user) {
+    public int updateUser(UserDto dto) {
+        User user = new User();
+        BeanUtils.copyProperties(dto, user);
         return userMapper.updateUser(user);
     }
 
+    @Override
+    public void upPassword(UserDto dto) {
+        Integer uid = UserUtil.getUid();
+        User user = userMapper.getUserById(uid);
+        if (!Objects.equals(dto.getPassWord(), user.getPassWord())) {
+            throw new FailException("密码不正确");
+        }
+        user.setPassWord(dto.getNewPassWord());
+        userMapper.updateUser(user);
+    }
+
+
     /**
      * 登录
-     *
-     * @param loginName
-     * @param pwd
-     * @return
      */
     @Override
-    public String login(String loginName, String pwd, boolean remember) {
-        User user = userMapper.login(loginName, pwd);
+    public String login(UserDto dto) {
+        User user = userMapper.login(dto.getLoginName(), dto.getPassWord());
         if (user == null) {
             throw new FailException("账号密码错误或未注册");
         }
         ResultVO<String> resultVO;
         //记住密码给30天，否则12小时
-        if (remember) {
+        if (Boolean.TRUE.equals(dto.getRemember())) {
             resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 30 * 24);
         } else {
-            ResultVO<String> vo = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
-            resultVO = vo;
+            resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
         }
-        ResultVoUtil.isSuccess(resultVO);
         return resultVO.getData();
     }
 
     @Override
-    public String register(User user) {
+    public String register(UserDto dto) {
+        if (userMapper.getUserByLName(dto.getLoginName()) != null) {
+            throw new FailException("注册失败，账号已存在");
+        }
+        User user = new User();
+        BeanUtils.copyProperties(dto, user);
+        user.setUserType(2);
+        user.setAvatar("/#");
         try {
-            userMapper.addUser(user);
+            if (userMapper.addUser(user) == 0) {
+                throw new FailException("注册失败");
+            }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
-            throw new FailException("注册失败，账号已存在");
+            throw new FailException("注册失败");
         }
         if (!filesystemClient.initStore(user.getId()).getData()) {
             //回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new FailException("初始化用户仓库失败");
         }
-
         ResultVO<String> resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
-        ResultVoUtil.isSuccess(resultVO);
         return resultVO.getData();
     }
 

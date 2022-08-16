@@ -57,9 +57,6 @@ public class FolderUtil {
                 nodeMap.put(folder.getParentFolderId(), childNode);
             }
         }
-
-        System.out.println(root);
-        System.out.println(nodeMap);
         dfs(root, nodeMap);
         return root;
     }

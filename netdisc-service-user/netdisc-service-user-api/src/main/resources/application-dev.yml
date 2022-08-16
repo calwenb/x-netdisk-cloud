@@ -46,6 +46,12 @@ spring:
   main:
     allow-circular-references: true
     allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      # 设置单个文件大小
+      max-file-size: 10MB
+      # 设置单次请求文件的总大小
+      max-request-size: 10MB
 
   redis:
     host: 101.43.95.238
@@ -67,7 +73,8 @@ spring:
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.wen.netdisc.common.pojo
-
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #激活sentinel对 Feign支持
 feign:
   sentinel:

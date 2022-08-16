@@ -1,8 +1,6 @@
 package com.wen.netdisc.filesystem.api.vo;
 
-import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author calwen
