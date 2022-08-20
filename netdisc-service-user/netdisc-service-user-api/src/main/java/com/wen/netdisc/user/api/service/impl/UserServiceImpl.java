@@ -1,7 +1,5 @@
 package com.wen.netdisc.user.api.service.impl;
 
-import com.wen.baseorm.core.mapper.BaseMapper;
-import com.wen.baseorm.core.wrapper.QueryWrapper;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
@@ -12,6 +10,8 @@ import com.wen.netdisc.user.api.mapper.UserMapper;
 import com.wen.netdisc.user.api.service.MailService;
 import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
+import com.wen.releasedao.core.mapper.BaseMapper;
+import com.wen.releasedao.core.wrapper.QueryWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

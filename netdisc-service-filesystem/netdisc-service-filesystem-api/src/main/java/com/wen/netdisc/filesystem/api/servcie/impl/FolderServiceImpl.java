@@ -1,8 +1,5 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.baseorm.core.mapper.BaseMapper;
-import com.wen.baseorm.core.wrapper.AbstractWrapper;
-import com.wen.baseorm.core.wrapper.QueryWrapper;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
@@ -15,6 +12,8 @@ import com.wen.netdisc.filesystem.api.servcie.FolderService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
+import com.wen.releasedao.core.mapper.BaseMapper;
+import com.wen.releasedao.core.wrapper.QueryWrapper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

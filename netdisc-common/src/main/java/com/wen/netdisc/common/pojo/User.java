@@ -1,6 +1,6 @@
 package com.wen.netdisc.common.pojo;
 
-import com.wen.baseorm.core.annotation.TableName;
+import com.wen.releasedao.core.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

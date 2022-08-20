@@ -16,6 +16,19 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
+        <!--calwen 依赖-->
+        <!-- https://mvnrepository.com/artifact/io.github.calwenb/releasedao-spring-boot-starter -->
+        <dependency>
+            <groupId>io.github.calwenb</groupId>
+            <artifactId>releasedao-spring-boot-starter</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.wen</groupId>
+            <artifactId>comm-util</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
 
         <!-- spring-boot -->
@@ -132,20 +145,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
-
-        <!--calwen 依赖-->
-        <dependency>
-            <groupId>com.wen.baseorm</groupId>
-            <artifactId>baseorm-spring-boot-starter</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.wen</groupId>
-            <artifactId>comm-util</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-
 
     </dependencies>
 </project>

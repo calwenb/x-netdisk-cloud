@@ -1,10 +1,10 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.baseorm.core.mapper.BaseMapper;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
+import com.wen.releasedao.core.mapper.BaseMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
