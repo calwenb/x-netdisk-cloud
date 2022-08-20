@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
- * @Author Administrator
- * @create 2022/7/18 17:07
+ * 统一返回体
+ *
+ * @author calwen
+ * @since 2022/8/18
  */
 @Data
 @Builder

@@ -1,6 +1,5 @@
 package com.wen.baseorm.core.wrapper;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.wen.baseorm.core.enums.OperatEnum;
 
 import java.util.*;
@@ -13,11 +12,11 @@ import java.util.*;
  * @since 2022/7/9
  */
 public class QueryWrapper extends AbstractWrapper implements Wrapper {
-    private static HashSet<OperatEnum> needWhereSet;
-    private String SelectField;
+    private static final HashSet<OperatEnum> needWhereSet;
+    private String selectField;
 
     public String getSelectField() {
-        return SelectField;
+        return selectField;
     }
 
     static {
@@ -256,7 +255,7 @@ public class QueryWrapper extends AbstractWrapper implements Wrapper {
 
 
     public QueryWrapper select(String SelectField) {
-        this.SelectField = SelectField;
+        this.selectField = SelectField;
         return this;
     }
 
