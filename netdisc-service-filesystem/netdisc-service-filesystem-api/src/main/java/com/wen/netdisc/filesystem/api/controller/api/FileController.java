@@ -2,6 +2,7 @@ package com.wen.netdisc.filesystem.api.controller.api;
 
 
 import com.alibaba.fastjson2.JSON;
+import com.mysql.cj.util.StringUtils;
 import com.wen.commutil.annotation.PassAuth;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
@@ -154,6 +155,20 @@ public class FileController extends BaseController {
         }
     }
 
+    @PassAuth
+    @GetMapping("/share/{code}")
+    public ResultVO<MyFile> getShareFile(@PathVariable String code) {
+        if (StringUtils.isNullOrEmpty(code)) {
+            return ResultUtil.error("code不能为空");
+        }
+        MyFile file = fileService.getShareFile(code);
+        if (file == null) {
+            return ResultUtil.error("分享的文件不存在或过期!");
+        }
+
+        return ResultUtil.success(file);
+    }
+
     @PostMapping("/share/{id}")
     public ResultVO<String> shareFile(@PathVariable Integer id) {
         String shareCode = fileService.shareFile(id);
@@ -163,15 +178,5 @@ public class FileController extends BaseController {
         return ResultUtil.success(shareCode);
     }
 
-    @PassAuth
-    @GetMapping("/share/{code}")
-    public ResultVO<MyFile> getShareFile(@PathVariable String code) {
-        MyFile file = fileService.getShareFile(code);
-        if (file == null) {
-            return ResultUtil.error("分享的文件不存在或过期!");
-        }
-
-        return ResultUtil.success(file);
-    }
 
 }
