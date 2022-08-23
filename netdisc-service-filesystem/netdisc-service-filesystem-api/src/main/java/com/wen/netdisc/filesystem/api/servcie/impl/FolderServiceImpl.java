@@ -136,7 +136,11 @@ public class FolderServiceImpl implements FolderService {
         if (Files.exists(Paths.get(oldPath)) && !Files.exists(Paths.get(path))) {
             //修改文件夹名 成功更新数据库文件的路径
             if (new File(oldPath).renameTo(new File(path))) {
-                int userId = storeMapper.queryStoreById(folder.getFileStoreId()).getUserId();
+                FileStore store = baseMapper.getById(FileStore.class, folder.getFileStoreId());
+                if (store==null){
+                    throw new FailException("获取仓库信息失败");
+                }
+                int userId = store.getUserId();
                 List<MyFile> fileList = fileMapper.queryMyFiles(userId, folderId, 0, 9999);
                 for (MyFile file : fileList) {
                     file.setMyFilePath(path + '/' + file.getMyFileName());

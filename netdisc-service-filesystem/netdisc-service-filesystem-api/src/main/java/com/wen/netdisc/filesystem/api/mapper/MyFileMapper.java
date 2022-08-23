@@ -2,9 +2,6 @@ package com.wen.netdisc.filesystem.api.mapper;
 
 import com.wen.netdisc.common.pojo.MyFile;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +13,6 @@ import java.util.List;
  */
 @Mapper
 @Repository
-@CacheConfig(cacheNames = "file")
 public interface MyFileMapper {
     List<MyFile> queryAllFiles();
 
@@ -37,7 +33,6 @@ public interface MyFileMapper {
      * @param myFileId
      * @return
      */
-    @Cacheable(key = "'fid:'+#p0")
     MyFile queryFileById(int myFileId);
 
     /**
@@ -47,7 +42,6 @@ public interface MyFileMapper {
      * @param myFileId
      * @return 修改行数
      */
-    @CacheEvict(key = "'fid:'+#p0")
     Integer deleteByMyFileId(int myFileId);
 
     /**
@@ -57,6 +51,5 @@ public interface MyFileMapper {
      * @param myFile
      * @return 修改行数
      */
-    @CacheEvict(key = "'fid:'+#p0.myFileId")
     Integer updateByFileId(MyFile myFile);
 }

@@ -10,10 +10,6 @@ import lombok.Data;
 @Data
 public class FolderSaveDto {
     /**
-     * 文件夹ID
-     */
-    private int fileFolderId;
-    /**
      * 文件夹名称
      */
     private String fileFolderName;
@@ -21,12 +17,5 @@ public class FolderSaveDto {
      * 父文件夹ID
      */
     private int parentFolderId;
-    /**
-     * 所属文件仓库ID
-     */
-    private int fileStoreId;
-    /**
-     * 文件夹路径
-     */
-    private String fileFolderPath;
+
 }
