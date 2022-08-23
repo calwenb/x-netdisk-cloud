@@ -162,7 +162,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(UserDto dto) {
-        User user = userMapper.login(dto.getLoginName(), dto.getPassWord());
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", dto.getLoginName())
+                .eq("pass_word", dto.getPassWord());
+        User user = baseMapper.selectTarget(User.class, wrapper);
         if (user == null) {
             throw new FailException("账号密码错误或未注册");
         }
@@ -252,8 +255,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         user.setPassWord(password);
-
-        return userMapper.updatepwd(user) > 0;
+        return baseMapper.replaceTarget(user) > 0;
     }
 
     @Override
@@ -287,11 +289,6 @@ public class UserServiceImpl implements UserService {
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         return false;
     }*/
-
-    /**
-     * @param uid
-     * @return
-     */
     @Override
     public boolean applyUpLevel(Integer uid) {
         User user = userMapper.getUserById(uid);

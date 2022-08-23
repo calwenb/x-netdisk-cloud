@@ -16,16 +16,6 @@
         <result property="registerTime" column="register_time"/>
     </resultMap>
 
-    <select id="queryUsers" resultMap="UserMap">
-        select *
-        from user;
-    </select>
-
-    <update id="updatepwd">
-        update user
-        set pass_word=#{passWord}
-        where id = #{id};
-    </update>
 
 
     <update id="updateUser">
@@ -67,12 +57,6 @@
         where id = #{id}
     </select>
 
-    <select id="login" resultMap="UserMap">
-        select *
-        from user
-        where login_name = #{loginName}
-          and pass_word = #{pwd}
-    </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
         insert into user(user_name, login_name, pass_word, user_type, phone_number, email, avatar)
