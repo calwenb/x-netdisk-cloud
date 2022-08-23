@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
+import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(rollbackFor = Exception.class)
 @Service
@@ -44,7 +46,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public FileStore queryStoreByUid(int userId) {
-        return storeMapper.queryStoreByUid(userId);
+        FileStore store = storeMapper.queryStoreByUid(userId);
+        return Optional.ofNullable(store).orElseThrow(() -> new FailException("获取仓库数据失败"));
     }
 
     /**

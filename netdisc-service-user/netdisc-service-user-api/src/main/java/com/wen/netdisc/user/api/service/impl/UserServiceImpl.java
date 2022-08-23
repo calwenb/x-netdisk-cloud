@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new FailException("发送验证码失败");
         }
 
     }

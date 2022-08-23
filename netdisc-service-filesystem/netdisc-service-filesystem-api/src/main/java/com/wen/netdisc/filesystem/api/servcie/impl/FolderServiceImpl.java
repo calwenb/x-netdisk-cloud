@@ -5,6 +5,7 @@ import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.pojo.TreeNode;
+import com.wen.netdisc.filesystem.api.dto.FolderSaveDto;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
@@ -15,6 +16,7 @@ import com.wen.netdisc.filesystem.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
 import com.wen.releasedao.core.wrapper.QueryWrapper;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,15 +43,21 @@ public class FolderServiceImpl implements FolderService {
     BaseMapper baseMapper;
 
     @Override
-    public boolean addFileFolder(FileFolder fileFolder) {
+    public boolean addFileFolder(FolderSaveDto dto) {
+        Integer uid = UserUtil.getUid();
+        FileStore store = storeMapper.queryStoreByUid(uid);
+        FileFolder folder = new FileFolder();
+        BeanUtils.copyProperties(dto, folder);
+        folder.setFileStoreId(store.getFileStoreId());
+
         //根路径+仓库Id
-        StringBuffer path = new StringBuffer(FileUtil.STORE_ROOT_PATH + fileFolder.getFileStoreId());
-        int parentFolderId = fileFolder.getParentFolderId();
+        StringBuffer path = new StringBuffer(FileUtil.STORE_ROOT_PATH + folder.getFileStoreId());
+        int parentFolderId = folder.getParentFolderId();
         if (parentFolderId == FileUtil.STORE_ROOT_ID) {
-            path.append("/").append(fileFolder.getFileFolderName());
+            path.append("/").append(folder.getFileFolderName());
         } else {
             Stack<String> stack = new Stack<>();
-            FileFolder pff = fileFolder;
+            FileFolder pff = folder;
             while (true) {
                 int pid = pff.getParentFolderId();
                 String pName = pff.getFileFolderName();
@@ -74,10 +82,10 @@ public class FolderServiceImpl implements FolderService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            throw new FailException("增加文件夹失败");
         }
-        fileFolder.setFileFolderPath(String.valueOf(path));
-        return folderMapper.addFileFolder(fileFolder) > 0;
+        folder.setFileFolderPath(String.valueOf(path));
+        return folderMapper.addFileFolder(folder) > 0;
     }
 
     @Override

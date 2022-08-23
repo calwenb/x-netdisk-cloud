@@ -36,20 +36,14 @@ public class TrashController extends BaseController {
     public ResultVO<String> delTrash(String trashJSON) {
         MyFile trash = JSON.parseObject(trashJSON, MyFile.class);
         int uid = UserUtil.getUid();
-        if (trashService.deleteById(trash, uid)) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
+        return trashService.deleteById(trash, uid) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @DeleteMapping("/restored")
     public ResultVO<String> restoredTrash(String trashJSON) {
         MyFile trash = JSON.parseObject(trashJSON, MyFile.class);
         int uid = UserUtil.getUid();
-        if (trashService.restored(trash, uid)) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
+        return trashService.restored(trash, uid) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
 }

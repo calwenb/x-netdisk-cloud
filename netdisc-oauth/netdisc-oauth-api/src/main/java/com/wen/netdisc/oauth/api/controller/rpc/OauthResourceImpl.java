@@ -54,10 +54,12 @@ public class OauthResourceImpl implements OauthResource {
         return ResultUtil.errorDo();
     }
 
+    /**
+     * 已经过验证拦截器，可直接返回true
+     */
     @Override
     @GetMapping("/verify")
     public ResultVO<Boolean> verifyToken() {
-        //已经过验证拦截器，可直接返回true
         return ResultUtil.success(true);
     }
 

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * UserController类
@@ -77,50 +78,35 @@ public class UserController {
         if (!userService.verifyCode(loginName, code)) {
             return ResultUtil.error("验证码不正确或已失效");
         }
-        if (userService.repwd(loginName, password)) {
-            return ResultUtil.success("密码重置成功");
-        }
-        return ResultUtil.error("密码重置失败");
+        return userService.repwd(loginName, password) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @PassAuth
     @PostMapping("/send-code")
     public ResultVO<String> sendCode(@RequestParam("loginName") String loginName, @RequestParam("email") String email) {
-        if (userService.sendCode(loginName, email)) {
-            return ResultUtil.success("发送成功，三分钟内有效");
-        }
-        return ResultUtil.error("发送失败。输入用户预留邮箱，未预留邮箱暂不支持服务");
+        userService.sendCode(loginName, email);
+        return ResultUtil.success("发送成功，三分钟内有效");
     }
 
 
     @PostMapping("/upload-head")
     public ResultVO<String> uploadHead(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
-        if (userService.uploadHead(file, userId)) {
-            return ResultUtil.success("头像上传成功");
-        }
-        return ResultUtil.error("头像上传失败");
+        boolean b = userService.uploadHead(file, userId);
+        return b ? ResultUtil.success("头像上传成功") : ResultUtil.error("头像上传失败");
     }
 
-    //todo
     @PutMapping("/{id}")
     public ResultVO<String> updateUser(@PathVariable Integer id, @RequestBody UserDto dto) {
         dto.setId(id);
-        if (userService.updateUser(dto) > 0) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
-
+        return userService.updateUser(dto) > 0 ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @GetMapping("/avatar")
     public ResponseEntity<InputStreamResource> getAvatar() {
         User user = UserUtil.getUser();
-        String avatarPath = user.getAvatar();
-        if (avatarPath == null) {
-            throw new FailException("未上传头像");
-        }
+        String path = Optional.ofNullable(user.getAvatar()).orElseThrow(() -> new FailException("未上传头像"));
         try {
-            return filesystemClient.downloadComm(avatarPath);
+            return filesystemClient.downloadComm(path);
         } catch (IOException e) {
             throw new FailException("获取头像失败");
         }

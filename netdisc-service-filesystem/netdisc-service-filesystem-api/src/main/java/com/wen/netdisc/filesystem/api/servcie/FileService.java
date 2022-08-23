@@ -65,4 +65,5 @@ public interface FileService {
 
     boolean updateData(MultipartFile file, Integer id);
 
+    List<Object> getFileAndFolder(Integer parentFid);
 }
