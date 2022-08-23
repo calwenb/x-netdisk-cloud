@@ -6,18 +6,14 @@ import org.springframework.stereotype.Repository;
 
 /**
  * UserMapper类 持久层
+ * 已被 releasedao “释放”
  *
  * @author calwen
  */
 @Mapper
 @Repository
 public interface UserMapper {
-    int updateUser(User user);
 
     int addUser(User user);
-
-    User getUserById(int id);
-
-    User getUserByLName(String loginName);
 
 }

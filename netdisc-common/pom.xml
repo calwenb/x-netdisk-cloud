@@ -21,8 +21,9 @@
         <dependency>
             <groupId>io.github.calwenb</groupId>
             <artifactId>releasedao-spring-boot-starter</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </dependency>
+
         
         <dependency>
             <groupId>com.wen</groupId>

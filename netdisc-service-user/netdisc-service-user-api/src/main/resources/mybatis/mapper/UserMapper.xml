@@ -16,9 +16,12 @@
         <result property="registerTime" column="register_time"/>
     </resultMap>
 
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
+        insert into user(user_name, login_name, pass_word, user_type, phone_number, email, avatar)
+        values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar})
+    </insert>
 
-
-    <update id="updateUser">
+<!--    <update id="updateUser">
         update user
         <set>
             <if test="userName!=null and userName!=''">
@@ -49,30 +52,29 @@
         </set>
 
         where id = #{id};
-    </update>
+    </update>-->
 
+<!--
     <select id="queryUseById" parameterType="integer" resultMap="UserMap">
         select *
         from user
         where id = #{id}
     </select>
+-->
 
 
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
-        insert into user(user_name, login_name, pass_word, user_type, phone_number, email, avatar)
-        values (#{userName}, #{loginName}, #{passWord}, #{userType}, #{phoneNumber}, #{email}, #{avatar})
-    </insert>
 
 
-    <select id="getUserById" resultMap="UserMap">
+
+<!--    <select id="getUserById" resultMap="UserMap">
         select *
         from user
         where id = #{id}
-    </select>
-    <select id="getUserByLName" resultType="User">
+    </select>-->
+<!--    <select id="getUserByLName" resultType="User">
         select *
         from user
         where login_name = #{loginName}
-    </select>
+    </select>-->
 
 </mapper>

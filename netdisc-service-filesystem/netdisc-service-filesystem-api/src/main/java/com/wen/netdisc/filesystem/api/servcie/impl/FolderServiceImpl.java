@@ -116,7 +116,7 @@ public class FolderServiceImpl implements FolderService {
      */
     private void del(Integer sid, Integer id) {
         folderMapper.delFolderById(id);
-        baseMapper.deleteTarget(MyFile.class, new QueryWrapper().eq("parent_folder_id", id));
+        baseMapper.delete(MyFile.class, new QueryWrapper().eq("parent_folder_id", id));
         List<FileFolder> childs = folderMapper.queryFoldersByPId(sid, id);
         if (childs == null || childs.isEmpty()) {
             return;
@@ -161,7 +161,7 @@ public class FolderServiceImpl implements FolderService {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.select("file_folder_id , file_folder_name , parent_folder_id");
         wrapper.eq("file_store_id", storeId);
-        ArrayList<FileFolder> list = baseMapper.selectList(FileFolder.class);
+        ArrayList<FileFolder> list = baseMapper.getList(FileFolder.class);
 
         return FolderUtil.getTree(list);
     }

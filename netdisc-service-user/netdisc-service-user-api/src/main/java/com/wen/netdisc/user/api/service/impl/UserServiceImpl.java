@@ -64,15 +64,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> queryUsers() {
-        ArrayList<User> users = baseMapper.selectList(User.class);
+        ArrayList<User> users = baseMapper.getList(User.class);
         return users;
     }
 
     @Override
     public ArrayList<User> queryUsersTerm(String term, String value) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.add(term, value);
-        ArrayList<User> users = baseMapper.selectList(User.class, wrapper);
+        wrapper.eq(term, value);
+        ArrayList<User> users = baseMapper.getList(User.class, wrapper);
         return users;
     }
 
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public List<User> queryUsersLike(String term, String key) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.like(term, key);
-        return baseMapper.selectList(User.class, wrapper);
+        return baseMapper.getList(User.class, wrapper);
     }
 
     /**
@@ -104,14 +104,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword) {
         User superAdmin = new User(-10, superAdminName, superAdminLoginName, superAdminPassword, 0, null, null, null, new Date());
-        return baseMapper.replaceTarget(superAdmin);
+        return baseMapper.save(superAdmin);
     }
 
     @Override
     public int verifyAdmin(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.add("id", userId);
-        User user = baseMapper.selectTarget(User.class);
+        wrapper.eq("id", userId);
+        User user = baseMapper.get(User.class);
         if (user != null) {
             return user.getUserType();
         }
@@ -127,12 +127,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteUser(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.add("id", userId);
-        User user = baseMapper.selectTarget(User.class, wrapper);
+        wrapper.eq("id", userId);
+        User user = baseMapper.get(User.class, wrapper);
         if (user != null && user.getUserType() == 0) {
             return 0;
         }
-        return baseMapper.deleteTarget(User.class, wrapper);
+        return baseMapper.delete(User.class, wrapper);
     }
 
     /**
@@ -142,18 +142,18 @@ public class UserServiceImpl implements UserService {
     public int updateUser(UserDto dto) {
         User user = new User();
         BeanUtils.copyProperties(dto, user);
-        return userMapper.updateUser(user);
+        return baseMapper.save(user);
     }
 
     @Override
     public void upPassword(UserDto dto) {
         Integer uid = UserUtil.getUid();
-        User user = userMapper.getUserById(uid);
+        User user = baseMapper.getById(User.class, uid);
         if (!Objects.equals(dto.getPassWord(), user.getPassWord())) {
             throw new FailException("密码不正确");
         }
         user.setPassWord(dto.getNewPassWord());
-        userMapper.updateUser(user);
+        baseMapper.save(user);
     }
 
 
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
         QueryWrapper wrapper = new QueryWrapper()
                 .eq("login_name", dto.getLoginName())
                 .eq("pass_word", dto.getPassWord());
-        User user = baseMapper.selectTarget(User.class, wrapper);
+        User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("账号密码错误或未注册");
         }
@@ -181,7 +181,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(UserDto dto) {
-        if (userMapper.getUserByLName(dto.getLoginName()) != null) {
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", dto.getLoginName());
+        if (baseMapper.get(User.class, wrapper) != null) {
             throw new FailException("注册失败，账号已存在");
         }
         User user = new User();
@@ -208,13 +210,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getUserById(int userID) {
-        return userMapper.getUserById(userID);
+    public User getUserById(int uid) {
+        return baseMapper.getById(User.class, uid);
     }
 
     @Override
     public boolean sendCode(String loginName, String email) {
-        User user = userMapper.getUserByLName(loginName);
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", loginName);
+        User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("用户不存在");
         }
@@ -250,23 +254,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean repwd(String loginName, String password) {
-        User user = userMapper.getUserByLName(loginName);
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", loginName);
+        User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
-            return false;
+            throw new FailException("用户不存在");
         }
         user.setPassWord(password);
-        return baseMapper.replaceTarget(user) > 0;
+        return baseMapper.save(user) > 0;
     }
 
     @Override
-    public boolean uploadHead(MultipartFile file, Integer userId) {
+    public boolean uploadHead(MultipartFile file, Integer uid) {
         if (file.isEmpty()) {
             throw new FailException("空文件");
         }
         String path = filesystemClient.uploadHead(file).getData();
-        User user = userMapper.getUserById(userId);
+        User user = baseMapper.getById(User.class, uid);
         user.setAvatar(path);
-        return userMapper.updateUser(user) > 0;
+        return baseMapper.save(user) > 0;
     }
 
     /**
@@ -291,13 +297,13 @@ public class UserServiceImpl implements UserService {
     }*/
     @Override
     public boolean applyUpLevel(Integer uid) {
-        User user = userMapper.getUserById(uid);
+        User user = baseMapper.getById(User.class, uid);
         Integer type = user.getUserType();
         if (type > 10) {
             throw new FailException("请勿多次申请");
         }
         user.setUserType(type + 10);
-        return userMapper.updateUser(user) > 0;
+        return baseMapper.save(user) > 0;
     }
 
 

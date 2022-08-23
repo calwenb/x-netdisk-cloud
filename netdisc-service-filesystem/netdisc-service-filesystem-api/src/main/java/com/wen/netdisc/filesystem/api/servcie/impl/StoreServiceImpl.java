@@ -56,7 +56,7 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public boolean updateStore(FileStore fileStore) {
-        return baseMapper.replaceTarget(fileStore) > 0;
+        return baseMapper.save(fileStore) > 0;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public boolean delStore(Integer sid) {
-        return baseMapper.deleteTargetById(FileStore.class, sid) > 0;
+        return baseMapper.deleteById(FileStore.class, sid) > 0;
     }
 
 
