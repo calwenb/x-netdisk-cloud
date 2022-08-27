@@ -1,19 +1,11 @@
 package com.wen.netdisc.user.api.mapper;
 
-import com.wen.netdisc.common.pojo.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
 /**
- * UserMapper类 持久层
+ * UserMapper类 持久层<br>
  * 已被 releasedao “释放”
  *
  * @author calwen
  */
-@Mapper
-@Repository
+@Deprecated
 public interface UserMapper {
-
-    int addUser(User user);
-
 }

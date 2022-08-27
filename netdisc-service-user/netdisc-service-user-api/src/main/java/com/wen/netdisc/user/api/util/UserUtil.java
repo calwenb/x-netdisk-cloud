@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 public class UserUtil {
     static OauthClient oauthClient;
     @Resource
-
     ApplicationContext context;
 
     @PostConstruct

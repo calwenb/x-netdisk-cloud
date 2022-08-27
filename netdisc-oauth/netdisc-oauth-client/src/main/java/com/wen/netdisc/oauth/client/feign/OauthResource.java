@@ -3,7 +3,10 @@ package com.wen.netdisc.oauth.client.feign;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PrcVerify;
 import com.wen.netdisc.common.pojo.User;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Author calwen

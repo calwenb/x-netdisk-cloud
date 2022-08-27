@@ -3,10 +3,10 @@ package com.wen.netdisc.user.api.service.impl;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
+import com.wen.netdisc.common.util.CommBeanUtils;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import com.wen.netdisc.user.api.dto.UserDto;
-import com.wen.netdisc.user.api.mapper.UserMapper;
 import com.wen.netdisc.user.api.service.MailService;
 import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
@@ -20,7 +20,10 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,8 +32,6 @@ import java.util.concurrent.TimeUnit;
 @Transactional(rollbackFor = Exception.class)
 @Service
 public class UserServiceImpl implements UserService {
-    @Resource
-    UserMapper userMapper;
     @Resource
     MailService mailService;
     @Resource
@@ -64,15 +65,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> queryUsers() {
-        ArrayList<User> users = baseMapper.getList(User.class);
+        List<User> users = baseMapper.getList(User.class);
         return users;
     }
 
     @Override
-    public ArrayList<User> queryUsersTerm(String term, String value) {
+    public List<User> queryUsersTerm(String term, String value) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq(term, value);
-        ArrayList<User> users = baseMapper.getList(User.class, wrapper);
+        List<User> users = baseMapper.getList(User.class, wrapper);
         return users;
     }
 
@@ -140,8 +141,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int updateUser(UserDto dto) {
-        User user = new User();
-        BeanUtils.copyProperties(dto, user);
+        User user = baseMapper.getById(User.class, dto.getId());
+        CommBeanUtils.copyPropertiesIgnoreNull(dto, user);
         return baseMapper.save(user);
     }
 
@@ -162,9 +163,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(UserDto dto) {
-        QueryWrapper wrapper = new QueryWrapper()
-                .eq("login_name", dto.getLoginName())
-                .eq("pass_word", dto.getPassWord());
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", dto.getLoginName()).eq("pass_word", dto.getPassWord());
         User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("账号密码错误或未注册");
@@ -181,17 +180,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(UserDto dto) {
-        QueryWrapper wrapper = new QueryWrapper()
-                .eq("login_name", dto.getLoginName());
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", dto.getLoginName());
         if (baseMapper.get(User.class, wrapper) != null) {
             throw new FailException("注册失败，账号已存在");
         }
         User user = new User();
         BeanUtils.copyProperties(dto, user);
+        user.setId((int) (Math.random() * Integer.MAX_VALUE));
         user.setUserType(2);
         user.setAvatar("/#");
+        user.setRegisterTime(new Date());
         try {
-            if (userMapper.addUser(user) == 0) {
+            if (baseMapper.add(user) == 0) {
                 throw new FailException("注册失败");
             }
         } catch (Exception e) {
@@ -216,8 +216,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean sendCode(String loginName, String email) {
-        QueryWrapper wrapper = new QueryWrapper()
-                .eq("login_name", loginName);
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", loginName);
         User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("用户不存在");
@@ -254,8 +253,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean repwd(String loginName, String password) {
-        QueryWrapper wrapper = new QueryWrapper()
-                .eq("login_name", loginName);
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", loginName);
         User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("用户不存在");

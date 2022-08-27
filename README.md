@@ -73,6 +73,6 @@ http://pan.wenyo.top
 2.  配置application.yml 文件，修改mysql、redis、ElasticSearch连接信息。
 3.  修改netdisc.store.root-path 为文件系统根目录。
 4.  启动Nacos、Sentinel。
-5.  依次启动项目中的nacos，sentinel，seata组件。
+5.  依次启动项目中的nacos，sentinel。
 6.  依次启动netdisc-gateway、netdisc-oauth、netdisc-service-user、netdisc-service-filesystem。
-7.  待Nacos服务列表已全部注册，访问127.0.0.1:9500访问Gateway暴露的API接口。
+7.  待Nacos服务列表已全部注册，访问127.0.0.1:8070访问Gateway暴露的API接口。

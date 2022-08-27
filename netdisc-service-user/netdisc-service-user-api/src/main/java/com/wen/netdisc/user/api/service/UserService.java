@@ -25,13 +25,6 @@ public interface UserService {
 
     List<User> queryUsersLike(String term, String key);
 
-    /**
-     * 增加全部用户
-     *
-     * @param user
-     * @return 修改状态
-     */
-//    int addUser(User user);
 
     int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword);
 
@@ -48,9 +41,6 @@ public interface UserService {
 
     /**
      * 修改全部用户
-     *
-     * @param user
-     * @return 修改状态
      */
     int updateUser(UserDto dto);
 
@@ -59,7 +49,6 @@ public interface UserService {
     /**
      * 登录
      *
-
      * @return
      */
     String login(UserDto dto);
@@ -68,7 +57,6 @@ public interface UserService {
      * 注册业务
      * 注册、并初始化用户仓库
      *
-     * @param user
      */
     String register(UserDto userDto);
 

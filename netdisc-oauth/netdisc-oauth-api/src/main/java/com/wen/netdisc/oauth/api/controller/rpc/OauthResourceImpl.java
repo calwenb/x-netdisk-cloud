@@ -1,9 +1,9 @@
 package com.wen.netdisc.oauth.api.controller.rpc;
 
 import com.wen.commutil.annotation.PassAuth;
+import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
-import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.oauth.api.serivce.TokenService;
 import com.wen.netdisc.oauth.client.feign.OauthResource;
 import org.springframework.web.bind.annotation.*;

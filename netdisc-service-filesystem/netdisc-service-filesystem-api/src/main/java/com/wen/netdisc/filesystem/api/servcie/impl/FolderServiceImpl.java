@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -137,7 +136,7 @@ public class FolderServiceImpl implements FolderService {
             //修改文件夹名 成功更新数据库文件的路径
             if (new File(oldPath).renameTo(new File(path))) {
                 FileStore store = baseMapper.getById(FileStore.class, folder.getFileStoreId());
-                if (store==null){
+                if (store == null) {
                     throw new FailException("获取仓库信息失败");
                 }
                 int userId = store.getUserId();
@@ -165,8 +164,7 @@ public class FolderServiceImpl implements FolderService {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.select("file_folder_id , file_folder_name , parent_folder_id");
         wrapper.eq("file_store_id", storeId);
-        ArrayList<FileFolder> list = baseMapper.getList(FileFolder.class);
-
+        List<FileFolder> list = baseMapper.getList(FileFolder.class);
         return FolderUtil.getTree(list);
     }
 

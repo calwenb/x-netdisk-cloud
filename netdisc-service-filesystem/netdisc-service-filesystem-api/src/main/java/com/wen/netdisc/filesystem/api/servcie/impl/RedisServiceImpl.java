@@ -4,12 +4,9 @@ package com.wen.netdisc.filesystem.api.servcie.impl;
 import com.wen.commutil.util.ThreadPoolUtil;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.MyFile;
-import com.wen.netdisc.common.pojo.User;
-import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
 import com.wen.netdisc.filesystem.api.servcie.RedisService;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
