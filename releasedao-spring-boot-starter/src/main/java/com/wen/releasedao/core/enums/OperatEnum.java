@@ -1,8 +1,5 @@
 package com.wen.releasedao.core.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * wrapper操作枚举类
  *
@@ -12,49 +9,33 @@ import lombok.Getter;
 
 public enum OperatEnum {
     /**
-     *
+     * 首次加入
      */
     HEAD,
     /**
-     *
+     * 连接词
      */
-    AND,
+    AND, OR,
     /**
-     *
+     * 排序
      */
-    OR,
-
+    ORDER, ORDER_DESC,
     /**
-     *
-     */
-    ORDER,
-    /**
-     *
-     */
-    ORDER_DESC,
-    /**
-     *
+     * 分页
      */
     LIMIT,
-
-    EQ, EQS, IN,
     /**
-     *
+     * 关系运算
      */
-    NOT_EQ,
-    GREATER,
-    LESS,
-    G_EQ,
-    L_EQ,
-
-    LIKE,
-    LIKE_LEFT,
-    LIKE_RIGHT,
-
-    IS_NULL,
-    ONT_NULL,
-
-
+    EQ, NOT_EQ, IN, GREATER, LESS, G_EQ, L_EQ,
+    /**
+     * 模糊查询
+     */
+    LIKE, LIKE_LEFT, LIKE_RIGHT,
+    /**
+     * null ?
+     */
+    IS_NULL, ONT_NULL,
 
 
 }

@@ -9,5 +9,6 @@ package com.wen.releasedao.core.enums;
  */
 public enum IdTypeEnum {
     AUTO,
+    RANDOM,
     NO_AUTO
 }

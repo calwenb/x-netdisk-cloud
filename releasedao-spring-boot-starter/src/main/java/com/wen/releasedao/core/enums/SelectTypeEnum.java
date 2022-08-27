@@ -1,8 +1,5 @@
 package com.wen.releasedao.core.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * select的查询类型枚举类
  *
@@ -11,7 +8,16 @@ import lombok.Getter;
  */
 
 public enum SelectTypeEnum {
+    /**
+     * list 查询
+     */
     ALL,
+    /**
+     * 一个
+     */
     ONE,
+    /**
+     * 计数
+     */
     COUNT
 }

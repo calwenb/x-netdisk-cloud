@@ -15,23 +15,25 @@ import java.util.LinkedHashMap;
  * @since 2022/7/9
  */
 public class QueryWrapper extends AbstractWrapper implements Wrapper {
-    private static final HashSet<OperatEnum> needWhereSet;
+    /**
+     * 需要where 作为前缀拼接
+     */
+    private static final HashSet<OperatEnum> WHERE_SET;
 
     static {
-        needWhereSet = new HashSet<>();
-        needWhereSet.add(OperatEnum.EQ);
-        needWhereSet.add(OperatEnum.EQS);
-        needWhereSet.add(OperatEnum.NOT_EQ);
-        needWhereSet.add(OperatEnum.GREATER);
-        needWhereSet.add(OperatEnum.LESS);
-        needWhereSet.add(OperatEnum.G_EQ);
-        needWhereSet.add(OperatEnum.L_EQ);
-        needWhereSet.add(OperatEnum.LIKE);
-        needWhereSet.add(OperatEnum.LIKE_LEFT);
-        needWhereSet.add(OperatEnum.LIKE_RIGHT);
-        needWhereSet.add(OperatEnum.IN);
-        needWhereSet.add(OperatEnum.IS_NULL);
-        needWhereSet.add(OperatEnum.ONT_NULL);
+        WHERE_SET = new HashSet<>();
+        WHERE_SET.add(OperatEnum.EQ);
+        WHERE_SET.add(OperatEnum.NOT_EQ);
+        WHERE_SET.add(OperatEnum.GREATER);
+        WHERE_SET.add(OperatEnum.LESS);
+        WHERE_SET.add(OperatEnum.G_EQ);
+        WHERE_SET.add(OperatEnum.L_EQ);
+        WHERE_SET.add(OperatEnum.LIKE);
+        WHERE_SET.add(OperatEnum.LIKE_LEFT);
+        WHERE_SET.add(OperatEnum.LIKE_RIGHT);
+        WHERE_SET.add(OperatEnum.IN);
+        WHERE_SET.add(OperatEnum.IS_NULL);
+        WHERE_SET.add(OperatEnum.ONT_NULL);
 
     }
 
@@ -44,8 +46,8 @@ public class QueryWrapper extends AbstractWrapper implements Wrapper {
     /**
      * 指定字段查询
      */
-    public QueryWrapper select(String SelectField) {
-        this.selectField = SelectField;
+    public QueryWrapper select(String selectField) {
+        this.selectField = selectField;
         return this;
     }
 
@@ -61,98 +63,98 @@ public class QueryWrapper extends AbstractWrapper implements Wrapper {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         ArrayList<Node> whereList = getWhereList();
         ArrayList<Object> setList = new ArrayList<>();
-        StringBuffer whereSQL = new StringBuffer();
+        StringBuffer whereSql = new StringBuffer();
         for (Node node : whereList) {
             OperatEnum operating = node.getOperating();
             String field = node.getField();
             Object value = node.getValue();
-            if (needWhereSet.contains(operating)) {
-                int len = whereSQL.length();
+            if (WHERE_SET.contains(operating)) {
+                int len = whereSql.length();
                 if (len == 0) {
-                    whereSQL.append(" WHERE ");
+                    whereSql.append(" WHERE ");
                 } else {
-                    if (!"OR".equals(whereSQL.substring(len - 3, len - 1))) {
-                        whereSQL.append(" AND ");
+                    if (!"OR".equals(whereSql.substring(len - 3, len - 1))) {
+                        whereSql.append(" AND ");
                     }
                 }
             }
             switch (operating) {
                 case EQ:
-                    whereSQL.append(" `").append(field).append("` ").append(" = ? ");
+                    whereSql.append(" `").append(field).append("` ").append(" = ? ");
                     setList.add(value);
                     break;
                 case IN:
-                    whereSQL.append(" `").append(field).append("` ").append(" IN ( ");
+                    whereSql.append(" `").append(field).append("` ").append(" IN ( ");
                     Object[] inValues = (Object[]) value;
                     for (int j = 0; j < inValues.length; j++) {
                         if (j != 0) {
-                            whereSQL.append(" , ");
+                            whereSql.append(" , ");
                         }
-                        whereSQL.append(" ? ");
+                        whereSql.append(" ? ");
                         setList.add(inValues[j]);
                     }
-                    whereSQL.append(" ) ");
+                    whereSql.append(" ) ");
                     break;
                 case NOT_EQ:
-                    whereSQL.append(" `").append(field).append("` ").append(" <> ? ");
+                    whereSql.append(" `").append(field).append("` ").append(" <> ? ");
                     setList.add(value);
                     break;
                 case GREATER:
-                    whereSQL.append(" `").append(field).append("` ").append(" > ? ");
+                    whereSql.append(" `").append(field).append("` ").append(" > ? ");
                     setList.add(value);
                     break;
                 case LESS:
-                    whereSQL.append(" `").append(field).append("` ").append(" < ? ");
+                    whereSql.append(" `").append(field).append("` ").append(" < ? ");
                     setList.add(value);
                     break;
                 case G_EQ:
-                    whereSQL.append(" `").append(field).append("` ").append(" >=? ");
+                    whereSql.append(" `").append(field).append("` ").append(" >=? ");
                     setList.add(value);
                     break;
                 case L_EQ:
-                    whereSQL.append(" `").append(field).append("` ").append(" <= ? ");
+                    whereSql.append(" `").append(field).append("` ").append(" <= ? ");
                     setList.add(value);
                     break;
                 case IS_NULL:
-                    whereSQL.append(" `").append(field).append("` ").append(" IS NULL ");
+                    whereSql.append(" `").append(field).append("` ").append(" IS NULL ");
                     break;
                 case ONT_NULL:
-                    whereSQL.append(" `").append(field).append("` ").append(" IS NOT NULL ");
+                    whereSql.append(" `").append(field).append("` ").append(" IS NOT NULL ");
                     break;
                 case OR:
-                    whereSQL.append(" OR ");
+                    whereSql.append(" OR ");
                     break;
                 case HEAD:
-                    whereSQL.append(" WHERE ").append(" `").append(field).append("` ").append(" = ? ");
+                    whereSql.append(" WHERE ").append(" `").append(field).append("` ").append(" = ? ");
                     setList.add(value);
                     break;
                 case LIKE:
-                    whereSQL.append(" CONCAT( ").append(field).append(" ) ").append(" LIKE '%").append(value).append("%' ");
+                    whereSql.append(" CONCAT( ").append(field).append(" ) ").append(" LIKE '%").append(value).append("%' ");
                     break;
                 case LIKE_LEFT:
-                    whereSQL.append(" CONCAT( ").append(field).append(" ) ").append(" LIKE '%").append(value).append("' ");
+                    whereSql.append(" CONCAT( ").append(field).append(" ) ").append(" LIKE '%").append(value).append("' ");
                     break;
                 case LIKE_RIGHT:
-                    whereSQL.append(" CONCAT( ").append(field).append(" ) ").append(" LIKE '").append(value).append("%' ");
+                    whereSql.append(" CONCAT( ").append(field).append(" ) ").append(" LIKE '").append(value).append("%' ");
                     break;
                 case ORDER:
-                    whereSQL.append(" ORDER BY ").append(field);
+                    whereSql.append(" ORDER BY ").append(field);
                     break;
                 case ORDER_DESC:
-                    whereSQL.append(" ORDER BY ").append(field).append(" DESC ");
+                    whereSql.append(" ORDER BY ").append(field).append(" DESC ");
                     break;
                 case LIMIT:
-                    whereSQL.append(" LIMIT ").append(field);
+                    whereSql.append(" LIMIT ").append(field);
                     break;
                 default:
-                    whereSQL.append(operating).append(" `").append(field).append("` ").append("= ? ");
+                    whereSql.append(operating).append(" `").append(field).append("` ").append("= ? ");
                     setList.add(value);
             }
 
         }
-        whereSQL.append(";");
-        map.put("sql", whereSQL);
-        map.put("setSQL", setList);
+        whereSql.append(";");
+        map.put("sql", whereSql);
+        map.put("values", setList);
         return map;
     }
 

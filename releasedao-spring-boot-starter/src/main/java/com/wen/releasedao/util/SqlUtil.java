@@ -10,6 +10,9 @@ import com.wen.releasedao.config.PropertyConfig;
  * @since 2022/7/9
  */
 public class SqlUtil {
+    /**
+     * 蛇形转驼峰
+     */
     public static String snakeToCame(String snake) {
         StringBuffer sb = new StringBuffer(snake);
         for (int i = 0; i < sb.length(); i++) {
@@ -20,11 +23,13 @@ public class SqlUtil {
         return sb.toString();
     }
 
+    /**
+     * 驼峰转蛇形
+     */
     public static String camelToSnake(String camel) {
         //是否驼峰转蛇形
-        if (!new PropertyConfig().isCamelCase()) {
+        if (!PropertyConfig.isCamelCase()) {
             return camel;
-
         }
         if (StringUtils.isNullOrEmpty(camel)) {
             return "";

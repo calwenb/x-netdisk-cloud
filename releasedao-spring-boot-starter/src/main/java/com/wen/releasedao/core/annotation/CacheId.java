@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 指定缓存key的 id
- *
+ * 弃用
  * @author calwen
  * @since 2022/7/16
  */

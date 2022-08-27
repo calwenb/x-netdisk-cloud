@@ -15,7 +15,7 @@ public enum CacheUpdateEnum {
     /**
      * 删除 主键的数据
      */
-    TARGET,
+    ENTITY,
     /**
      * 删除该表全部缓存
      */
