@@ -108,7 +108,7 @@
         LIMIT #{startRow},#{showRow};
     </select>
 
-    <select id="queryFileByUidOrdDate" resultMap="MyFileMap">
+    <select id="queryImageByUid" resultMap="MyFileMap">
         SELECT
         <include refid="AllField"></include>
         FROM
@@ -141,7 +141,7 @@
         SELECT
         <include refid="AllField"></include>
         FROM `user` JOIN file_store ON `user`.id=file_store.user_id
-                    JOIN my_file ON file_store.file_store_id=my_file.file_store_id
+        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
         <where>
             <if test="userId !=null">
                 user_id = #{userId}

@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("/folders")
 public class FolderController extends BaseController {
 
-    //todo (@RequestParam("parent_id") Integer pid, @RequestParam("name") String folderName)
     @PostMapping
     public ResultVO<String> addFolder(FolderSaveDto dto) {
         return folderService.addFileFolder(dto) ? ResultUtil.successDo() : ResultUtil.errorDo();

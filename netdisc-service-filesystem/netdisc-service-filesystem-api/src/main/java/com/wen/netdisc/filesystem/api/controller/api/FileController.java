@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,6 +26,8 @@ import java.util.Optional;
 @RequestMapping("/files")
 public class FileController extends BaseController {
 
+    @Resource
+    ChunkService chunkService;
 
     @GetMapping("/p/{page}")
     public ResultVO<List<MyFile>> queryFiles(@PathVariable String page) {
@@ -34,6 +35,14 @@ public class FileController extends BaseController {
         List<MyFile> list = fileService.queryFilesByUid(uid, Integer.parseInt(page));
         return ResultUtil.success(list);
     }
+
+    //todo
+    @GetMapping("/thumbnail/list/{page}")
+    public ResultVO<List<Map<String, String>>> thumbnailList(@PathVariable Integer page) {
+        Integer uid = UserUtil.getUid();
+        return ResultUtil.success(fileService.thumbnailList(uid, page));
+    }
+
 
     @GetMapping
     public ResultVO<List<MyFile>> queryFilesByType(@RequestParam("type") String type, @RequestParam("page") Integer page) {
@@ -49,14 +58,6 @@ public class FileController extends BaseController {
     }
 
 
-    @GetMapping("/data/p/{page}")
-    public ResultVO<List<Map<String, String>>> queryFilesData(@PathVariable String page) throws IOException {
-        Integer uid = UserUtil.getUid();
-        List<Map<String, String>> data = fileService.queryFilesByUid(uid, Integer.parseInt(page), true);
-        return ResultUtil.success(data);
-    }
-
-
     @PostMapping("/upload")
     public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId) {
         if (file.isEmpty()) {
@@ -69,8 +70,6 @@ public class FileController extends BaseController {
         return ResultUtil.error("上传文件失败");
     }
 
-    @Resource
-    ChunkService chunkService;
 
     @GetMapping("/upload-big")
     public ResultVO<Integer> skipFile(ChunkDto chunkDto) {

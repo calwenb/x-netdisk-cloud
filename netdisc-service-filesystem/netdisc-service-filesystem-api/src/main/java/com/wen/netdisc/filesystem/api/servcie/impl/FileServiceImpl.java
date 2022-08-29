@@ -200,23 +200,16 @@ public class FileServiceImpl implements FileService {
         return list;
     }
 
-    public List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException {
-        if (preview) {
-            int showRow = FileUtil.FILE_SHOW_ROW;
-            int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-            /**
-             * 不指定页数，即不分页
-             */
-            if (pageNum == -1) {
-                startRow = 0;
-                showRow = Integer.MAX_VALUE;
-            }
-            List<MyFile> files = fileMapper.queryFileByUidOrdDate(userId, startRow, showRow);
-/*            if (files != null && files.size() != 0) {
-                return FileUtil.previewImage(files);
-            }*/
+
+    @Override
+    public List<Map<String, String>> thumbnailList(Integer uid, Integer pageNum) {
+        int showRow = FileUtil.FILE_SHOW_ROW;
+        int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
+        List<MyFile> files = fileMapper.queryImageByUid(uid, startRow, showRow);
+        if (files == null || files.isEmpty()) {
+            return null;
         }
-        return null;
+        return FileUtil.previewImage(files);
     }
 
 
