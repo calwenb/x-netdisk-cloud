@@ -13,15 +13,14 @@ import java.util.Map;
  * @author Mr.文
  */
 public interface EsService {
-    boolean addData(List<MyFile> list);
 
-    boolean addData(MyFile file);
+    void addData(MyFile file);
 
-    boolean updateData(MyFile file);
+    void updateData(MyFile file);
 
-    boolean delDate(String id);
+    void delDate(String id);
 
     List<Map<String, Object>> searchData(int storeId, String keyword);
 
-    boolean esWarmUp();
+    void esWarmUp();
 }

@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +30,7 @@ public class TrashServiceImpl implements TrashService {
     @Resource
     MyFileMapper fileMapper;
     @Resource
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, MyFile> redisTemplate;
     @Resource
     FileService fileService;
 
@@ -58,14 +59,9 @@ public class TrashServiceImpl implements TrashService {
     }
 
 
-    /**
-     * @param trash
-     * @param uid
-     * @return
-     */
     @Override
     public boolean restored(MyFile trash, int uid) {
-        if (redisTemplate.opsForZSet().remove(REDIS_PREFIX + uid, trash) == 0) {
+        if (Optional.ofNullable(redisTemplate.opsForZSet().remove(REDIS_PREFIX + uid, trash)).orElse(0L) == 0) {
             throw new FailException("删除垃圾文件失败");
         }
         return fileMapper.addFile(trash) > 0;
@@ -80,8 +76,14 @@ public class TrashServiceImpl implements TrashService {
         int count = 0;
         //获取全部用户垃圾桶,删除过期文件
         Set<String> keys = redisTemplate.keys(REDIS_PREFIX + "*");
+        if (keys == null) {
+            return count;
+        }
         for (String key : keys) {
             Set<MyFile> trashSet = redisTemplate.opsForZSet().rangeByScore(key, 0, expiredTime);
+            if (trashSet == null) {
+                continue;
+            }
             for (MyFile trash : trashSet) {
                 if (this.delTrashComm(trash, key)) {
                     count++;
@@ -91,10 +93,6 @@ public class TrashServiceImpl implements TrashService {
         return count;
     }
 
-    /**
-     * @param trash
-     * @return
-     */
     @Override
     public ResponseEntity<InputStreamResource> getData(MyFile trash) {
         try {
@@ -106,7 +104,7 @@ public class TrashServiceImpl implements TrashService {
     }
 
     private boolean delTrashComm(MyFile trash, String key) {
-        if (redisTemplate.opsForZSet().remove(key, trash) == 0) {
+        if (Optional.ofNullable(redisTemplate.opsForZSet().remove(key, trash)).orElse(0L) == 0) {
             return false;
         }
         File delFile = new File(trash.getMyFilePath());
