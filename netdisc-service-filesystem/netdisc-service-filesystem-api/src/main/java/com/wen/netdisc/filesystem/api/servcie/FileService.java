@@ -25,7 +25,8 @@ public interface FileService {
 
     List<MyFile> queryFilesByUid(int userId, int pageNum);
 
-    List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException;
+
+    List<Map<String, String>> thumbnailList(Integer uid, Integer pageNum);
 
 
     boolean deleteByMyFileId(int fileId);
@@ -66,4 +67,6 @@ public interface FileService {
     boolean updateData(MultipartFile file, Integer id);
 
     List<Object> getFileAndFolder(Integer parentFid);
+
+
 }

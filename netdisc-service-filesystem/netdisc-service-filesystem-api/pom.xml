@@ -16,7 +16,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-
+        <!--生成图像缩略图-->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.17</version>
+        </dependency>
         <!--es客户端-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>

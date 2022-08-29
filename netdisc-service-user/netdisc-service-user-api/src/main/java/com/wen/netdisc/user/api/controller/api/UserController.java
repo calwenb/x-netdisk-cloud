@@ -53,7 +53,7 @@ public class UserController {
 
     @PostMapping("/out-login")
     public ResultVO<String> outLogin() {
-        String token = TokenUtil.headerToken();
+        String token = TokenUtil.getHeaderToken();
         if (NullUtil.hasNull(token)) {
             throw new OauthException("未携带token");
         }

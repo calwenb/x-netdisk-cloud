@@ -6,9 +6,11 @@ import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * rpc传递配置类
+ */
 @Configuration
 public class FeignConfig {
-
 
     @Bean
     public Logger.Level level() {

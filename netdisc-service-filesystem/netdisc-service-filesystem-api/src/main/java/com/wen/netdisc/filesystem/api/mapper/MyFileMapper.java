@@ -22,7 +22,7 @@ public interface MyFileMapper {
 
     List<MyFile> queryFilesByUid(int userId, int startRow, int showRow);
 
-    List<MyFile> queryFileByUidOrdDate(int userId, int startRow, int showRow);
+    List<MyFile> queryImageByUid(int userId, int startRow, int showRow);
 
     Integer addFile(MyFile myFile);
 
