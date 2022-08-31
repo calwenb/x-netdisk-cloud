@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.controller.rpc;
 
-import com.wen.commutil.annotation.PassAuth;
+import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.util.ResultUtil;

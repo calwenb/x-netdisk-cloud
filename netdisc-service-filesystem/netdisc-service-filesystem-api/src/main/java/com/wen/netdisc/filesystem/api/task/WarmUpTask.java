@@ -24,8 +24,8 @@ public class WarmUpTask {
      * es 预热
      * 每天凌晨0点执行任务
      */
-    @Scheduled(cron = "0/10 * * * * ?")
-//    @Scheduled(cron = "0 0 0 */1 * ?")
+//    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0 0 0 */1 * ?")
     public void EsWarmUp() {
         EsService service = (EsService) new LogHandlerUtil().newProxyInstance(esService);
         service.esWarmUp();

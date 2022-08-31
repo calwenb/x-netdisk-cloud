@@ -1,4 +1,4 @@
-package com.wen.commutil.annotation;
+package com.wen.netdisc.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

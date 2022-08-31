@@ -1,7 +1,7 @@
 package com.wen.netdisc.oauth.api.interceptor;
 
 import com.alibaba.fastjson2.JSON;
-import com.wen.commutil.annotation.PassAuth;
+import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.util.ResultUtil;

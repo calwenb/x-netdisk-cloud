@@ -3,7 +3,7 @@ package com.wen.netdisc.filesystem.api.controller.api;
 
 import com.alibaba.fastjson2.JSON;
 import com.mysql.cj.util.StringUtils;
-import com.wen.commutil.annotation.PassAuth;
+import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
@@ -36,7 +36,6 @@ public class FileController extends BaseController {
         return ResultUtil.success(list);
     }
 
-    //todo
     @GetMapping("/thumbnail/list/{page}")
     public ResultVO<List<Map<String, String>>> thumbnailList(@PathVariable Integer page) {
         Integer uid = UserUtil.getUid();
@@ -90,7 +89,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/file-folder")
-    public ResultVO<List<Object>> queryFiles(@RequestParam("parentFid") Integer parentFid) {
+    public ResultVO<List<Object>> queryFiles(@RequestParam("parentFolderId") Integer parentFid) {
         List<Object> list = fileService.getFileAndFolder(parentFid);
         return ResultUtil.success(list);
     }
