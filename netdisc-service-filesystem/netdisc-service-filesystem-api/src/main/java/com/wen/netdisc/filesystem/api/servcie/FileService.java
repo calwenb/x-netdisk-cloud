@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
+import com.wen.commutil.vo.PageVO;
 import com.wen.netdisc.common.pojo.MyFile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public interface FileService {
     List<MyFile> queryFilesByUid(int userId, int pageNum);
 
 
-    List<Map<String, String>> thumbnailList(Integer uid, Integer pageNum);
+    PageVO<Map<String, String>> thumbnailList(Integer uid, Integer pageNum);
 
 
     boolean deleteByMyFileId(int fileId);

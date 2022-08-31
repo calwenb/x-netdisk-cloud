@@ -22,6 +22,11 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.17</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
         <!--es客户端-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -34,18 +39,22 @@
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
 
-
         <dependency>
-            <groupId>com.wen.netdisccloud</groupId>
-            <artifactId>netdisc-oauth-client</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.2</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--rpc-->
+        <dependency>
+            <groupId>com.wen.netdisccloud</groupId>
+            <artifactId>netdisc-oauth-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -53,11 +62,7 @@
             <artifactId>netdisc-service-filesystem-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>5.3.21</version>
-        </dependency>
+
 
     </dependencies>
 

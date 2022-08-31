@@ -1,8 +1,8 @@
 package com.wen.netdisc.user.api.controller.api;
 
-import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.commutil.util.NullUtil;
 import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.exception.OauthException;
 import com.wen.netdisc.common.pojo.User;
@@ -99,7 +99,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResultVO<String> updateUser(@PathVariable Integer id, @RequestBody UserDto dto) {
         dto.setId(id);
-        return userService.updateUser(dto) > 0 ? ResultUtil.successDo() : ResultUtil.errorDo();
+        return userService.updateUser(dto) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @GetMapping("/avatar")

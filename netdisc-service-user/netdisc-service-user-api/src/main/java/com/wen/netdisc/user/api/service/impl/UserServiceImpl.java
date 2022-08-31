@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         return baseMapper.insertTarget(user);
     }*/
     @Override
-    public int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword) {
+    public boolean initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword) {
         User superAdmin = new User(-10, superAdminName, superAdminLoginName, superAdminPassword, 0, null, null, null, new Date());
         return baseMapper.save(superAdmin);
     }
@@ -126,12 +126,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int deleteUser(int userId) {
+    public boolean deleteUser(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("id", userId);
         User user = baseMapper.get(User.class, wrapper);
         if (user != null && user.getUserType() == 0) {
-            return 0;
+            return false;
         }
         return baseMapper.delete(User.class, wrapper);
     }
@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
      * 修改全部用户
      */
     @Override
-    public int updateUser(UserDto dto) {
+    public boolean updateUser(UserDto dto) {
         User user = baseMapper.getById(User.class, dto.getId());
         CommBeanUtils.copyPropertiesIgnoreNull(dto, user);
         return baseMapper.save(user);
@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
         user.setAvatar("/#");
         user.setRegisterTime(new Date());
         try {
-            if (baseMapper.add(user) == 0) {
+            if (baseMapper.add(user)) {
                 throw new FailException("注册失败");
             }
         } catch (Exception e) {
@@ -259,7 +259,7 @@ public class UserServiceImpl implements UserService {
             throw new FailException("用户不存在");
         }
         user.setPassWord(password);
-        return baseMapper.save(user) > 0;
+        return baseMapper.save(user);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class UserServiceImpl implements UserService {
         String path = filesystemClient.uploadHead(file).getData();
         User user = baseMapper.getById(User.class, uid);
         user.setAvatar(path);
-        return baseMapper.save(user) > 0;
+        return baseMapper.save(user);
     }
 
     /**
@@ -301,7 +301,7 @@ public class UserServiceImpl implements UserService {
             throw new FailException("请勿多次申请");
         }
         user.setUserType(type + 10);
-        return baseMapper.save(user) > 0;
+        return baseMapper.save(user);
     }
 
 

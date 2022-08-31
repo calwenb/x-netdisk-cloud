@@ -17,17 +17,17 @@ import java.util.List;
 public class PageVO<T> {
     private List<T> content;
 
-    private Long page;
+    private Integer page;
 
     private Integer size;
 
-    private Long total;
+    private Integer total;
 
-    public static <T> PageVO<T> of(List<T> content, Long page, Integer size, Long total) {
+    public static <T> PageVO<T> of(List<T> content, Integer page, Integer size, Integer total) {
         return new PageVO<>(content, page, size, total);
     }
 
-    public PageVO(List<T> content, Long page, Integer size, Long total) {
+    public PageVO(List<T> content, Integer page, Integer size, Integer total) {
         this.content = content;
         this.page = page;
         this.size = size;

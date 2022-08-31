@@ -26,7 +26,7 @@ public interface UserService {
     List<User> queryUsersLike(String term, String key);
 
 
-    int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword);
+    boolean initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword);
 
     int verifyAdmin(int id);
 
@@ -37,12 +37,12 @@ public interface UserService {
      * @param userID
      * @return
      */
-    int deleteUser(int userID);
+    boolean deleteUser(int userID);
 
     /**
      * 修改全部用户
      */
-    int updateUser(UserDto dto);
+    boolean updateUser(UserDto dto);
 
     void upPassword(UserDto userDto);
 

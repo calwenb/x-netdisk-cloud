@@ -3,8 +3,9 @@ package com.wen.netdisc.filesystem.api.controller.api;
 
 import com.alibaba.fastjson2.JSON;
 import com.mysql.cj.util.StringUtils;
-import com.wen.netdisc.common.annotation.PassAuth;
+import com.wen.commutil.vo.PageVO;
 import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
@@ -37,7 +38,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/thumbnail/list/{page}")
-    public ResultVO<List<Map<String, String>>> thumbnailList(@PathVariable Integer page) {
+    public ResultVO<PageVO<Map<String, String>>> thumbnailList(@PathVariable Integer page) {
         Integer uid = UserUtil.getUid();
         return ResultUtil.success(fileService.thumbnailList(uid, page));
     }
@@ -89,7 +90,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/file-folder")
-    public ResultVO<List<Object>> queryFiles(@RequestParam("parentFolderId") Integer parentFid) {
+    public ResultVO<List<Object>> queryFiles(@RequestParam Integer parentFid) {
         List<Object> list = fileService.getFileAndFolder(parentFid);
         return ResultUtil.success(list);
     }
@@ -110,7 +111,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<InputStreamResource> downByFileIds(@RequestParam String fileIdList, @RequestParam(defaultValue = "false") String preview) {
+    public ResponseEntity<InputStreamResource> downByFileIds(@RequestParam("fileIdList") String fileIdList, @RequestParam(defaultValue = "false") String preview) {
         List<String> list = JSON.parseArray(fileIdList, String.class);
         try {
             return fileService.downloadFile(Integer.parseInt(list.get(0)), Boolean.parseBoolean(preview));

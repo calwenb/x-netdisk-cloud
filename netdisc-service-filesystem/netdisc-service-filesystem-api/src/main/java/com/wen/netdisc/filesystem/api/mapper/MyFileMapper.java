@@ -20,9 +20,10 @@ public interface MyFileMapper {
 
     List<MyFile> queryFilesByType(int userId, String type, int startRow, int showRow);
 
+    Integer countFilesByType(int userId, String type);
+
     List<MyFile> queryFilesByUid(int userId, int startRow, int showRow);
 
-    List<MyFile> queryImageByUid(int userId, int startRow, int showRow);
 
     Integer addFile(MyFile myFile);
 

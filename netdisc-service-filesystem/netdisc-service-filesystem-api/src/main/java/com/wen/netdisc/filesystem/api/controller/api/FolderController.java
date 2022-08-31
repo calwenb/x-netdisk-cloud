@@ -9,6 +9,7 @@ import com.wen.netdisc.filesystem.api.dto.FolderSaveDto;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
 public class FolderController extends BaseController {
 
     @PostMapping
-    public ResultVO<String> addFolder(FolderSaveDto dto) {
+    public ResultVO<String> addFolder(@Valid @RequestBody FolderSaveDto dto) {
         return folderService.addFileFolder(dto) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
@@ -46,7 +47,7 @@ public class FolderController extends BaseController {
     }
 
     @PutMapping("/{id}")
-    public ResultVO<String> updateFolderName(@PathVariable int id, @RequestParam String newName) {
+    public ResultVO<String> updateFolderName(@PathVariable int id, @RequestParam("newName") String newName) {
         return folderService.updateFolderName(id, newName)
                 ? ResultUtil.successDo() : ResultUtil.errorDo();
 

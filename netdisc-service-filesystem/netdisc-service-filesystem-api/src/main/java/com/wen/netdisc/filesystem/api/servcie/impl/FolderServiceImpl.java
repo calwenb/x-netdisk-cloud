@@ -16,7 +16,6 @@ import com.wen.netdisc.filesystem.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
 import com.wen.releasedao.core.wrapper.QueryWrapper;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,13 +45,14 @@ public class FolderServiceImpl implements FolderService {
         Integer uid = UserUtil.getUid();
         FileStore store = storeMapper.queryStoreByUid(uid);
         FileFolder folder = new FileFolder();
-        BeanUtils.copyProperties(dto, folder);
+        folder.setFileFolderId(dto.getParentId());
+        folder.setFileFolderName(dto.getName());
         folder.setFileStoreId(store.getFileStoreId());
 
         //根路径+仓库Id
-        StringBuffer path = new StringBuffer(FileUtil.STORE_ROOT_PATH + folder.getFileStoreId());
-        int parentFolderId = folder.getParentFolderId();
-        if (parentFolderId == FileUtil.STORE_ROOT_ID) {
+        StringBuilder path = new StringBuilder(FileUtil.STORE_ROOT_PATH + folder.getFileStoreId());
+        int parentId = folder.getParentFolderId();
+        if (parentId == FileUtil.STORE_ROOT_ID) {
             path.append("/").append(folder.getFileFolderName());
         } else {
             Stack<String> stack = new Stack<>();

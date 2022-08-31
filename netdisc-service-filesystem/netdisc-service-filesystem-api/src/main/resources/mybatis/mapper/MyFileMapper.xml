@@ -72,25 +72,16 @@
         <if test="startRow!=null and showRow!=null"></if>
         LIMIT #{startRow},#{showRow};
     </select>
+    <select id="queryFileById" resultMap="MyFileMap">
+        SELECT *
+        FROM my_file
+        WHERE my_file_id = #{myFileId}
+    </select>
 
-    <!--    <select id="queryFilesByType" resultMap="MyFileMap">
-            SELECT
-            <include refid="AllField"></include>
-            FROM
-            `user`
-            JOIN file_store ON `user`.id=file_store.user_id
-            JOIN my_file ON file_store.file_store_id=my_file.file_store_id
-            <where>
-                <if test="userId !=null">
-                    user_id = #{userId}
-                </if>
-                <if test="type !=null">
-                    AND type= #{type}
-                </if>
-            </where>
-            <if test="startRow!=null and showRow!=null"></if>
-            LIMIT #{startRow},#{showRow};
-        </select>-->
+    <select id="queryAllFiles" resultMap="MyFileMap">
+        SELECT *
+        FROM my_file;
+    </select>
     <select id="queryFilesByUid" resultMap="MyFileMap">
         SELECT
         <include refid="AllField"></include>
@@ -108,35 +99,6 @@
         LIMIT #{startRow},#{showRow};
     </select>
 
-    <select id="queryImageByUid" resultMap="MyFileMap">
-        SELECT
-        <include refid="AllField"></include>
-        FROM
-        `user`
-        JOIN file_store ON `user`.id=file_store.user_id
-        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
-        <where>
-            <if test="userId !=null">
-                user_id = #{userId}
-            </if>
-            AND type= '图片'
-        </where>
-        ORDER BY update_time DESC
-        <if test="startRow!=null and showRow!=null"></if>
-        LIMIT #{startRow},#{showRow};
-    </select>
-
-
-    <select id="queryFileById" resultMap="MyFileMap">
-        SELECT *
-        FROM my_file
-        WHERE my_file_id = #{myFileId}
-    </select>
-
-    <select id="queryAllFiles" resultMap="MyFileMap">
-        SELECT *
-        FROM my_file;
-    </select>
     <select id="queryFilesByType" resultMap="MyFileMap">
         SELECT
         <include refid="AllField"></include>
@@ -150,8 +112,25 @@
                 AND type= #{type}
             </if>
         </where>
-        <if test="startRow!=null and showRow!=null"></if>
-        LIMIT #{startRow},#{showRow};
+        ORDER BY update_time,my_file_id DESC
+        <if test="startRow!=null and showRow!=null">
+            LIMIT #{startRow},#{showRow};
+        </if>
+    </select>
+
+    <select id="countFilesByType" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM `user` JOIN file_store ON `user`.id=file_store.user_id
+        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
+        <where>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            <if test="type !=null">
+                AND type= #{type}
+            </if>
+        </where>
+
     </select>
 
     <delete id="deleteByMyFileId">

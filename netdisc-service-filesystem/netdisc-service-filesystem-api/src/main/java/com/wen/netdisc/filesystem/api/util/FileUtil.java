@@ -162,6 +162,7 @@ public class FileUtil {
                     map.put("data", "data:image/jpg;base64," + base64Str);
                     rs[finalI] = map;
                 } catch (Exception e) {
+                    e.printStackTrace();
                     throw new FailException("生成缩略图失败");
                 } finally {
                     latch.countDown();

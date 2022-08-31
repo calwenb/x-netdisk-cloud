@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
+import com.wen.commutil.vo.PageVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
@@ -166,9 +167,7 @@ public class FileServiceImpl implements FileService {
     public List<MyFile> queryFilesByType(Integer uid, String type, int pageNum) {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-        /**
-         * 不指定页数，即不分页
-         */
+        //不指定页数，即不分页
         if (pageNum == -1) {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
@@ -202,14 +201,17 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public List<Map<String, String>> thumbnailList(Integer uid, Integer pageNum) {
+    public PageVO<Map<String, String>> thumbnailList(Integer uid, Integer pageNum) {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-        List<MyFile> files = fileMapper.queryImageByUid(uid, startRow, showRow);
+        List<MyFile> files = fileMapper.queryFilesByType(uid, "图片", startRow, showRow);
+        Integer count = fileMapper.countFilesByType(uid, "图片");
         if (files == null || files.isEmpty()) {
-            return null;
+            return PageVO.of(Collections.emptyList(), pageNum, showRow, count);
         }
-        return FileUtil.previewImage(files);
+        List<Map<String, String>> list = FileUtil.previewImage(files);
+        return PageVO.of(list, pageNum, showRow, count);
+
     }
 
 

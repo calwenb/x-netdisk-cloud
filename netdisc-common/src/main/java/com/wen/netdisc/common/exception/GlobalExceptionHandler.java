@@ -4,9 +4,14 @@ import com.wen.commutil.util.LoggerUtil;
 import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.common.util.ResultUtil;
 import feign.FeignException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.stream.Collectors;
 
 /**
  * 全局异常处理类
@@ -28,10 +33,17 @@ public class GlobalExceptionHandler {
         return ResultUtil.error(e.getMessage());
     }
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler({BadRequestException.class, MissingServletRequestParameterException.class})
     public ResultVO<String> BadRequestException(Exception e) {
         LoggerUtil.warn("\n [坏的请求] ：===> " + e.getMessage(), GlobalExceptionHandler.class);
         return ResultUtil.badRequest(e.getMessage());
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResultVO<String> ValidException(MethodArgumentNotValidException e) {
+        LoggerUtil.warn("\n [请求常数检验] ：===> " + e.getMessage(), GlobalExceptionHandler.class);
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+        return ResultUtil.badRequest(message);
     }
 
     @ExceptionHandler({RpcException.class, FeignException.class})
