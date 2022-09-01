@@ -211,7 +211,6 @@ public class FileServiceImpl implements FileService {
         }
         List<Map<String, String>> list = FileUtil.previewImage(files);
         return PageVO.of(list, pageNum, showRow, count);
-
     }
 
 

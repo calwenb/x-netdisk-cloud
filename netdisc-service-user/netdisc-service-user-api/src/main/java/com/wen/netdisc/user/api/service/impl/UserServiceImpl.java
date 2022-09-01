@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
         user.setAvatar("/#");
         user.setRegisterTime(new Date());
         try {
-            if (baseMapper.add(user)) {
+            if (!baseMapper.add(user)) {
                 throw new FailException("注册失败");
             }
         } catch (Exception e) {
