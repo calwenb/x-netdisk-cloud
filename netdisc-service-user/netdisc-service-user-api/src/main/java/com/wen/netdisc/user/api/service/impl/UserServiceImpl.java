@@ -1,6 +1,6 @@
 package com.wen.netdisc.user.api.service.impl;
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.CommBeanUtils;
@@ -186,7 +186,6 @@ public class UserServiceImpl implements UserService {
         }
         User user = new User();
         BeanUtils.copyProperties(dto, user);
-        user.setId((int) (Math.random() * Integer.MAX_VALUE));
         user.setUserType(2);
         user.setAvatar("/#");
         user.setRegisterTime(new Date());

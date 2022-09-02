@@ -1,6 +1,6 @@
 package com.wen.netdisc.common.interceptor;
 
-import com.wen.commutil.util.NullUtil;
+import com.wen.netdisc.common.util.NullUtil;
 import com.wen.netdisc.common.enums.TokenEnum;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

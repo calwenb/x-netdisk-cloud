@@ -2,7 +2,7 @@ package com.wen.netdisc.filesystem.api.interceptor;
 
 import com.alibaba.fastjson2.JSON;
 import com.wen.netdisc.common.annotation.PassAuth;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import org.springframework.web.method.HandlerMethod;

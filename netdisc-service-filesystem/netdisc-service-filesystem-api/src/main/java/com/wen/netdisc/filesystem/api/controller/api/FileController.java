@@ -3,8 +3,8 @@ package com.wen.netdisc.filesystem.api.controller.api;
 
 import com.alibaba.fastjson2.JSON;
 import com.mysql.cj.util.StringUtils;
-import com.wen.commutil.vo.PageVO;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.PageVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
@@ -89,8 +89,8 @@ public class FileController extends BaseController {
         return chunkService.merge(chunkDto);
     }
 
-    @GetMapping("/file-folder")
-    public ResultVO<List<Object>> queryFiles(@RequestParam Integer parentFid) {
+    @GetMapping("/file-folder/{parentFid}")
+    public ResultVO<List<Object>> queryFiles( @PathVariable Integer parentFid) {
         List<Object> list = fileService.getFileAndFolder(parentFid);
         return ResultUtil.success(list);
     }
@@ -101,7 +101,7 @@ public class FileController extends BaseController {
         List<Integer> list = JSON.parseArray(fileIdList, Integer.class);
         int count = 0;
         for (Integer id : list) {
-            if (fileService.deleteByMyFileId(id)) {
+            if (fileService.deleteById(id)) {
                 count++;
             }
         }

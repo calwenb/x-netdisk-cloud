@@ -1,7 +1,7 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.wen.commutil.util.LoggerUtil;
+import com.wen.netdisc.common.util.LoggerUtil;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.servcie.EsService;

@@ -1,7 +1,7 @@
 package com.wen.netdisc.common.aop;
 
-import com.wen.commutil.util.LoggerUtil;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.util.LoggerUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.exception.BadRequestException;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.exception.OauthException;

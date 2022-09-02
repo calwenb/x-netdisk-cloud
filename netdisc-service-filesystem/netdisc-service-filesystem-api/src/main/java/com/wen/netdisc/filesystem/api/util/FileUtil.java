@@ -2,7 +2,7 @@ package com.wen.netdisc.filesystem.api.util;
 
 
 import com.alibaba.fastjson.JSON;
-import com.wen.commutil.util.ThreadPoolUtil;
+import com.wen.netdisc.common.util.ThreadPoolUtil;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
 import net.coobird.thumbnailator.Thumbnails;

@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
-import com.wen.commutil.vo.PageVO;
+import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.common.pojo.MyFile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public interface FileService {
     boolean uploadFile(MultipartFile file, int userId, Integer faFolderId);
 
 
-    List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum);
+    List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum);
 
     List<MyFile> queryFilesByUid(int userId, int pageNum);
 
@@ -30,7 +30,7 @@ public interface FileService {
     PageVO<Map<String, String>> thumbnailList(Integer uid, Integer pageNum);
 
 
-    boolean deleteByMyFileId(int fileId);
+    boolean deleteById(int fileId);
 
     /**
      * 文件下载业务

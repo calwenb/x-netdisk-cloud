@@ -1,6 +1,6 @@
 package com.wen.netdisc.oauth.client.feign;
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PrcVerify;
 import com.wen.netdisc.common.pojo.User;
 import org.springframework.web.bind.annotation.DeleteMapping;

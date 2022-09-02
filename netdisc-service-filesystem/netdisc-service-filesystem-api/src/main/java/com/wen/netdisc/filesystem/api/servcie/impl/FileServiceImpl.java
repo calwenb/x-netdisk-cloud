@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.commutil.vo.PageVO;
+import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
@@ -14,6 +14,7 @@ import com.wen.netdisc.filesystem.api.servcie.TrashService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class FileServiceImpl implements FileService {
     @Resource
     MyFileMapper fileMapper;
@@ -51,7 +53,7 @@ public class FileServiceImpl implements FileService {
     @Resource
     StoreService storeService;
     @Resource
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
     @Resource
     TrashService trashService;
 
@@ -59,14 +61,18 @@ public class FileServiceImpl implements FileService {
     @Override
     public boolean uploadFile(MultipartFile file, int userId, Integer faFolderId) {
         try {
-            FileStore fileStore = storeMapper.queryStoreByUid(userId);
-            if (fileStore == null) {
+            FileStore store = storeMapper.queryStoreByUid(userId);
+            if (store == null) {
                 throw new FailException("获取用户仓库失败");
             }
-            int fileStoreId = fileStore.getFileStoreId();
+            long size = file.getSize() / 1000;
+            if (store.getCurrentSize() + size > store.getMaxSize()) {
+                throw new FailException("仓库容量不足，请提高等级");
+            }
+            int storeId = store.getFileStoreId();
             // 获取文件名
-            String fileName = file.getOriginalFilename();
-            long size = file.getSize();
+            String fileName = Optional.ofNullable(file.getOriginalFilename())
+                    .orElseThrow(() -> new FailException("上传文件未命名"));
             // 获取文件的后缀名
             String suffixName;
             if (fileName.lastIndexOf(".") == -1) {
@@ -78,7 +84,7 @@ public class FileServiceImpl implements FileService {
             String filePath;
             //Pid=0，保存到根文件夹,否则获取父文件夹的路径
             if (faFolderId == 0) {
-                filePath = FileUtil.STORE_ROOT_PATH + fileStoreId + "/";
+                filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
             } else {
                 FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
                 String fileFolderPath = fileFolder.getFileFolderPath();
@@ -111,15 +117,14 @@ public class FileServiceImpl implements FileService {
                 dest.getParentFile().mkdirs();
             }
             String type = FileUtil.getFileType(suffixName);
-            MyFile myFile = new MyFile(-1, fileName, fileStoreId, path, 0, new Date(), faFolderId, size, type);
+            MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
             Integer i = fileMapper.addFile(myFile);
             if (i > 0) {
                 file.transferTo(dest);
-                //
-             /*   FileStore store = storeService.queryStoreByUserId(userId);
-                store.setCurrentSize(store.getCurrentSize() + file.getSize());
-                storeService.updateStore(store);*/
-                System.out.println("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+                store.setCurrentSize(store.getCurrentSize() + size);
+                storeService.updateStore(store);
+                log.info("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+                log.info("当前仓库容量为：" + store.getCurrentSize() + " KB");
                 return true;
             }
             return false;
@@ -134,18 +139,15 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum) {
+    public List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum) {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-        /**
-         * 不指定页数，即不分页
-         */
+        //不指定页数，即不分页
         if (pageNum == -1) {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
         }
-        List<MyFile> myFiles = fileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
-        return myFiles;
+        return fileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
     }
 
 
@@ -182,7 +184,7 @@ public class FileServiceImpl implements FileService {
         try {
             Files.write(Paths.get(path), file.getBytes());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FailException("修改失败");
         }
         return true;
     }
@@ -192,7 +194,7 @@ public class FileServiceImpl implements FileService {
         List<Object> list = new ArrayList<>();
         Integer uid = UserUtil.getUid();
         FileStore store = storeService.queryStoreByUid(uid);
-        List<MyFile> files = queryMyFiles(uid, parentFid, -1);
+        List<MyFile> files = queryFiles(uid, parentFid, -1);
         List<FileFolder> folders = folderMapper.queryFoldersByPId(store.getFileStoreId(), parentFid);
         list.addAll(folders);
         list.addAll(files);
@@ -215,11 +217,12 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public boolean deleteByMyFileId(int fileId) {
+    public boolean deleteById(int fileId) {
         MyFile file = fileMapper.queryFileById(fileId);
         if (fileMapper.deleteByMyFileId(fileId) > 0) {
             int uid = UserUtil.getUid();
             FileStore store = storeService.queryStoreByUid(uid);
+            store.setCurrentSize(store.getCurrentSize() - file.getSize());
             return trashService.addTrash(file, uid) && storeService.updateStore(store);
         }
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -337,8 +340,7 @@ public class FileServiceImpl implements FileService {
         if (fileId == null) {
             return null;
         }
-        MyFile file = fileMapper.queryFileById((int) fileId);
-        return file;
+        return fileMapper.queryFileById((int) fileId);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.wen.netdisc.common.interceptor;
 
 import com.alibaba.fastjson2.JSON;
-import com.wen.commutil.util.BaseResultUtil;
-import com.wen.commutil.util.LoggerUtil;
+import com.wen.netdisc.common.util.BaseResultUtil;
+import com.wen.netdisc.common.util.LoggerUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;

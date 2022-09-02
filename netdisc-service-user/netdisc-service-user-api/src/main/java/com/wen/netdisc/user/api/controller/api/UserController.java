@@ -1,7 +1,7 @@
 package com.wen.netdisc.user.api.controller.api;
 
-import com.wen.commutil.util.NullUtil;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.util.NullUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.exception.OauthException;

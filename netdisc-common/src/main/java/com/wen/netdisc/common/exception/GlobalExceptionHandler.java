@@ -1,7 +1,7 @@
 package com.wen.netdisc.common.exception;
 
-import com.wen.commutil.util.LoggerUtil;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.util.LoggerUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.util.ResultUtil;
 import feign.FeignException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;

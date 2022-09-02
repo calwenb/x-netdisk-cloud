@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.util.ResultUtil;

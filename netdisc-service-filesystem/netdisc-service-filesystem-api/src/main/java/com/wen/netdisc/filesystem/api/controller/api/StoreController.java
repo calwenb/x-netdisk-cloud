@@ -1,7 +1,7 @@
 package com.wen.netdisc.filesystem.api.controller.api;
 
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;

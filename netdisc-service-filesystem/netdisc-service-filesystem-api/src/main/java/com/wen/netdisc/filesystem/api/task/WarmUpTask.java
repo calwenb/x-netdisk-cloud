@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.task;
 
-import com.wen.commutil.util.LogHandlerUtil;
+import com.wen.netdisc.common.util.LogHandlerUtil;
 import com.wen.netdisc.filesystem.api.servcie.EsService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

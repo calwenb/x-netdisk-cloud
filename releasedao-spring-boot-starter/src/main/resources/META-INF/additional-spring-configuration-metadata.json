@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "name": "releasedao.config",
+      "description": "releasedao 配置项."
+    }
+  ],
+  "properties": [
+    {
+      "name": "releasedao.config.logger",
+      "type": "java.lang.Boolean",
+      "defaultValue": "true",
+      "description": "开启 日志功能."
+    },
+    {
+      "name": "releasedao.config.camel-case",
+      "type": "java.lang.Boolean",
+      "defaultValue": "true",
+      "description": "开启 驼峰式转蛇形式."
+    },
+    {
+      "name": "releasedao.config.cache",
+      "type": "java.lang.Boolean",
+      "defaultValue": "false",
+      "description": "开启 缓存功能."
+    },
+    {
+      "name": "releasedao.config.cache-expired-time",
+      "type": "java.lang.Integer",
+      "defaultValue": "604800",
+      "description": "开启 缓存过期时间."
+    }
+  ]
+}
