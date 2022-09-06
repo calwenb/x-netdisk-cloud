@@ -57,7 +57,7 @@ public class FileController extends BaseController {
         return ResultUtil.successDo();
     }
 
-
+    @Deprecated
     @PostMapping("/upload")
     public ResultVO<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId) {
         if (file.isEmpty()) {
@@ -90,7 +90,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/file-folder/{parentFid}")
-    public ResultVO<List<Object>> queryFiles( @PathVariable Integer parentFid) {
+    public ResultVO<List<Object>> queryFiles(@PathVariable Integer parentFid) {
         List<Object> list = fileService.getFileAndFolder(parentFid);
         return ResultUtil.success(list);
     }

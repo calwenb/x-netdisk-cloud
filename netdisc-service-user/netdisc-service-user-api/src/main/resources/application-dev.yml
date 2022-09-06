@@ -1,8 +1,8 @@
 server:
-  port: 8072
+  port: 8062
 spring:
   application:
-    name: netdisc-user
+    name: netdisc-user-dev
   cloud:
     nacos:
       discovery:

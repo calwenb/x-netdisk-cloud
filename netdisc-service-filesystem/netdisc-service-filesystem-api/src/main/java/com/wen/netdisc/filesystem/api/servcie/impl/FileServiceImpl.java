@@ -1,10 +1,10 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
@@ -57,7 +57,7 @@ public class FileServiceImpl implements FileService {
     @Resource
     TrashService trashService;
 
-
+    @Deprecated
     @Override
     public boolean uploadFile(MultipartFile file, int userId, Integer faFolderId) {
         try {
@@ -128,13 +128,83 @@ public class FileServiceImpl implements FileService {
                 return true;
             }
             return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
             return false;
         }
-        return false;
+    }
+
+    @Override
+    public void giveUserFile(File file, int userId, Integer faFolderId) throws IOException {
+        FileStore store = storeMapper.queryStoreByUid(userId);
+        if (store == null) {
+            throw new FailException("获取用户仓库失败");
+        }
+        long size = file.length() / 1000;
+        Long currentSize = store.getCurrentSize();
+        Long maxSize = store.getMaxSize();
+        if (currentSize + size > maxSize) {
+            String s = String.format("最大容量：%s，当前容量：%s，文件大小：%s", maxSize, currentSize, size);
+            log.warn(s);
+            throw new FailException("仓库容量不足，请提高等级");
+        }
+        int storeId = store.getFileStoreId();
+        // 获取文件名
+        String fileName = Optional.of(file.getName())
+                .orElseThrow(() -> new FailException("上传文件未命名"));
+        // 获取文件的后缀名
+        String suffixName;
+        if (fileName.lastIndexOf(".") == -1) {
+            //文件没有后缀
+            suffixName = "null";
+        } else {
+            suffixName = fileName.substring(fileName.lastIndexOf("."));
+        }
+        String filePath;
+        //Pid=0，保存到根文件夹,否则获取父文件夹的路径
+        if (faFolderId == 0) {
+            filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
+        } else {
+            FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
+            String fileFolderPath = fileFolder.getFileFolderPath();
+            filePath = fileFolderPath + "/";
+        }
+
+        FolderUtil.autoFolder(filePath);
+
+        //如果有相同的文件名 加后缀
+        File[] broFiles = new File(filePath).listFiles();
+        assert broFiles != null;
+        for (File broFile : broFiles) {
+            if (broFile.getName().equals(fileName)) {
+                String pureName = broFile.getName().substring(0, fileName.lastIndexOf(suffixName));
+                int len = pureName.length();
+                if (pureName.charAt(len - 2) == '_') {
+                    int count = Integer.parseInt(pureName.substring(len - 1)) + 1;
+                    fileName = pureName.substring(0, pureName.lastIndexOf('_') + 1) + count + suffixName;
+                } else {
+                    fileName = pureName + "_1" + suffixName;
+                }
+            }
+        }
+        // 设置文件存储路径
+        String path = filePath + fileName;
+        File dest = new File(path);
+        // 检测是否存在目录
+        if (!dest.getParentFile().exists()) {
+            // 新建文件夹
+            dest.getParentFile().mkdirs();
+        }
+        String type = FileUtil.getFileType(suffixName);
+        MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
+        Integer i = fileMapper.addFile(myFile);
+        if (i > 0) {
+            Files.copy(file.toPath(), dest.toPath());
+            store.setCurrentSize(store.getCurrentSize() + size);
+            storeService.updateStore(store);
+            log.info("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+            log.info("当前仓库容量为：" + store.getCurrentSize() + " KB");
+        }
     }
 
 
@@ -178,7 +248,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean updateData(MultipartFile file, Integer id) {
+    public void updateData(MultipartFile file, Integer id) {
         MyFile myFile = fileMapper.queryFileById(id);
         String path = myFile.getMyFilePath();
         try {
@@ -186,7 +256,6 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new FailException("修改失败");
         }
-        return true;
     }
 
     @Override

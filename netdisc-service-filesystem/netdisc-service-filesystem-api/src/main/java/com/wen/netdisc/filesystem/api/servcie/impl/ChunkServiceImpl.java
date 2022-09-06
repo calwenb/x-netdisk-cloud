@@ -1,9 +1,9 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
-import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.util.ResultUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.servcie.ChunkService;
 import com.wen.netdisc.filesystem.api.servcie.FileService;
@@ -11,9 +11,7 @@ import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
 import com.wen.netdisc.filesystem.api.vo.ChunkVo;
-import org.apache.http.entity.ContentType;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +22,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Optional;
+import java.util.stream.BaseStream;
+import java.util.stream.Stream;
 
 /**
  * @author calwen
@@ -38,7 +39,7 @@ public class ChunkServiceImpl implements ChunkService {
     @Resource
     FileService fileService;
     @Resource
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @Override
     public ResultVO<ChunkVo> saveChunk(ChunkDto chunk) {
@@ -46,19 +47,23 @@ public class ChunkServiceImpl implements ChunkService {
         try {
             chunkFile.transferTo(Paths.get(generatePath(chunk)));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new FailException("秒传失败");
         }
         return ResultUtil.successDo();
     }
 
     @Override
     public ResultVO<ChunkVo> merge(ChunkDto chunk) {
+
         //创建合并后的文件
         String mergePath = FileUtil.ROOT_PATH + BACKUP_PATH + "/" + chunk.getFilename();
         String chunkPath = FileUtil.ROOT_PATH + CHUNK_PATH;
+        Stream<Path> stream = null;
         try {
-            new File(mergePath).createNewFile();
-            Files.list(Paths.get(chunkPath + "/" + chunk.getIdentifier()))
+            File file = new File(mergePath);
+            file.createNewFile();
+            stream = Files.list(Paths.get(chunkPath + "/" + chunk.getIdentifier()))
                     .filter(p -> p.getFileName().toString().contains(chunk.getIdentifier() + "_"))
                     .sorted((o1, o2) -> {
                         String f1 = o1.getFileName().toString();
@@ -66,25 +71,23 @@ public class ChunkServiceImpl implements ChunkService {
                         String n1 = f1.substring(f1.lastIndexOf("_") + 1);
                         String n2 = f2.substring(f2.lastIndexOf("_") + 1);
                         return Integer.valueOf(n1).compareTo(Integer.valueOf(n2));
-                    }).forEach((path -> {
-                        try {
-                            Files.write(Paths.get(mergePath), Files.readAllBytes(path), StandardOpenOption.APPEND);
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }));
+                    });
+            stream.forEach((path -> {
+                try {
+                    Files.write(Paths.get(mergePath), Files.readAllBytes(path), StandardOpenOption.APPEND);
+                    Files.delete(path);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }));
             Files.delete(Paths.get(chunkPath + "/" + chunk.getIdentifier()));
-            //照常走上传文件逻辑
-            MultipartFile multipartFile = new MockMultipartFile(chunk.getFilename(), chunk.getFilename(),
-                    ContentType.APPLICATION_OCTET_STREAM.toString(), Files.newInputStream(Paths.get(mergePath)));
-            fileService.uploadFile(multipartFile, UserUtil.getUid(), chunk.getFaFolderId());
-            //保存路径,秒传
+            fileService.giveUserFile(file, UserUtil.getUid(), chunk.getFaFolderId());
             redisTemplate.opsForValue().set(REDIS_PREFIX + chunk.getIdentifier(), mergePath);
-//            redisTemplate.opsForValue().set(REDIS_PREFIX + chunk.getMd5(), mergePath, 1, TimeUnit.DAYS);
         } catch (IOException e) {
             e.printStackTrace();
             throw new FailException("合并文件失败");
+        } finally {
+            Optional.ofNullable(stream).ifPresent(BaseStream::close);
         }
         return ResultUtil.successDo();
     }
@@ -100,12 +103,11 @@ public class ChunkServiceImpl implements ChunkService {
             return ResultUtil.success(0);
         }
         try {
-            //照常走上传文件逻辑
-            MultipartFile multipartFile = new MockMultipartFile(chunk.getRelativePath(), chunk.getRelativePath()
-                    , ContentType.APPLICATION_OCTET_STREAM.toString(), Files.newInputStream(path));
-            fileService.uploadFile(multipartFile, UserUtil.getUid(), chunk.getFaFolderId());
+            //发现可以秒传，将目标文件 ctrl+c v 给用户
+            fileService.giveUserFile(path.toFile(), UserUtil.getUid(), chunk.getFaFolderId());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new FailException("秒传失败");
         }
         return ResultUtil.success(1);
     }

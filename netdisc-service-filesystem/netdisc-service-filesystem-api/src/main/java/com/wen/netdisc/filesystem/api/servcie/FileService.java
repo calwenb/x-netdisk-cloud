@@ -6,6 +6,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,12 @@ import java.util.Map;
  * @author calwen
  */
 public interface FileService {
-
+    /**
+     * 上传，不建议使用，请使用分片上传
+     */
     boolean uploadFile(MultipartFile file, int userId, Integer faFolderId);
+
+    void giveUserFile(File file, int userId, Integer faFolderId) throws IOException;
 
 
     List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum);
@@ -65,7 +70,7 @@ public interface FileService {
 
     List<MyFile> queryFilesByType(Integer uid, String type, int pageNum);
 
-    boolean updateData(MultipartFile file, Integer id);
+    void updateData(MultipartFile file, Integer id);
 
     List<Object> getFileAndFolder(Integer parentFid);
 

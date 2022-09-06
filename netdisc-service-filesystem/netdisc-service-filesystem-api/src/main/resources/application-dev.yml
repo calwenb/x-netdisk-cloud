@@ -1,9 +1,8 @@
 server:
-  port: 8073
-
+  port: 8063
 spring:
   application:
-    name: netdisc-filesystem
+    name: netdisc-filesystem-dev
   cloud:
     nacos:
       discovery:

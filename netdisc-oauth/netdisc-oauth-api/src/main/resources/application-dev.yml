@@ -1,10 +1,10 @@
 server:
-  port: 8071
+  port: 8061
 spring:
   main:
     allow-circular-references: true
   application:
-    name: netdisc-oauth
+    name: netdisc-oauth-dev
   cloud:
     nacos:
       discovery:

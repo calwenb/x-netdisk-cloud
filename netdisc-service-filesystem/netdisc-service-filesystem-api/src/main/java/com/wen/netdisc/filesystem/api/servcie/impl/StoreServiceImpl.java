@@ -28,11 +28,14 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public boolean initStore(int userId) {
-        FileStore fileStore = new FileStore(-1, userId, 0, FileUtil.STORE_MAX_SIZE);
-        if (storeMapper.addFileStore(fileStore) == 0) {
+        FileStore store = new FileStore();
+        store.setUserId(userId);
+        store.setCurrentSize(0L);
+        store.setMaxSize(FileUtil.STORE_MAX_SIZE);
+        if (storeMapper.addFileStore(store) == 0) {
             return false;
         }
-        String path = FileUtil.STORE_ROOT_PATH + fileStore.getFileStoreId() + "/";
+        String path = FileUtil.STORE_ROOT_PATH + store.getFileStoreId() + "/";
         try {
             Files.createDirectories(Paths.get(path));
         } catch (IOException e) {
