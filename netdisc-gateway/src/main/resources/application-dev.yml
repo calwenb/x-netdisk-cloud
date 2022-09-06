@@ -31,11 +31,10 @@ spring:
           filters: #排除/api
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar
-
         - id: netdisc-user-dev
           uri: lb://netdisc-user-dev
           predicates:
-            - Path=/api/users/**
+            - Path=/api/users/**,/api/bulletins/**
           filters:
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar

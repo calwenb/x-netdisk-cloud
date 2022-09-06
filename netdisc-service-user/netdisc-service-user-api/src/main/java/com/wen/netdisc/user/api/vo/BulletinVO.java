@@ -1,11 +1,17 @@
 package com.wen.netdisc.user.api.vo;
 
-import com.wen.netdisc.common.pojo.Bulletin;
+import lombok.Data;
 
 /**
  * @author calwen
- * @eamil calvinwen@dianhun.cn
  * @since 2022/9/6
  */
-public class BulletinVO extends Bulletin {
+@Data
+public class BulletinVO {
+    private Integer id;
+    private String title;
+    private String content;
+    private String level;
+    private Boolean publish;
+    private String userName;
 }

@@ -17,7 +17,7 @@ spring:
     # 配置数据源
     username: root
     password: WHL531124
-    url: jdbc:mysql://101.43.95.238:3306/my_pan_test?serverTimezone=Hongkong&useAffectedRows=true
+    url: jdbc:mysql://101.43.95.238:3306/x_netdisk_dev?serverTimezone=Hongkong&useAffectedRows=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 配置druid数据源

@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class BulletinFindDto {
+    private String keyword;
     private Integer id;
     private String title;
     private String level;

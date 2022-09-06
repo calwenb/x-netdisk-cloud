@@ -10,5 +10,4 @@ public class BulletinDto {
     private String content;
     private String level;
     private Boolean publish;
-    private Integer userId;
 }

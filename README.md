@@ -69,7 +69,7 @@ http://pan.wenyo.top
 
 ### 安装教程
 
-1.  创建my_pan_test数据库，将sql文件夹下my_pan_test.sql执行。
+1.  创建x_netdisk数据库，将sql文件夹下x_netdisk.sql执行。
 2.  配置application.yml 文件，修改mysql、redis、ElasticSearch连接信息。
 3.  修改netdisc.store.root-path 为文件系统根目录。
 4.  启动Nacos、Sentinel。

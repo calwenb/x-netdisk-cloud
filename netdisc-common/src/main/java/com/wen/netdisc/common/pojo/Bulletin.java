@@ -1,9 +1,6 @@
 package com.wen.netdisc.common.pojo;
 
-import com.wen.releasedao.core.annotation.CreateTime;
-import com.wen.releasedao.core.annotation.IdField;
-import com.wen.releasedao.core.annotation.TableName;
-import com.wen.releasedao.core.annotation.UpdateTime;
+import com.wen.releasedao.core.annotation.*;
 import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +21,9 @@ public class Bulletin {
     private Integer id;
     private String title;
     private String content;
-    private String level;
+    private Integer level;
     private Boolean publish;
+    @FieldName("uid")
     private Integer userId;
     @CreateTime
     private Date createTime;

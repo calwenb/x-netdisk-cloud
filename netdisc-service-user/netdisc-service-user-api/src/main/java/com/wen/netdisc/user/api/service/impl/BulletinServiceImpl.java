@@ -4,6 +4,7 @@ import com.wen.netdisc.common.pojo.Bulletin;
 import com.wen.netdisc.user.api.dto.BulletinDto;
 import com.wen.netdisc.user.api.dto.BulletinFindDto;
 import com.wen.netdisc.user.api.service.BulletinService;
+import com.wen.netdisc.user.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
 import com.wen.releasedao.core.wrapper.QueryWrapper;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +40,9 @@ public class BulletinServiceImpl implements BulletinService {
         if (findDto.getUserId() != null) {
             wrapper.eq("uid", findDto.getUserId());
         }
+        if (findDto.getKeyword() != null) {
+            wrapper.like("title,content", findDto.getKeyword());
+        }
         return baseMapper.getList(Bulletin.class, wrapper);
     }
 
@@ -59,6 +63,7 @@ public class BulletinServiceImpl implements BulletinService {
     public Bulletin update(BulletinDto dto) {
         Bulletin bulletin = new Bulletin();
         BeanUtils.copyProperties(dto, bulletin);
+        bulletin.setUserId(UserUtil.getUid());
         baseMapper.save(bulletin);
         return bulletin;
     }
