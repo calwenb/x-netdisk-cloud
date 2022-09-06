@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * @author calwen
- * @eamil calvinwen@dianhun.cn
  * @since 2022/9/6
  */
 @RestController
@@ -27,7 +26,6 @@ public class BulletinController {
     @GetMapping("/list")
     public ResultVO<List<BulletinVO>> list(@Valid @RequestBody BulletinFindDto findDto) {
         service.list(findDto);
-//        return ResultUtil.success(list);
         return null;
     }
 
@@ -52,14 +50,4 @@ public class BulletinController {
         return ResultUtil.success(service.update(bulletinDto));
     }
 
-
-  /*  List<Bulletin> list(BulletinFindDto findDto)
-
-    Bulletin get(Integer id)
-
-    Bulletin add(BulletinDto bulletinDto)
-
-    Bulletin updatePublish(BulletinDto dto)
-
-    Boolean del(Integer id)*/
 }
