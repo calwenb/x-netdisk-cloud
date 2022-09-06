@@ -38,7 +38,7 @@ spring:
   redis:
     host: 101.43.95.238
     port: 6379
-    database: 7
+    database: 6
     password: WHL531124
     timeout: 1800000
     jedis:
