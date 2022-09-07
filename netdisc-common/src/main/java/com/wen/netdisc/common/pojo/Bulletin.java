@@ -23,6 +23,8 @@ public class Bulletin {
     private String content;
     private Integer level;
     private Boolean publish;
+    private Date startTime;
+    private Date endTime;
     @FieldName("uid")
     private Integer userId;
     @CreateTime

@@ -13,11 +13,16 @@ import java.util.List;
 public interface BulletinService {
     List<Bulletin> list(BulletinFindDto findDto);
 
+    /**
+     * 只获取最需要的公告
+     */
+    Bulletin getNeed();
+
     Bulletin get(Integer id);
 
-    Bulletin add(BulletinDto bulletinDto);
 
-    Bulletin update(BulletinDto dto);
+    Bulletin save(BulletinDto bulletinDto);
+
 
     Boolean del(Integer id);
 

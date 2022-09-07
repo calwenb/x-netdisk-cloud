@@ -39,19 +39,23 @@ public class BulletinController {
         return ResultUtil.success(converter.convert(service.get(id)));
     }
 
+    @PassAuth
+    @GetMapping("/need")
+    public ResultVO<BulletinVO> need() {
+        return ResultUtil.success(converter.convert(service.getNeed()));
+    }
+
+
     @DeleteMapping("/{id}")
     public ResultVO<Object> del(@PathVariable Integer id) {
         return service.del(id) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
+
     @PostMapping("")
-    public ResultVO<Bulletin> add(@RequestBody BulletinDto bulletinDto) {
-        return ResultUtil.success(service.add(bulletinDto));
+    public ResultVO<Bulletin> save(@RequestBody BulletinDto bulletinDto) {
+        return ResultUtil.success(service.save(bulletinDto));
     }
 
-    @PutMapping("")
-    public ResultVO<Bulletin> update(@RequestBody BulletinDto bulletinDto) {
-        return ResultUtil.success(service.update(bulletinDto));
-    }
 
 }
