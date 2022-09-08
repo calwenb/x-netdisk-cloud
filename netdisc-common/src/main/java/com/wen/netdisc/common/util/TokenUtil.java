@@ -17,8 +17,8 @@ public class TokenUtil {
         if (request == null) {
             throw new OauthException("验证失败");
         }
-
-        return Optional.ofNullable(request.getHeader(TokenEnum.HEADER.getProperty())).orElseThrow(() -> new OauthException("未携带令牌"));
+        return Optional.ofNullable(request.getHeader(TokenEnum.HEADER.getProperty()))
+                .orElseThrow(() -> new OauthException("未携带令牌"));
     }
 
 }

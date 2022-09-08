@@ -140,7 +140,7 @@ public class FileController extends BaseController {
 
     @PostMapping("/share/{id}")
     public ResultVO<String> shareFile(@PathVariable Integer id) {
-        String shareCode = fileService.shareFile(id);
+        String shareCode = fileService.share(id);
         return shareCode != null ? ResultUtil.success(shareCode) : ResultUtil.errorDo();
     }
 

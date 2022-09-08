@@ -39,7 +39,7 @@ public interface OauthResource {
                                @RequestParam("hour") Integer hour);
 
     @DeleteMapping
-    ResultVO<String> removeToken(@RequestParam("token") String token);
+    ResultVO<String> removeToken();
 
     @GetMapping("/verify")
     ResultVO<Boolean> verifyToken();

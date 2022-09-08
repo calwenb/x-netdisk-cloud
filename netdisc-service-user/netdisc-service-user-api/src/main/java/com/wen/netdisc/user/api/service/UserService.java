@@ -1,6 +1,7 @@
 package com.wen.netdisc.user.api.service;
 
 import com.wen.netdisc.common.pojo.User;
+import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +53,11 @@ public interface UserService {
      * @return
      */
     String login(UserDto dto);
+
+    /**
+     * 使用电话号码 注册/登录
+     */
+    String loginPhone(LoginPhoneDto dto);
 
     /**
      * 注册业务

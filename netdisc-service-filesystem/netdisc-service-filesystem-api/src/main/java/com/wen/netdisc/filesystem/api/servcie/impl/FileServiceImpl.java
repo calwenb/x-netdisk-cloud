@@ -4,6 +4,7 @@ import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.common.util.NumberUtil;
 import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
@@ -370,17 +371,10 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public String shareFile(int fileId) {
+    public String share(int fileId) {
         Object scd = redisTemplate.opsForValue().get("share:fid:" + fileId);
-        StringBuffer code = new StringBuffer();
-        if (scd != null) {
-            code.append(scd);
-        } else {
-            //文件生成码
-            for (int i = 0; i < 5; i++) {
-                code.append(new Random().nextInt(9));
-            }
-        }
+        String code = String.valueOf(Optional.ofNullable(scd)
+                        .orElse(NumberUtil.createCode()));
         try {
             //SessionCallback事务
             SessionCallback<Object> callback = new SessionCallback<Object>() {
@@ -400,7 +394,7 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             return null;
         }
-        return code.toString();
+        return code;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.wen.netdisc.common.pojo;
 
+import com.wen.releasedao.core.annotation.CreateTime;
 import com.wen.releasedao.core.annotation.IdField;
 import com.wen.releasedao.core.annotation.TableName;
 import com.wen.releasedao.core.enums.IdTypeEnum;
@@ -29,7 +30,6 @@ public class User implements Serializable {
     private String phoneNumber;
     private String email;
     private String avatar;
+    @CreateTime
     private Date registerTime;
-
-
 }

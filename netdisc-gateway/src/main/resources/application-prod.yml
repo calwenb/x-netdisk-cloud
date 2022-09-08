@@ -24,23 +24,18 @@ spring:
             allowedMethods: "*"
 
       routes:
-        - id: netdisc-filesystem
-          uri: lb://netdisc-filesystem
+        - id: netdisc-filesystem-dev
+          uri: lb://netdisc-filesystem-dev
           predicates:
             - Path=/api/files/**,/api/folders/**,/api/stores/**,/api/searchs/**,/api/trashs/**
           filters: #排除/api
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar
 
-        - id: netdisc-user
-          uri: lb://netdisc-user
+        - id: netdisc-user-dev
+          uri: lb://netdisc-user-dev
           predicates:
-            - Path=/api/users/**
+            - Path=/api/users/**,/api/bulletins/**,/api/sms/**
           filters:
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar
-
-
-
-
-

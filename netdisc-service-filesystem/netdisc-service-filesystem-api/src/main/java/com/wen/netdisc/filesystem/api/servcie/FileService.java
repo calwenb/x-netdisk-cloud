@@ -54,7 +54,7 @@ public interface FileService {
      * @param fileId 文件id
      * @return 文件分享码
      */
-    String shareFile(int fileId);
+    String share(int fileId);
 
     /**
      * 通过分享码在redis中找到fid，在通过数据库返回文件信息

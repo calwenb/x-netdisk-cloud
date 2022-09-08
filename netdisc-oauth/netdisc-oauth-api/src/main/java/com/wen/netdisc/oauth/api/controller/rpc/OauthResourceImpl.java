@@ -47,11 +47,9 @@ public class OauthResourceImpl implements OauthResource {
 
     @Override
     @DeleteMapping
-    public ResultVO<String> removeToken(String token) {
-        if (tokenService.removeToken()) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
+    public ResultVO<String> removeToken() {
+        return tokenService.removeToken() ?
+                ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     /**

@@ -1,13 +1,16 @@
 package com.wen.netdisc.user.api.service.impl;
 
-import com.wen.netdisc.common.vo.ResultVO;
+import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.CommBeanUtils;
+import com.wen.netdisc.common.util.NumberUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
+import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
-import com.wen.netdisc.user.api.service.MailService;
+import com.wen.netdisc.user.api.service.SmsMailService;
 import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
@@ -23,7 +26,6 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,9 +35,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
-    MailService mailService;
+    SmsMailService smsMailService;
     @Resource
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @Resource
     BaseMapper baseMapper;
@@ -87,7 +89,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 增加全部用户
      *
-     * @param superAdminName
+     * @param name
      * @return 修改状态
      */
 /*    @Override
@@ -103,8 +105,13 @@ public class UserServiceImpl implements UserService {
         return baseMapper.insertTarget(user);
     }*/
     @Override
-    public boolean initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword) {
-        User superAdmin = new User(-10, superAdminName, superAdminLoginName, superAdminPassword, 0, null, null, null, new Date());
+    public boolean initAdmin(String name, String loginName, String password) {
+        User superAdmin = new User();
+        superAdmin.setId(-10);
+        superAdmin.setUserName(name);
+        superAdmin.setLoginName(loginName);
+        superAdmin.setPassWord(password);
+        superAdmin.setUserType(0);
         return baseMapper.save(superAdmin);
     }
 
@@ -163,7 +170,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(UserDto dto) {
-        QueryWrapper wrapper = new QueryWrapper().eq("login_name", dto.getLoginName()).eq("pass_word", dto.getPassWord());
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", dto.getLoginName())
+                .eq("pass_word", dto.getPassWord());
         User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("账号密码错误或未注册");
@@ -176,6 +185,30 @@ public class UserServiceImpl implements UserService {
             resultVO = oauthClient.saveToken(user.getId(), user.getUserType(), 12);
         }
         return resultVO.getData();
+    }
+
+    @Override
+    public String loginPhone(LoginPhoneDto dto) {
+        String phone = dto.getPhone();
+        String code = dto.getCode();
+        if (!smsMailService.verifySmsCode(phone, code)) {
+            throw new FailException("验证码不正确");
+        }
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", phone);
+        User user = baseMapper.get(User.class, wrapper);
+        //注册或登录
+        if (user == null) {
+            UserDto userDto = new UserDto();
+            userDto.setUserName(phone);
+            userDto.setLoginName(phone);
+            userDto.setPassWord(phone);
+            userDto.setPhoneNumber(phone);
+            return register(userDto);
+        } else {
+            return oauthClient.saveToken(user.getId(), user.getUserType(), 12)
+                    .getData();
+        }
     }
 
     @Override
@@ -224,12 +257,12 @@ public class UserServiceImpl implements UserService {
             throw new FailException("输入邮箱不一致或未预留");
         }
         try {
-            String code = this.createCode();
+            String code = NumberUtil.createCode();
             String subject, content;
             subject = "重置密码";
             content = "账号: " + loginName + "，您好。\n" + "您当前正在重置密码，您的验证码为：" + code;
-            mailService.sendSimpleMail(email, subject, content);
-            String key = "code:lname:" + loginName;
+            smsMailService.sendMail(email, subject, content);
+            String key = RedisEnum.SMS_Mail_CODE_PREFIX.getProperty() + loginName;
             redisTemplate.opsForValue().set(key, code, 3, TimeUnit.MINUTES);
             return true;
         } catch (Exception e) {
@@ -240,14 +273,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean verifyCode(String loginName, String code) {
-        String key = "code:lname:" + loginName;
-        Object value = redisTemplate.opsForValue().get(key);
-        if (value == null) {
-            return false;
-        }
-        String realCode = String.valueOf(value);
-        return realCode.equals(code);
+    public boolean verifyCode(String loginName, String inCode) {
+        String key = RedisEnum.SMS_Mail_CODE_PREFIX.getProperty() + loginName;
+        String code = redisTemplate.opsForValue().get(key);
+        return Objects.equals(inCode, code);
     }
 
     @Override
@@ -301,15 +330,5 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserType(type + 10);
         return baseMapper.save(user);
-    }
-
-
-    private String createCode() {
-        StringBuilder code = new StringBuilder();
-        //文件生成码
-        for (int i = 0; i < 5; i++) {
-            code.append(new Random().nextInt(9));
-        }
-        return String.valueOf(code);
     }
 }

@@ -1,15 +1,13 @@
 package com.wen.netdisc.user.api.controller.api;
 
-import com.wen.netdisc.common.util.NullUtil;
-import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
-import com.wen.netdisc.common.exception.OauthException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
-import com.wen.netdisc.common.util.TokenUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
+import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
 import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -45,6 +44,14 @@ public class UserController {
     }
 
     @PassAuth
+    @PostMapping("/login/phone")
+    public ResultVO<String> loginPhone(@Valid @RequestBody LoginPhoneDto dto) {
+        String token = userService.loginPhone(dto);
+        return ResultUtil.success(token);
+    }
+
+
+    @PassAuth
     @PostMapping("/register")
     public ResultVO<String> register(@RequestBody UserDto dto) {
         String token = userService.register(dto);
@@ -53,11 +60,7 @@ public class UserController {
 
     @PostMapping("/out-login")
     public ResultVO<String> outLogin() {
-        String token = TokenUtil.getHeaderToken();
-        if (NullUtil.hasNull(token)) {
-            throw new OauthException("未携带token");
-        }
-        return oauthClient.removeToken(token);
+        return oauthClient.removeToken();
     }
 
     @GetMapping("/info")
