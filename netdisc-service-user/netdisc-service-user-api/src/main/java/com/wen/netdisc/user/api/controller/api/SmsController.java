@@ -23,15 +23,15 @@ public class SmsController {
 
     @PassAuth
     @PostMapping("/send-code")
-    public ResultVO<String> sendCode(@RequestParam String phoneNumber) {
-        service.sendSmsCode(phoneNumber);
+    public ResultVO<String> sendCode(@RequestParam String phone) {
+        service.sendSmsCode(phone);
         return ResultUtil.success("发送成功，五分钟内有效");
     }
 
     @PassAuth
     @PostMapping("/verify-code")
-    public ResultVO<String> verifyCode(@RequestParam String phoneNumber, @RequestParam String code) {
-        boolean b = service.verifySmsCode(phoneNumber, code);
+    public ResultVO<String> verifyCode(@RequestParam String phone, @RequestParam String code) {
+        boolean b = service.verifySmsCode(phone, code);
         return b ? ResultUtil.success("验证码正确") : ResultUtil.error("验证码不正确");
     }
 
