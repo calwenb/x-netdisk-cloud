@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -43,8 +40,9 @@ public class TrashServiceImpl implements TrashService {
             count = 0;
             offset = Integer.MAX_VALUE;
         }
-        Set<MyFile> set = redisTemplate.opsForZSet().reverseRangeByScore(REDIS_PREFIX + userId, 0, Double.MAX_VALUE, count, offset);
-        assert set != null;
+        Set<MyFile> set = redisTemplate.opsForZSet()
+                .reverseRangeByScore(REDIS_PREFIX + userId, 0, Double.MAX_VALUE, count, offset);
+        set = Optional.ofNullable(set).orElse(Collections.emptySet());
         return new ArrayList<>(set);
     }
 
