@@ -13,6 +13,7 @@ import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,10 +38,9 @@ public class UserController {
 
     @PassAuth
     @PostMapping("/login")
-    public ResultVO<String> login(@RequestBody UserDto dto) {
+    public ResultVO<String> login(@Validated(UserDto.login.class) @RequestBody UserDto dto) {
         String token = userService.login(dto);
         return ResultUtil.success(token);
-
     }
 
     @PassAuth
@@ -53,7 +53,7 @@ public class UserController {
 
     @PassAuth
     @PostMapping("/register")
-    public ResultVO<String> register(@RequestBody UserDto dto) {
+    public ResultVO<String> register(@Validated(UserDto.register.class) @RequestBody UserDto dto) {
         String token = userService.register(dto);
         return ResultUtil.success(token);
     }
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public ResultVO<User> upPassword(@RequestBody UserDto dto) {
+    public ResultVO<User> upPassword(@Validated(UserDto.upPassword.class) @RequestBody UserDto dto) {
         userService.upPassword(dto);
         return ResultUtil.successDo();
 
@@ -77,7 +77,9 @@ public class UserController {
 
     @PassAuth
     @PutMapping("/re-pwd")
-    public ResultVO<String> repwd(@RequestParam("loginName") String loginName, @RequestParam("password") String password, @RequestParam("code") String code) {
+    public ResultVO<String> repwd(@RequestParam("loginName") String loginName,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("code") String code) {
 
         if (!userService.verifyCode(loginName, code)) {
             return ResultUtil.error("验证码不正确或已失效");

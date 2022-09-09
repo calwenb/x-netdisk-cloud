@@ -75,8 +75,7 @@ public class UserServiceImpl implements UserService {
     public List<User> queryUsersTerm(String term, String value) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq(term, value);
-        List<User> users = baseMapper.getList(User.class, wrapper);
-        return users;
+        return baseMapper.getList(User.class, wrapper);
     }
 
     @Override
