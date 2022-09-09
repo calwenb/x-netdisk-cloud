@@ -36,7 +36,6 @@ public class FolderController extends BaseController {
             }
         }
         return count == 0 ? ResultUtil.successDo() : ResultUtil.error(count + " 个文件夹删除失败！");
-
     }
 
     @GetMapping("/tree")
@@ -50,6 +49,5 @@ public class FolderController extends BaseController {
     public ResultVO<String> updateFolderName(@PathVariable int id, @RequestParam("newName") String newName) {
         return folderService.updateFolderName(id, newName)
                 ? ResultUtil.successDo() : ResultUtil.errorDo();
-
     }
 }

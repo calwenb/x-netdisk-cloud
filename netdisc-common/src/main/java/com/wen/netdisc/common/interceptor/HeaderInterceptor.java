@@ -18,7 +18,7 @@ public class HeaderInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate requestTemplate) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes != null) {
-            String token = attributes.getRequest().getHeader(TokenEnum.TOKEN.getProperty());
+            String token = attributes.getRequest().getHeader(TokenEnum.HEADER.getProperty());
             if (!NullUtil.hasNull(token)) {
                 requestTemplate.header(TokenEnum.HEADER.getProperty(), token);
             }
