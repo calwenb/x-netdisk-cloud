@@ -111,7 +111,7 @@ public class FileController extends BaseController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<InputStreamResource> downByFileIds(@RequestParam("fileIdList") String fileIdList, @RequestParam(defaultValue = "false") String preview) {
+    public ResponseEntity<InputStreamResource> downByFileIds(@RequestParam String fileIdList, @RequestParam(defaultValue = "false") String preview) {
         List<String> list = JSON.parseArray(fileIdList, String.class);
         try {
             return fileService.downloadFile(Integer.parseInt(list.get(0)), Boolean.parseBoolean(preview));
@@ -143,6 +143,5 @@ public class FileController extends BaseController {
         String shareCode = fileService.share(id);
         return shareCode != null ? ResultUtil.success(shareCode) : ResultUtil.errorDo();
     }
-
 
 }

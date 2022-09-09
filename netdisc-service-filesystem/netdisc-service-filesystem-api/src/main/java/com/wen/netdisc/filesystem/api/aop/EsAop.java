@@ -22,7 +22,7 @@ public class EsAop {
     @Resource
     EsService esService;
 
-    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.addFile(..))")
+    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.add(..))")
     public int addEsData(ProceedingJoinPoint pjp) throws Throwable {
         Object rs = pjp.proceed();
         MyFile file = (MyFile) pjp.getArgs()[0];
@@ -35,7 +35,7 @@ public class EsAop {
         return (int) rs;
     }
 
-    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.deleteByMyFileId(..))")
+    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.delete(..))")
     public int delEsData(ProceedingJoinPoint pjp) throws Throwable {
         Object rs = pjp.proceed();
         String id = String.valueOf(pjp.getArgs()[0]);
@@ -48,7 +48,7 @@ public class EsAop {
         return (int) rs;
     }
 
-    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.updateByFileId(..))")
+    @Around("execution(* com.wen.netdisc.filesystem.api.mapper.MyFileMapper.update(..))")
     public int updateEsData(ProceedingJoinPoint pjp) throws Throwable {
         Object rs = pjp.proceed();
         MyFile file = (MyFile) pjp.getArgs()[0];

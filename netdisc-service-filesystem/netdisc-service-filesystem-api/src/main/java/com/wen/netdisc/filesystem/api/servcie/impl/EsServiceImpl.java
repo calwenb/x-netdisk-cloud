@@ -101,7 +101,7 @@ public class EsServiceImpl implements EsService {
         } catch (IOException e) {
             throw new RuntimeException("ES预热失败");
         }
-        List<MyFile> files = fileMapper.queryAllFiles();
+        List<MyFile> files = fileMapper.queryList();
         BulkRequest bulkRequest = new BulkRequest();
         bulkRequest.timeout("5s");
         for (MyFile file : files) {

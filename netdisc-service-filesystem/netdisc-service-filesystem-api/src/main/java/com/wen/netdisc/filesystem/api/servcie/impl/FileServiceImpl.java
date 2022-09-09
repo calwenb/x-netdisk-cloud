@@ -119,7 +119,7 @@ public class FileServiceImpl implements FileService {
             }
             String type = FileUtil.getFileType(suffixName);
             MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
-            Integer i = fileMapper.addFile(myFile);
+            Integer i = fileMapper.add(myFile);
             if (i > 0) {
                 file.transferTo(dest);
                 store.setCurrentSize(store.getCurrentSize() + size);
@@ -198,7 +198,7 @@ public class FileServiceImpl implements FileService {
         }
         String type = FileUtil.getFileType(suffixName);
         MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
-        Integer i = fileMapper.addFile(myFile);
+        Integer i = fileMapper.add(myFile);
         if (i > 0) {
             Files.copy(file.toPath(), dest.toPath());
             store.setCurrentSize(store.getCurrentSize() + size);
@@ -233,7 +233,7 @@ public class FileServiceImpl implements FileService {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
         }
-        return fileMapper.queryFilesByUid(userId, startRow, showRow);
+        return fileMapper.queryListByUid(userId, startRow, showRow);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void updateData(MultipartFile file, Integer id) {
-        MyFile myFile = fileMapper.queryFileById(id);
+        MyFile myFile = fileMapper.queryById(id);
         String path = myFile.getMyFilePath();
         try {
             Files.write(Paths.get(path), file.getBytes());
@@ -277,7 +277,7 @@ public class FileServiceImpl implements FileService {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
         List<MyFile> files = fileMapper.queryFilesByType(uid, "图片", startRow, showRow);
-        Integer count = fileMapper.countFilesByType(uid, "图片");
+        Integer count = fileMapper.countByType(uid, "图片");
         if (files == null || files.isEmpty()) {
             return PageVO.of(Collections.emptyList(), pageNum, showRow, count);
         }
@@ -288,8 +288,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean deleteById(int fileId) {
-        MyFile file = fileMapper.queryFileById(fileId);
-        if (fileMapper.deleteByMyFileId(fileId) > 0) {
+        MyFile file = fileMapper.queryById(fileId);
+        if (fileMapper.delete(fileId) > 0) {
             int uid = UserUtil.getUid();
             FileStore store = storeService.queryStoreByUid(uid);
             store.setCurrentSize(store.getCurrentSize() - file.getSize());
@@ -302,7 +302,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public ResponseEntity<InputStreamResource> downloadFile(int fileId, boolean preview) throws IOException {
         //从数据库查询文件信息 换取文件路径
-        MyFile file = fileMapper.queryFileById(fileId);
+        MyFile file = fileMapper.queryById(fileId);
         String filePath = file.getMyFilePath();
         return this.download(filePath);
     }
@@ -344,7 +344,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean updateFileName(int fileId, String newName) {
-        MyFile file = fileMapper.queryFileById(fileId);
+        MyFile file = fileMapper.queryById(fileId);
         String filePath = file.getMyFilePath();
         String path = filePath.substring(0, filePath.lastIndexOf('/') + 1);
         String newFilePath = path + newName;
@@ -363,7 +363,7 @@ public class FileServiceImpl implements FileService {
             }
             //修改文件类型
             file.setType(FileUtil.getFileType(suffixName));
-            return fileMapper.updateByFileId(file) > 0;
+            return fileMapper.update(file) > 0;
         } else {
             return false;
         }
@@ -403,18 +403,18 @@ public class FileServiceImpl implements FileService {
         if (fileId == null) {
             return null;
         }
-        return fileMapper.queryFileById((int) fileId);
+        return fileMapper.queryById((int) fileId);
     }
 
     @Override
     public Map<String, Integer> clearBadFile() {
         HashMap<String, Integer> map = new HashMap<>();
-        List<MyFile> files = fileMapper.queryAllFiles();
+        List<MyFile> files = fileMapper.queryList();
         int sum = 0;
         for (MyFile file : files) {
             String filePath = file.getMyFilePath();
             if (!new File(filePath).exists()) {
-                fileMapper.deleteByMyFileId(file.getMyFileId());
+                fileMapper.delete(file.getMyFileId());
                 sum++;
             }
         }

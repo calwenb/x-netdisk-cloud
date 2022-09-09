@@ -2,10 +2,8 @@ package com.wen.netdisc.filesystem.api.util;
 
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.TreeNode;
-import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +19,6 @@ import java.util.Map;
 public class FolderUtil {
 
 
-    @Resource
-    FolderMapper folderMapper;
 
     /**
      * 获得文件目录树

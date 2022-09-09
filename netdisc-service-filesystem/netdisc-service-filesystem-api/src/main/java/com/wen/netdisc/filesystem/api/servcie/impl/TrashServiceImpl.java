@@ -64,7 +64,7 @@ public class TrashServiceImpl implements TrashService {
         if (Optional.ofNullable(redisTemplate.opsForZSet().remove(REDIS_PREFIX + uid, trash)).orElse(0L) == 0) {
             throw new FailException("删除垃圾文件失败");
         }
-        return fileMapper.addFile(trash) > 0;
+        return fileMapper.add(trash) > 0;
     }
 
 

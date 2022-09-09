@@ -41,8 +41,8 @@ public class RedisServiceImpl implements RedisService {
 //            });
             threadPool.execute(() -> {
                 // 文件预热
-                for (MyFile file : fileMapper.queryAllFiles()) {
-                    fileMapper.queryFileById(file.getMyFileId());
+                for (MyFile file : fileMapper.queryList()) {
+                    fileMapper.queryById(file.getMyFileId());
                 }
                 countDown.countDown();
             });

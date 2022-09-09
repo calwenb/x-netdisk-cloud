@@ -143,7 +143,7 @@ public class FolderServiceImpl implements FolderService {
                 List<MyFile> fileList = fileMapper.queryMyFiles(userId, folderId, 0, 9999);
                 for (MyFile file : fileList) {
                     file.setMyFilePath(path + '/' + file.getMyFileName());
-                    fileMapper.updateByFileId(file);
+                    fileMapper.update(file);
                 }
             }
         } else {

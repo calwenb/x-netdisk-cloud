@@ -14,27 +14,23 @@ import java.util.List;
 @Mapper
 @Repository
 public interface MyFileMapper {
-    List<MyFile> queryAllFiles();
+    List<MyFile> queryList();
 
     List<MyFile> queryMyFiles(int userId, int parentFolderId, int startRow, int showRow);
 
     List<MyFile> queryFilesByType(int userId, String type, int startRow, int showRow);
 
-    Integer countFilesByType(int userId, String type);
+    Integer countByType(int userId, String type);
 
-    List<MyFile> queryFilesByUid(int userId, int startRow, int showRow);
+    List<MyFile> queryListByUid(int userId, int startRow, int showRow);
 
 
-    Integer addFile(MyFile myFile);
+    Integer add(MyFile myFile);
 
     /**
      * 通过ID查询文件
-     * 缓存
-     *
-     * @param myFileId
-     * @return
      */
-    MyFile queryFileById(int myFileId);
+    MyFile queryById(int myFileId);
 
     /**
      * 通过ID删除文件
@@ -43,7 +39,7 @@ public interface MyFileMapper {
      * @param myFileId
      * @return 修改行数
      */
-    Integer deleteByMyFileId(int myFileId);
+    Integer delete(int myFileId);
 
     /**
      * 修改文件
@@ -52,5 +48,5 @@ public interface MyFileMapper {
      * @param myFile
      * @return 修改行数
      */
-    Integer updateByFileId(MyFile myFile);
+    Integer update(MyFile myFile);
 }
