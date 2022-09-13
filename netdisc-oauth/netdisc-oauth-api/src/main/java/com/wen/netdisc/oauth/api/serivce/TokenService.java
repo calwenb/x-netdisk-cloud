@@ -25,7 +25,13 @@ public interface TokenService {
 
     Long getExpireTime();
 
-    boolean renew( Integer hour);
+
+    /**
+     * 令牌续签
+     *
+     * @param hour - 续签时长
+     */
+    boolean renew(Integer hour);
 
 
 }

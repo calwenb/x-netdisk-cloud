@@ -1,6 +1,7 @@
 package com.wen.netdisc.user.api.service;
 
 import com.wen.netdisc.common.pojo.User;
+import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,15 +26,8 @@ public interface UserService {
 
     List<User> queryUsersLike(String term, String key);
 
-    /**
-     * 增加全部用户
-     *
-     * @param user
-     * @return 修改状态
-     */
-//    int addUser(User user);
 
-    int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword);
+    boolean initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword);
 
     int verifyAdmin(int id);
 
@@ -44,31 +38,31 @@ public interface UserService {
      * @param userID
      * @return
      */
-    int deleteUser(int userID);
+    boolean deleteUser(int userID);
 
     /**
      * 修改全部用户
-     *
-     * @param user
-     * @return 修改状态
      */
-    int updateUser(UserDto dto);
+    boolean updateUser(UserDto dto);
 
     void upPassword(UserDto userDto);
 
     /**
      * 登录
      *
-
      * @return
      */
     String login(UserDto dto);
 
     /**
+     * 使用电话号码 注册/登录
+     */
+    String loginPhone(LoginPhoneDto dto);
+
+    /**
      * 注册业务
      * 注册、并初始化用户仓库
      *
-     * @param user
      */
     String register(UserDto userDto);
 

@@ -35,13 +35,13 @@
         #{type}
     </sql>
     <!--获取自增主键值,并赋值-->
-    <insert id="addFile" useGeneratedKeys="true" keyProperty="myFileId" parameterType="MyFile">
+    <insert id="add" useGeneratedKeys="true" keyProperty="myFileId" parameterType="MyFile">
         insert into my_file(<include refid="NoAllField"/>)
         values
         (<include refid="NoAllProperty"></include>);
     </insert>
 
-    <update id="updateByFileId">
+    <update id="update">
         update my_file
         set my_file_name=#{myFileName},
             file_store_id=#{fileStoreId},
@@ -72,76 +72,38 @@
         <if test="startRow!=null and showRow!=null"></if>
         LIMIT #{startRow},#{showRow};
     </select>
-
-    <!--    <select id="queryFilesByType" resultMap="MyFileMap">
-            SELECT
-            <include refid="AllField"></include>
-            FROM
-            `user`
-            JOIN file_store ON `user`.id=file_store.user_id
-            JOIN my_file ON file_store.file_store_id=my_file.file_store_id
-            <where>
-                <if test="userId !=null">
-                    user_id = #{userId}
-                </if>
-                <if test="type !=null">
-                    AND type= #{type}
-                </if>
-            </where>
-            <if test="startRow!=null and showRow!=null"></if>
-            LIMIT #{startRow},#{showRow};
-        </select>-->
-    <select id="queryFilesByUid" resultMap="MyFileMap">
-        SELECT
-        <include refid="AllField"></include>
-        FROM
-        `user`
-        JOIN file_store ON `user`.id=file_store.user_id
-        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
-        <where>
-            <if test="userId !=null">
-                user_id = #{userId}
-            </if>
-            AND type= '图片'
-        </where>
-        <if test="startRow!=null and showRow!=null"></if>
-        LIMIT #{startRow},#{showRow};
-    </select>
-
-    <select id="queryFileByUidOrdDate" resultMap="MyFileMap">
-        SELECT
-        <include refid="AllField"></include>
-        FROM
-        `user`
-        JOIN file_store ON `user`.id=file_store.user_id
-        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
-        <where>
-            <if test="userId !=null">
-                user_id = #{userId}
-            </if>
-            AND type= '图片'
-        </where>
-        ORDER BY update_time DESC
-        <if test="startRow!=null and showRow!=null"></if>
-        LIMIT #{startRow},#{showRow};
-    </select>
-
-
-    <select id="queryFileById" resultMap="MyFileMap">
+    <select id="queryById" resultMap="MyFileMap">
         SELECT *
         FROM my_file
         WHERE my_file_id = #{myFileId}
     </select>
 
-    <select id="queryAllFiles" resultMap="MyFileMap">
+    <select id="queryList" resultMap="MyFileMap">
         SELECT *
         FROM my_file;
     </select>
+    <select id="queryListByUid" resultMap="MyFileMap">
+        SELECT
+        <include refid="AllField"></include>
+        FROM
+        `user`
+        JOIN file_store ON `user`.id=file_store.user_id
+        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
+        <where>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            AND type= '图片'
+        </where>
+        <if test="startRow!=null and showRow!=null"></if>
+        LIMIT #{startRow},#{showRow};
+    </select>
+
     <select id="queryFilesByType" resultMap="MyFileMap">
         SELECT
         <include refid="AllField"></include>
         FROM `user` JOIN file_store ON `user`.id=file_store.user_id
-                    JOIN my_file ON file_store.file_store_id=my_file.file_store_id
+        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
         <where>
             <if test="userId !=null">
                 user_id = #{userId}
@@ -150,11 +112,28 @@
                 AND type= #{type}
             </if>
         </where>
-        <if test="startRow!=null and showRow!=null"></if>
-        LIMIT #{startRow},#{showRow};
+        ORDER BY update_time,my_file_id DESC
+        <if test="startRow!=null and showRow!=null">
+            LIMIT #{startRow},#{showRow};
+        </if>
     </select>
 
-    <delete id="deleteByMyFileId">
+    <select id="countByType" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM `user` JOIN file_store ON `user`.id=file_store.user_id
+        JOIN my_file ON file_store.file_store_id=my_file.file_store_id
+        <where>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            <if test="type !=null">
+                AND type= #{type}
+            </if>
+        </where>
+
+    </select>
+
+    <delete id="delete">
         delete
         from my_file
         where my_file_id = #{myFileId};

@@ -1,7 +1,7 @@
 package com.wen.netdisc.filesystem.api.controller.api;
 
 import com.alibaba.fastjson2.JSON;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.filesystem.api.servcie.TrashService;
@@ -36,20 +36,14 @@ public class TrashController extends BaseController {
     public ResultVO<String> delTrash(String trashJSON) {
         MyFile trash = JSON.parseObject(trashJSON, MyFile.class);
         int uid = UserUtil.getUid();
-        if (trashService.deleteById(trash, uid)) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
+        return trashService.deleteById(trash, uid) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @DeleteMapping("/restored")
     public ResultVO<String> restoredTrash(String trashJSON) {
         MyFile trash = JSON.parseObject(trashJSON, MyFile.class);
         int uid = UserUtil.getUid();
-        if (trashService.restored(trash, uid)) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
+        return trashService.restored(trash, uid) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
 }

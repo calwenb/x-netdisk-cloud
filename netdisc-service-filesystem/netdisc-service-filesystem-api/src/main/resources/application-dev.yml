@@ -1,9 +1,8 @@
 server:
-  port: 8073
-
+  port: 8063
 spring:
   application:
-    name: netdisc-filesystem
+    name: netdisc-filesystem-dev
   cloud:
     nacos:
       discovery:
@@ -17,7 +16,7 @@ spring:
     # 配置数据源
     username: root
     password: WHL531124
-    url: jdbc:mysql://101.43.95.238:3306/my_pan_test?serverTimezone=Hongkong&useAffectedRows=true
+    url: jdbc:mysql://101.43.95.238:3306/x_netdisk_dev?serverTimezone=Hongkong&useAffectedRows=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 配置druid数据源
@@ -33,16 +32,6 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
       use-global-data-source-stat: true
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-  mail:
-    host: smtp.qq.com #发送邮件服务器
-    username: mr.wen66@qq.com  #发送邮件的邮箱地址
-    password: ubywegiqwpfbcdcb  #客户端授权码
-    properties.mail.smtp.port: 465 #端口号465或587
-    from: mr.wen66@qq.com # 发送邮件的地址，和上面username一致
-    properties.mail.smtp.starttls.enable: true
-    properties.mail.smtp.starttls.required: true
-    properties.mail.smtp.ssl.enable: true
-    default-encoding: utf-8
   servlet:
     multipart:
       # 设置单个文件大小
@@ -56,7 +45,7 @@ spring:
   redis:
     host: 101.43.95.238
     port: 6379
-    database: 7 #Redis数据库索引（默认为0）
+    database: 6 #Redis数据库索引（默认为0）
     password: WHL531124
     timeout: 1800000 #连接超时时间（毫秒）
     jedis:
@@ -109,11 +98,8 @@ x-netdisc:
     root-id: 0
     #单位 MB
     max-size: 2000
-
-#base-orm:
-#  config:
-#    logger: true
-#    camel-case: true
-
+releasedao:
+  config:
+    logger: true
 
 

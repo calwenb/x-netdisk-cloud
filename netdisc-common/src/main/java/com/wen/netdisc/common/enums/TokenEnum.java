@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TokenEnum {
     TOKEN("TOKEN"),
-    //    TOKEN_PREFIX("calwen"),
+    HEADER("token"),
     JWT_SECRET("calwendbshagicba");
 
     private String property;

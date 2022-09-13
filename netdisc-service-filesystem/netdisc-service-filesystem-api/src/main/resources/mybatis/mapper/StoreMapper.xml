@@ -35,15 +35,8 @@
         limit 1;
     </select>
 
-    <select id="queryFileStores" resultMap="FileStore">
-        select *
-        from file_store;
-    </select>
-    <select id="queryStoreById" resultMap="FileStore">
-        select *
-        from file_store
-        where file_store_id = #{fileStoreId};
-    </select>
+
+
     <select id="queryUserStore" resultMap="FileStore">
         select
         <include refid="allField"></include>,

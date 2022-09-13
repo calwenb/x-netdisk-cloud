@@ -16,6 +16,18 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
+        <!--腾讯云短信SDK-->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java-common</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java-sms</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <dependency>
             <groupId>com.wen.netdisccloud</groupId>
             <artifactId>netdisc-oauth-client</artifactId>

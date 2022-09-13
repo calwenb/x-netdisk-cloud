@@ -6,11 +6,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RedisEnum {
-    TOKEN_PREFIX("token:"),
+    TOKEN_PREFIX("x-netdisk:token:"),
 
-    TRASH_PREFIX("trash:"),
+    TRASH_PREFIX("x-netdisk:trash:"),
 
-    CHUNK_PREFIX("chunk:");
+    CHUNK_PREFIX("x-netdisk:backup:"),
+    SMS_Mail_CODE_PREFIX("x-netdisk:smsmail:code:");
 
-    private String property;
+    private final String property;
 }

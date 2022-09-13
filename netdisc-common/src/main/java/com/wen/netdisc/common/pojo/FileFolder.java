@@ -1,5 +1,7 @@
 package com.wen.netdisc.common.pojo;
 
+import com.wen.releasedao.core.annotation.IdField;
+import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,8 @@ public class FileFolder implements Serializable {
     /**
      * 文件夹ID
      */
-    private int fileFolderId;
+    @IdField(idType = IdTypeEnum.AUTO)
+    private Integer fileFolderId;
     /**
      * 文件夹名称
      */
@@ -28,11 +31,11 @@ public class FileFolder implements Serializable {
     /**
      * 父文件夹ID
      */
-    private int parentFolderId;
+    private Integer parentFolderId;
     /**
      * 所属文件仓库ID
      */
-    private int fileStoreId;
+    private Integer fileStoreId;
     /**
      * 文件夹路径
      */

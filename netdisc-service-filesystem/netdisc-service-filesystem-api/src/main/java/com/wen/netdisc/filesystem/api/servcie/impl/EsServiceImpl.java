@@ -1,20 +1,19 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.wen.netdisc.common.util.LoggerUtil;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.servcie.EsService;
 import com.wen.netdisc.filesystem.api.util.ConfigUtil;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -23,6 +22,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,55 +42,6 @@ public class EsServiceImpl implements EsService {
     ConfigUtil configUtil;
 
     @Override
-    public boolean addData(List<MyFile> list) {
-        return false;
-    }
-
-    @Override
-    public boolean addData(MyFile file) {
-        IndexRequest request = new IndexRequest(configUtil.getEsIndex());
-        request.id(String.valueOf(file.getMyFileId()));
-        request.timeout("1m");
-        request.source(JSON.toJSONString(file), XContentType.JSON);
-
-        try {
-            IndexResponse resp = client.index(request, RequestOptions.DEFAULT);
-            return resp.isFragment();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean updateData(MyFile file) {
-        UpdateRequest request = new UpdateRequest(configUtil.getEsIndex(), String.valueOf(file.getMyFileId()));
-        request.timeout("5s");
-        request.doc(JSON.toJSONString(file), XContentType.JSON);
-        try {
-            UpdateResponse resp = client.update(request, RequestOptions.DEFAULT);
-            return resp.isFragment();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean delDate(String id) {
-        DeleteRequest request = new DeleteRequest(configUtil.getEsIndex(), id);
-        request.timeout("5s");
-        try {
-            DeleteResponse resp = client.delete(request, RequestOptions.DEFAULT);
-            return resp.isFragment();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
-    @Override
     public List<Map<String, Object>> searchData(int storeId, String keyword) {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         SearchRequest request = new SearchRequest(configUtil.getEsIndex());
@@ -101,9 +52,7 @@ public class EsServiceImpl implements EsService {
         boolQuery.must(QueryBuilders.termQuery("fileStoreId", storeId));
         boolQuery.must(QueryBuilders.matchQuery("myFileName", keyword));
         sourceBuilder.query(boolQuery);
-
         request.source(sourceBuilder);
-
         SearchResponse resp;
         try {
             resp = client.search(request, RequestOptions.DEFAULT);
@@ -116,12 +65,45 @@ public class EsServiceImpl implements EsService {
         return list;
     }
 
+    @Async
     @Override
-    public boolean esWarmUp() {
-        System.out.println("开始预热Elasticsearch");
-        List<MyFile> files = fileMapper.queryAllFiles();
+    public void addData(MyFile file) {
+        IndexRequest request = new IndexRequest(configUtil.getEsIndex());
+        request.id(String.valueOf(file.getMyFileId()));
+        request.timeout("1m");
+        request.source(JSON.toJSONString(file), XContentType.JSON);
+        client.indexAsync(request, RequestOptions.DEFAULT, null);
+    }
+
+    @Async
+    @Override
+    public void updateData(MyFile file) {
+        UpdateRequest request = new UpdateRequest(configUtil.getEsIndex(), String.valueOf(file.getMyFileId()));
+        request.timeout("5s");
+        request.doc(JSON.toJSONString(file), XContentType.JSON);
+        client.updateAsync(request, RequestOptions.DEFAULT, null);
+    }
+
+    @Async
+    @Override
+    public void delDate(String id) {
+        DeleteRequest request = new DeleteRequest(configUtil.getEsIndex(), id);
+        request.timeout("5s");
+        client.deleteAsync(request, RequestOptions.DEFAULT, null);
+    }
+
+    @Override
+    public void esWarmUp() {
+        LoggerUtil.info("开始预热Elasticsearch", EsServiceImpl.class);
+        DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(configUtil.getEsIndex());
+        try {
+            client.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException("ES预热失败");
+        }
+        List<MyFile> files = fileMapper.queryList();
         BulkRequest bulkRequest = new BulkRequest();
-        bulkRequest.timeout("1m");
+        bulkRequest.timeout("5s");
         for (MyFile file : files) {
             bulkRequest.add(
                     new IndexRequest(configUtil.getEsIndex())
@@ -134,9 +116,9 @@ public class EsServiceImpl implements EsService {
             resp = client.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
-        return !resp.hasFailures();
+        resp.hasFailures();
     }
 
 

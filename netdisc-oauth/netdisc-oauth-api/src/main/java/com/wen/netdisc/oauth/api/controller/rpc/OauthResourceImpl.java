@@ -1,9 +1,9 @@
 package com.wen.netdisc.oauth.api.controller.rpc;
 
-import com.wen.commutil.annotation.PassAuth;
+import com.wen.netdisc.common.annotation.PassAuth;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
-import com.wen.commutil.vo.ResultVO;
 import com.wen.netdisc.oauth.api.serivce.TokenService;
 import com.wen.netdisc.oauth.client.feign.OauthResource;
 import org.springframework.web.bind.annotation.*;
@@ -47,17 +47,17 @@ public class OauthResourceImpl implements OauthResource {
 
     @Override
     @DeleteMapping
-    public ResultVO<String> removeToken(String token) {
-        if (tokenService.removeToken()) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
+    public ResultVO<String> removeToken() {
+        return tokenService.removeToken() ?
+                ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
+    /**
+     * 已经过验证拦截器，可直接返回true
+     */
     @Override
     @GetMapping("/verify")
     public ResultVO<Boolean> verifyToken() {
-        //已经过验证拦截器，可直接返回true
         return ResultUtil.success(true);
     }
 

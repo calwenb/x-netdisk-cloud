@@ -1,10 +1,12 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
+import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.common.pojo.MyFile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -17,18 +19,23 @@ import java.util.Map;
  * @author calwen
  */
 public interface FileService {
-
+    /**
+     * 上传，不建议使用，请使用分片上传
+     */
     boolean uploadFile(MultipartFile file, int userId, Integer faFolderId);
 
+    void giveUserFile(File file, int userId, Integer faFolderId) throws IOException;
 
-    List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum);
+
+    List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum);
 
     List<MyFile> queryFilesByUid(int userId, int pageNum);
 
-    List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException;
+
+    PageVO<Map<String, String>> thumbnailList(Integer uid, Integer pageNum);
 
 
-    boolean deleteByMyFileId(int fileId);
+    boolean deleteById(int fileId);
 
     /**
      * 文件下载业务
@@ -47,7 +54,7 @@ public interface FileService {
      * @param fileId 文件id
      * @return 文件分享码
      */
-    String shareFile(int fileId);
+    String share(int fileId);
 
     /**
      * 通过分享码在redis中找到fid，在通过数据库返回文件信息
@@ -63,6 +70,9 @@ public interface FileService {
 
     List<MyFile> queryFilesByType(Integer uid, String type, int pageNum);
 
-    boolean updateData(MultipartFile file, Integer id);
+    void updateData(MultipartFile file, Integer id);
+
+    List<Object> getFileAndFolder(Integer parentFid);
+
 
 }

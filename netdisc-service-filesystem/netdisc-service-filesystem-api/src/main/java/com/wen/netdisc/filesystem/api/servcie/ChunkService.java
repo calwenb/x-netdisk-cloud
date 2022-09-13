@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.vo.ChunkVo;
 

@@ -1,9 +1,8 @@
 package com.wen.netdisc.common.interceptor;
 
 import com.alibaba.fastjson2.JSON;
-import com.wen.commutil.util.LoggerUtil;
-import com.wen.commutil.util.NullUtil;
-import com.wen.netdisc.common.util.ResultUtil;
+import com.wen.netdisc.common.util.BaseResultUtil;
+import com.wen.netdisc.common.util.LoggerUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;
@@ -26,22 +25,25 @@ public class NormInterceptor implements HandlerInterceptor {
         Method method = handlerMethod.getMethod();
 
         //拦截未填写必备参数的请求
-        Parameter[] params = method.getParameters();
-        for (Parameter param : params) {
-            RequestParam annotation = param.getAnnotation(RequestParam.class);
+        Parameter[] args = method.getParameters();
+        for (Parameter arg : args) {
+            RequestParam annotation = arg.getAnnotation(RequestParam.class);
             if (annotation == null || !annotation.required() || !annotation.defaultValue().equals(ValueConstants.DEFAULT_NONE)) {
                 continue;
             }
             String value = annotation.value();
-            String parameter = request.getParameter(value);
-            if (NullUtil.hasNull(parameter)) {
-                if (param.getType().equals(MultipartFile.class)) {
-                    continue;
-                }
-                response.getWriter().println(JSON.toJSONString(ResultUtil.badRequest("Please fill in the required fields.")));
-                LoggerUtil.error("400错误: null" + "query:" + value + " 属性：" + param, NormInterceptor.class);
-                return false;
+            // 通过 RequestParam 指定 value 或 方法参数名 获取都可
+            String param = request.getParameter(value);
+            String paramArg = request.getParameter(arg.getName());
+            if (param != null || paramArg != null) {
+                continue;
             }
+            if (arg.getType().equals(MultipartFile.class)) {
+                continue;
+            }
+            response.getWriter().println(JSON.toJSONString(BaseResultUtil.badRequest("Please fill in the required fields.")));
+            LoggerUtil.error("400错误: null " + "query:" + value + " 属性：" + arg, NormInterceptor.class);
+            return false;
         }
         return true;
     }

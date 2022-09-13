@@ -4,6 +4,8 @@ import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.common.util.NumberUtil;
+import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
@@ -13,6 +15,7 @@ import com.wen.netdisc.filesystem.api.servcie.TrashService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
@@ -40,6 +43,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class FileServiceImpl implements FileService {
     @Resource
     MyFileMapper fileMapper;
@@ -50,22 +54,26 @@ public class FileServiceImpl implements FileService {
     @Resource
     StoreService storeService;
     @Resource
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
     @Resource
     TrashService trashService;
 
-
+    @Deprecated
     @Override
     public boolean uploadFile(MultipartFile file, int userId, Integer faFolderId) {
         try {
-            FileStore fileStore = storeMapper.queryStoreByUid(userId);
-            if (fileStore == null) {
+            FileStore store = storeMapper.queryStoreByUid(userId);
+            if (store == null) {
                 throw new FailException("获取用户仓库失败");
             }
-            int fileStoreId = fileStore.getFileStoreId();
+            long size = file.getSize() / 1000;
+            if (store.getCurrentSize() + size > store.getMaxSize()) {
+                throw new FailException("仓库容量不足，请提高等级");
+            }
+            int storeId = store.getFileStoreId();
             // 获取文件名
-            String fileName = file.getOriginalFilename();
-            long size = file.getSize();
+            String fileName = Optional.ofNullable(file.getOriginalFilename())
+                    .orElseThrow(() -> new FailException("上传文件未命名"));
             // 获取文件的后缀名
             String suffixName;
             if (fileName.lastIndexOf(".") == -1) {
@@ -77,7 +85,7 @@ public class FileServiceImpl implements FileService {
             String filePath;
             //Pid=0，保存到根文件夹,否则获取父文件夹的路径
             if (faFolderId == 0) {
-                filePath = FileUtil.STORE_ROOT_PATH + fileStoreId + "/";
+                filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
             } else {
                 FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
                 String fileFolderPath = fileFolder.getFileFolderPath();
@@ -110,134 +118,107 @@ public class FileServiceImpl implements FileService {
                 dest.getParentFile().mkdirs();
             }
             String type = FileUtil.getFileType(suffixName);
-            MyFile myFile = new MyFile(-1, fileName, fileStoreId, path, 0, new Date(), faFolderId, size, type);
-            Integer i = fileMapper.addFile(myFile);
+            MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
+            Integer i = fileMapper.add(myFile);
             if (i > 0) {
                 file.transferTo(dest);
-                //
-             /*   FileStore store = storeService.queryStoreByUserId(userId);
-                store.setCurrentSize(store.getCurrentSize() + file.getSize());
-                storeService.updateStore(store);*/
-                System.out.println("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+                store.setCurrentSize(store.getCurrentSize() + size);
+                storeService.updateStore(store);
+                log.info("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+                log.info("当前仓库容量为：" + store.getCurrentSize() + " KB");
                 return true;
             }
             return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
             return false;
         }
-        return false;
+    }
+
+    @Override
+    public void giveUserFile(File file, int userId, Integer faFolderId) throws IOException {
+        FileStore store = storeMapper.queryStoreByUid(userId);
+        if (store == null) {
+            throw new FailException("获取用户仓库失败");
+        }
+        long size = file.length() / 1000;
+        Long currentSize = store.getCurrentSize();
+        Long maxSize = store.getMaxSize();
+        if (currentSize + size > maxSize) {
+            String s = String.format("最大容量：%s，当前容量：%s，文件大小：%s", maxSize, currentSize, size);
+            log.warn(s);
+            throw new FailException("仓库容量不足，请提高等级");
+        }
+        int storeId = store.getFileStoreId();
+        // 获取文件名
+        String fileName = Optional.of(file.getName())
+                .orElseThrow(() -> new FailException("上传文件未命名"));
+        // 获取文件的后缀名
+        String suffixName;
+        if (fileName.lastIndexOf(".") == -1) {
+            //文件没有后缀
+            suffixName = "null";
+        } else {
+            suffixName = fileName.substring(fileName.lastIndexOf("."));
+        }
+        String filePath;
+        //Pid=0，保存到根文件夹,否则获取父文件夹的路径
+        if (faFolderId == 0) {
+            filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
+        } else {
+            FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
+            String fileFolderPath = fileFolder.getFileFolderPath();
+            filePath = fileFolderPath + "/";
+        }
+
+        FolderUtil.autoFolder(filePath);
+
+        //如果有相同的文件名 加后缀
+        File[] broFiles = new File(filePath).listFiles();
+        assert broFiles != null;
+        for (File broFile : broFiles) {
+            if (broFile.getName().equals(fileName)) {
+                String pureName = broFile.getName().substring(0, fileName.lastIndexOf(suffixName));
+                int len = pureName.length();
+                if (pureName.charAt(len - 2) == '_') {
+                    int count = Integer.parseInt(pureName.substring(len - 1)) + 1;
+                    fileName = pureName.substring(0, pureName.lastIndexOf('_') + 1) + count + suffixName;
+                } else {
+                    fileName = pureName + "_1" + suffixName;
+                }
+            }
+        }
+        // 设置文件存储路径
+        String path = filePath + fileName;
+        File dest = new File(path);
+        // 检测是否存在目录
+        if (!dest.getParentFile().exists()) {
+            // 新建文件夹
+            dest.getParentFile().mkdirs();
+        }
+        String type = FileUtil.getFileType(suffixName);
+        MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
+        Integer i = fileMapper.add(myFile);
+        if (i > 0) {
+            Files.copy(file.toPath(), dest.toPath());
+            store.setCurrentSize(store.getCurrentSize() + size);
+            storeService.updateStore(store);
+            log.info("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
+            log.info("当前仓库容量为：" + store.getCurrentSize() + " KB");
+        }
     }
 
 
-//    @Override
-//    public ResultVO<ChunkVo> uploadBigFile(ChunkDto chunk) {
-//        Integer storeId = chunk.getStoreId();
-//        Integer faFolderId = chunk.getFaFolderId();
-//        MultipartFile file = chunk.getFile();
-//
-////        if (file.isEmpty()) {
-////            return ResultUtil.error("文件为空");
-////        }
-////        // 判断上传文件大小
-////        if (!FileUtil.checkFileSize(file)) {
-////            return ResultUtil.error("上传文件大于2GB ");
-////        }
-//        String path = "";
-//        try {
-//            //第一块
-//            if (chunk.getChunkNumber() == 1) {
-//                // 获取文件名
-//                String fileName = file.getOriginalFilename();
-//                String suffixName;
-//                if (fileName.lastIndexOf(".") == -1) {
-//                    //文件没有后缀
-//                    suffixName = "null";
-//                } else {
-//                    suffixName = fileName.substring(fileName.lastIndexOf("."));
-//                }
-//                String filePath;
-//                //Pid=0，保存到根文件夹,否则获取父文件夹的路径
-//                if (faFolderId == 0) {
-//                    filePath = FileUtil.STORE_ROOT_PATH + storeId + "/";
-//                } else {
-//                    FileFolder fileFolder = folderMapper.queryFolderById(faFolderId);
-//                    String folderPath = fileFolder.getFileFolderPath();
-//                    filePath = folderPath + "/";
-//                }
-//
-//                FolderUtil.autoFolder(filePath);
-//                //如果有相同的文件名 加后缀
-//                File[] broFiles = new File(filePath).listFiles();
-//                assert broFiles != null;
-//                for (File broFile : broFiles) {
-//                    if (broFile.getName().equals(fileName)) {
-//                        String pureName = broFile.getName().substring(0, fileName.lastIndexOf(suffixName));
-//                        int len = pureName.length();
-//                        if (pureName.charAt(len - 2) == '_') {
-//                            int count = Integer.parseInt(pureName.substring(len - 1)) + 1;
-//                            fileName = pureName.substring(0, pureName.lastIndexOf('_') + 1) + count + suffixName;
-//                        } else {
-//                            fileName = pureName + "_1" + suffixName;
-//                        }
-//                    }
-//                }
-//                FolderUtil.autoFolder(filePath);
-//                //设置文件存储路径
-//                path = filePath + fileName;
-//                File dest = new File(path);
-////              file.transferTo(dest);
-//                FileUtils.copyInputStreamToFile(file.getInputStream(), dest);
-//
-//                ChunkVo vo = new ChunkVo();
-//                BeanUtils.copyProperties(chunk, vo);
-////                vo.setType();
-//                vo.setPath(path);
-//                vo.setFilename(fileName);
-//                return ResultUtil.success(vo);
-//            }
-//
-//            File chunkFile = new File(chunk.getPath());
-//            InputStream is = file.getInputStream();
-//            RandomAccessFile raf = new RandomAccessFile(chunkFile, "rw");
-//
-//            int len;
-//            byte[] buffer = new byte[1024];
-//            raf.seek((long) (chunk.getChunkNumber() - 1) * 1024 * 1024 * 5);
-//            while ((len = is.read(buffer)) != -1) {
-//                raf.write(buffer, 0, len);
-//            }
-//            if (Objects.equals(chunk.getChunkNumber(), chunk.getTotalChunks())) {
-//                //保存
-//                String type = FileUtil.getFileType(".java");
-//                MyFile myFile = new MyFile(-1, chunk.getFilename(), storeId, chunk.getPath(), 0, new Date(), faFolderId, chunk.getTotalSize(), type);
-//                Integer i = fileMapper.addFile(myFile);
-//            }
-//            return null;
-//        } catch (IllegalStateException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//        return ResultUtil.error("上传文件失败");
-//    }
-
     @Override
-    public List<MyFile> queryMyFiles(int userId, int parentFolderId, int pageNum) {
+    public List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum) {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-        /**
-         * 不指定页数，即不分页
-         */
+        //不指定页数，即不分页
         if (pageNum == -1) {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
         }
-        List<MyFile> myFiles = fileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
-        return myFiles;
+        return fileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
     }
 
 
@@ -252,16 +233,14 @@ public class FileServiceImpl implements FileService {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
         }
-        return fileMapper.queryFilesByUid(userId, startRow, showRow);
+        return fileMapper.queryListByUid(userId, startRow, showRow);
     }
 
     @Override
     public List<MyFile> queryFilesByType(Integer uid, String type, int pageNum) {
         int showRow = FileUtil.FILE_SHOW_ROW;
         int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-        /**
-         * 不指定页数，即不分页
-         */
+        //不指定页数，即不分页
         if (pageNum == -1) {
             startRow = 0;
             showRow = Integer.MAX_VALUE;
@@ -270,43 +249,50 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean updateData(MultipartFile file, Integer id) {
-        MyFile myFile = fileMapper.queryFileById(id);
+    public void updateData(MultipartFile file, Integer id) {
+        MyFile myFile = fileMapper.queryById(id);
         String path = myFile.getMyFilePath();
         try {
             Files.write(Paths.get(path), file.getBytes());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FailException("修改失败");
         }
-        return true;
     }
 
-    public List<Map<String, String>> queryFilesByUid(int userId, int pageNum, boolean preview) throws IOException {
-        if (preview) {
-            int showRow = FileUtil.FILE_SHOW_ROW;
-            int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
-            /**
-             * 不指定页数，即不分页
-             */
-            if (pageNum == -1) {
-                startRow = 0;
-                showRow = Integer.MAX_VALUE;
-            }
-            List<MyFile> files = fileMapper.queryFileByUidOrdDate(userId, startRow, showRow);
-/*            if (files != null && files.size() != 0) {
-                return FileUtil.previewImage(files);
-            }*/
-        }
-        return null;
+    @Override
+    public List<Object> getFileAndFolder(Integer parentFid) {
+        List<Object> list = new ArrayList<>();
+        Integer uid = UserUtil.getUid();
+        FileStore store = storeService.queryStoreByUid(uid);
+        List<MyFile> files = queryFiles(uid, parentFid, -1);
+        List<FileFolder> folders = folderMapper.queryFoldersByPId(store.getFileStoreId(), parentFid);
+        list.addAll(folders);
+        list.addAll(files);
+        return list;
     }
 
 
     @Override
-    public boolean deleteByMyFileId(int fileId) {
-        MyFile file = fileMapper.queryFileById(fileId);
-        if (fileMapper.deleteByMyFileId(fileId) > 0) {
+    public PageVO<Map<String, String>> thumbnailList(Integer uid, Integer pageNum) {
+        int showRow = FileUtil.FILE_SHOW_ROW;
+        int startRow = (pageNum - 1) * FileUtil.FILE_SHOW_ROW;
+        List<MyFile> files = fileMapper.queryFilesByType(uid, "图片", startRow, showRow);
+        Integer count = fileMapper.countByType(uid, "图片");
+        if (files == null || files.isEmpty()) {
+            return PageVO.of(Collections.emptyList(), pageNum, showRow, count);
+        }
+        List<Map<String, String>> list = FileUtil.previewImage(files);
+        return PageVO.of(list, pageNum, showRow, count);
+    }
+
+
+    @Override
+    public boolean deleteById(int fileId) {
+        MyFile file = fileMapper.queryById(fileId);
+        if (fileMapper.delete(fileId) > 0) {
             int uid = UserUtil.getUid();
             FileStore store = storeService.queryStoreByUid(uid);
+            store.setCurrentSize(store.getCurrentSize() - file.getSize());
             return trashService.addTrash(file, uid) && storeService.updateStore(store);
         }
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -316,7 +302,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public ResponseEntity<InputStreamResource> downloadFile(int fileId, boolean preview) throws IOException {
         //从数据库查询文件信息 换取文件路径
-        MyFile file = fileMapper.queryFileById(fileId);
+        MyFile file = fileMapper.queryById(fileId);
         String filePath = file.getMyFilePath();
         return this.download(filePath);
     }
@@ -358,7 +344,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean updateFileName(int fileId, String newName) {
-        MyFile file = fileMapper.queryFileById(fileId);
+        MyFile file = fileMapper.queryById(fileId);
         String filePath = file.getMyFilePath();
         String path = filePath.substring(0, filePath.lastIndexOf('/') + 1);
         String newFilePath = path + newName;
@@ -377,7 +363,7 @@ public class FileServiceImpl implements FileService {
             }
             //修改文件类型
             file.setType(FileUtil.getFileType(suffixName));
-            return fileMapper.updateByFileId(file) > 0;
+            return fileMapper.update(file) > 0;
         } else {
             return false;
         }
@@ -385,17 +371,10 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public String shareFile(int fileId) {
+    public String share(int fileId) {
         Object scd = redisTemplate.opsForValue().get("share:fid:" + fileId);
-        StringBuffer code = new StringBuffer();
-        if (scd != null) {
-            code.append(scd);
-        } else {
-            //文件生成码
-            for (int i = 0; i < 5; i++) {
-                code.append(new Random().nextInt(9));
-            }
-        }
+        String code = String.valueOf(Optional.ofNullable(scd)
+                        .orElse(NumberUtil.createCode()));
         try {
             //SessionCallback事务
             SessionCallback<Object> callback = new SessionCallback<Object>() {
@@ -415,7 +394,7 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             return null;
         }
-        return code.toString();
+        return code;
     }
 
     @Override
@@ -424,19 +403,18 @@ public class FileServiceImpl implements FileService {
         if (fileId == null) {
             return null;
         }
-        MyFile file = fileMapper.queryFileById((int) fileId);
-        return file;
+        return fileMapper.queryById((int) fileId);
     }
 
     @Override
     public Map<String, Integer> clearBadFile() {
         HashMap<String, Integer> map = new HashMap<>();
-        List<MyFile> files = fileMapper.queryAllFiles();
+        List<MyFile> files = fileMapper.queryList();
         int sum = 0;
         for (MyFile file : files) {
             String filePath = file.getMyFilePath();
             if (!new File(filePath).exists()) {
-                fileMapper.deleteByMyFileId(file.getMyFileId());
+                fileMapper.delete(file.getMyFileId());
                 sum++;
             }
         }

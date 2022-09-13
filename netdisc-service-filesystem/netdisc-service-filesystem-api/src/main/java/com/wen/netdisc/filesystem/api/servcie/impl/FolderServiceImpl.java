@@ -5,6 +5,7 @@ import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.pojo.TreeNode;
+import com.wen.netdisc.filesystem.api.dto.FolderSaveDto;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -41,15 +41,22 @@ public class FolderServiceImpl implements FolderService {
     BaseMapper baseMapper;
 
     @Override
-    public boolean addFileFolder(FileFolder fileFolder) {
+    public boolean addFileFolder(FolderSaveDto dto) {
+        Integer uid = UserUtil.getUid();
+        FileStore store = storeMapper.queryStoreByUid(uid);
+        FileFolder folder = new FileFolder();
+        folder.setFileFolderId(dto.getParentId());
+        folder.setFileFolderName(dto.getName());
+        folder.setFileStoreId(store.getFileStoreId());
+
         //根路径+仓库Id
-        StringBuffer path = new StringBuffer(FileUtil.STORE_ROOT_PATH + fileFolder.getFileStoreId());
-        int parentFolderId = fileFolder.getParentFolderId();
-        if (parentFolderId == FileUtil.STORE_ROOT_ID) {
-            path.append("/").append(fileFolder.getFileFolderName());
+        StringBuilder path = new StringBuilder(FileUtil.STORE_ROOT_PATH + folder.getFileStoreId());
+        int parentId = folder.getParentFolderId();
+        if (parentId == FileUtil.STORE_ROOT_ID) {
+            path.append("/").append(folder.getFileFolderName());
         } else {
             Stack<String> stack = new Stack<>();
-            FileFolder pff = fileFolder;
+            FileFolder pff = folder;
             while (true) {
                 int pid = pff.getParentFolderId();
                 String pName = pff.getFileFolderName();
@@ -74,10 +81,10 @@ public class FolderServiceImpl implements FolderService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            throw new FailException("增加文件夹失败");
         }
-        fileFolder.setFileFolderPath(String.valueOf(path));
-        return folderMapper.addFileFolder(fileFolder) > 0;
+        folder.setFileFolderPath(String.valueOf(path));
+        return folderMapper.addFileFolder(folder) > 0;
     }
 
     @Override
@@ -108,7 +115,7 @@ public class FolderServiceImpl implements FolderService {
      */
     private void del(Integer sid, Integer id) {
         folderMapper.delFolderById(id);
-        baseMapper.deleteTarget(MyFile.class, new QueryWrapper().eq("parent_folder_id", id));
+        baseMapper.delete(MyFile.class, new QueryWrapper().eq("parent_folder_id", id));
         List<FileFolder> childs = folderMapper.queryFoldersByPId(sid, id);
         if (childs == null || childs.isEmpty()) {
             return;
@@ -128,11 +135,15 @@ public class FolderServiceImpl implements FolderService {
         if (Files.exists(Paths.get(oldPath)) && !Files.exists(Paths.get(path))) {
             //修改文件夹名 成功更新数据库文件的路径
             if (new File(oldPath).renameTo(new File(path))) {
-                int userId = storeMapper.queryStoreById(folder.getFileStoreId()).getUserId();
+                FileStore store = baseMapper.getById(FileStore.class, folder.getFileStoreId());
+                if (store == null) {
+                    throw new FailException("获取仓库信息失败");
+                }
+                int userId = store.getUserId();
                 List<MyFile> fileList = fileMapper.queryMyFiles(userId, folderId, 0, 9999);
                 for (MyFile file : fileList) {
                     file.setMyFilePath(path + '/' + file.getMyFileName());
-                    fileMapper.updateByFileId(file);
+                    fileMapper.update(file);
                 }
             }
         } else {
@@ -153,8 +164,7 @@ public class FolderServiceImpl implements FolderService {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.select("file_folder_id , file_folder_name , parent_folder_id");
         wrapper.eq("file_store_id", storeId);
-        ArrayList<FileFolder> list = baseMapper.selectList(FileFolder.class);
-
+        List<FileFolder> list = baseMapper.getList(FileFolder.class);
         return FolderUtil.getTree(list);
     }
 

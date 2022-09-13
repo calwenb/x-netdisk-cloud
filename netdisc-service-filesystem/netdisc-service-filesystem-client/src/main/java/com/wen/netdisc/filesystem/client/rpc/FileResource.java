@@ -1,6 +1,6 @@
 package com.wen.netdisc.filesystem.client.rpc;
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PrcVerify;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;

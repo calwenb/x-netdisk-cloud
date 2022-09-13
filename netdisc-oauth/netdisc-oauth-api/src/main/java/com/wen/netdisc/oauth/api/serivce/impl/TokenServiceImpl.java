@@ -6,28 +6,30 @@ import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.enums.TokenEnum;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
-import com.wen.netdisc.oauth.api.mapper.UserMapper;
+import com.wen.netdisc.common.util.TokenUtil;
 import com.wen.netdisc.oauth.api.serivce.TokenService;
+import com.wen.releasedao.core.mapper.BaseMapper;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/***
- * token 下发
- * @author
+/**
+ * 验证token，token下发
+ *
+ * @author calwen
+ * @since 2022/8/29
  */
 @Service
 public class TokenServiceImpl implements TokenService {
-    @Resource
-    UserMapper userMapper;
 
     @Resource
-    RedisTemplate redisTemplate;
+    BaseMapper baseMapper;
+
+    @Resource
+    RedisTemplate<String, Integer> redisTemplate;
     private final static String JWT_SECRET = TokenEnum.JWT_SECRET.getProperty();
     private final static String TOKEN_PREFIX = RedisEnum.TOKEN_PREFIX.getProperty();
 
@@ -41,14 +43,14 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Integer getTokenUserId() {
-        String token = headerToken();
+        String token = TokenUtil.getHeaderToken();
         String userId = JWT.decode(token).getAudience().get(0);
         return Integer.parseInt(userId);
     }
 
     @Override
     public User getTokenUser() {
-        User user = userMapper.getUserById(this.getTokenUserId());
+        User user = baseMapper.getById(User.class, this.getTokenUserId());
         if (user == null) {
             throw new FailException("获取用户信息失败");
         }
@@ -66,36 +68,28 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public boolean removeToken() {
-        String token = headerToken();
-        return redisTemplate.delete(TOKEN_PREFIX + token);
+        String token = TokenUtil.getHeaderToken();
+        return Optional.ofNullable(redisTemplate.delete(TOKEN_PREFIX + token)).orElse(false);
     }
 
     @Override
     public Long getExpireTime() {
-        String token = headerToken();
+        String token = TokenUtil.getHeaderToken();
         return redisTemplate.opsForValue().getOperations().getExpire(TOKEN_PREFIX + token);
     }
 
     @Override
     public boolean renew(Integer hour) {
-        String token = headerToken();
-        return redisTemplate.expire(TOKEN_PREFIX + token, hour, TimeUnit.HOURS);
+        String token = TokenUtil.getHeaderToken();
+        return Optional.ofNullable(redisTemplate.expire(TOKEN_PREFIX + token, hour, TimeUnit.HOURS)).orElse(false);
     }
 
 
     @Override
     public boolean verifyToken() {
-        String token = headerToken();
+        String token = TokenUtil.getHeaderToken();
         Object o = redisTemplate.opsForValue().get(TOKEN_PREFIX + token);
         return o != null;
-    }
-
-
-    private String headerToken() {
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes();
-        HttpServletRequest request = requestAttributes == null ? null : requestAttributes.getRequest();
-        return request.getHeader("token");
     }
 
 

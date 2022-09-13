@@ -1,8 +1,8 @@
 server:
-  port: 8072
+  port: 8062
 spring:
   application:
-    name: netdisc-user
+    name: netdisc-user-dev
   cloud:
     nacos:
       discovery:
@@ -17,7 +17,7 @@ spring:
     # 配置数据源
     username: root
     password: WHL531124
-    url: jdbc:mysql://101.43.95.238:3306/my_pan_test?serverTimezone=Hongkong&useAffectedRows=true
+    url: jdbc:mysql://101.43.95.238:3306/x_netdisk_dev?serverTimezone=Hongkong&useAffectedRows=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 配置druid数据源
@@ -56,7 +56,7 @@ spring:
   redis:
     host: 101.43.95.238
     port: 6379
-    database: 7 #Redis数据库索引（默认为0）
+    database: 6 #Redis数据库索引（默认为0）
     password: WHL531124
     timeout: 1800000 #连接超时时间（毫秒）
     jedis:
@@ -70,11 +70,8 @@ spring:
     redis:
       cache-null-values: true #是否缓存null数据，默认是false，可以用来解决缓存穿透
       use-key-prefix: true    #缓存数据key是否使用前缀，默认是true
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.wen.netdisc.common.pojo
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
 #激活sentinel对 Feign支持
 feign:
   sentinel:
@@ -85,5 +82,16 @@ seata:
       netdisc-service-user-seata-service-group: default
 #    grouplist:
 #      default: localhost:8091
+releasedao:
+  config:
+    logger: true
 
 
+x-netdisc:
+  sms:
+    endpoin: sms.tencentcloudapi.com
+    secret-key: UmqfKkwsYzB8pIZbOwFJAl7E5jBPN6cu
+    secret-id: AKIDLXUDgusb5JI2XnV0HJ6dx2rQlqgIfngK
+    sign-name: 生活中的KuaiLe网
+    template-id: 1516326
+    app_id: 1400725827

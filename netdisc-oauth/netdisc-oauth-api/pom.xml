@@ -16,6 +16,11 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.wen.netdisccloud</groupId>
             <artifactId>netdisc-oauth-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>

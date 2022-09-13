@@ -1,7 +1,9 @@
 package com.wen.netdisc.common.pojo;
 
 import com.wen.releasedao.core.annotation.FieldName;
+import com.wen.releasedao.core.annotation.IdField;
 import com.wen.releasedao.core.annotation.TableName;
+import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,19 +24,20 @@ public class FileStore implements Serializable {
     /**
      * 文件仓库ID
      */
-    private int fileStoreId;
+    @IdField(idType = IdTypeEnum.AUTO)
+    private Integer fileStoreId;
     /**
      * 用户ID
      */
-    private int userId;
+    private Integer userId;
     /**
      * 当前容量（单位KB）
      */
-    private long currentSize;
+    private Long currentSize;
     /**
      * 最大容量（单位KB）
      */
-    private long maxSize;
+    private Long maxSize;
 
     /**
      * 用户信息
@@ -42,10 +45,4 @@ public class FileStore implements Serializable {
     @FieldName(exist = false)
     private User user;
 
-    public FileStore(int fileStoreId, int userId, long currentSize, long maxSize) {
-        this.fileStoreId = fileStoreId;
-        this.userId = userId;
-        this.currentSize = currentSize;
-        this.maxSize = maxSize;
-    }
 }

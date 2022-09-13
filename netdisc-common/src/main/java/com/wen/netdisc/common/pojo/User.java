@@ -1,6 +1,9 @@
 package com.wen.netdisc.common.pojo;
 
+import com.wen.releasedao.core.annotation.CreateTime;
+import com.wen.releasedao.core.annotation.IdField;
 import com.wen.releasedao.core.annotation.TableName;
+import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName("user")
 public class User implements Serializable {
-    // @IdField(idType = IdTypeEnum.AUTO)
+    @IdField(idType = IdTypeEnum.AUTO)
     private Integer id;
     private String userName;
     private String loginName;
@@ -27,7 +30,6 @@ public class User implements Serializable {
     private String phoneNumber;
     private String email;
     private String avatar;
+    @CreateTime
     private Date registerTime;
-
-
 }

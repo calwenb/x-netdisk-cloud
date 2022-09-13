@@ -1,8 +1,7 @@
 package com.wen.netdisc.common.util;
 
-import com.wen.commutil.enums.BaseResultEnum;
-import com.wen.commutil.util.LoggerUtil;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.enums.BaseResultEnum;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.exception.RpcException;
 
 import java.util.Objects;

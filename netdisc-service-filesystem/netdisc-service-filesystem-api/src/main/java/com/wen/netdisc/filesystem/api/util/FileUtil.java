@@ -1,12 +1,23 @@
 package com.wen.netdisc.filesystem.api.util;
 
 
+import com.alibaba.fastjson.JSON;
+import com.wen.netdisc.common.util.ThreadPoolUtil;
+import com.wen.netdisc.common.exception.FailException;
+import com.wen.netdisc.common.pojo.MyFile;
+import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * FileUtil类
@@ -130,7 +141,7 @@ public class FileUtil {
     }
 
 
-/*    public static List<Map<String, String>> previewImage(List<MyFile> files) {
+    public static List<Map<String, String>> previewImage(List<MyFile> files) {
         //多线程处理缩略图，使用数组保证files顺序不变
         Map<String, String>[] rs = new Map[files.size()];
         CountDownLatch latch = new CountDownLatch(files.size());
@@ -151,12 +162,12 @@ public class FileUtil {
                     map.put("data", "data:image/jpg;base64," + base64Str);
                     rs[finalI] = map;
                 } catch (Exception e) {
-                    throw new FailException(e);
+                    e.printStackTrace();
+                    throw new FailException("生成缩略图失败");
                 } finally {
                     latch.countDown();
                 }
             });
-
         }
         try {
             latch.await();
@@ -164,7 +175,7 @@ public class FileUtil {
             throw new RuntimeException(e);
         }
         return Arrays.asList(rs);
-    }*/
+    }
 
 
 }

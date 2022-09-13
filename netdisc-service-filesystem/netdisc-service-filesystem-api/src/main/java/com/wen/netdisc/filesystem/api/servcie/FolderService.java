@@ -2,8 +2,8 @@ package com.wen.netdisc.filesystem.api.servcie;
 
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.TreeNode;
+import com.wen.netdisc.filesystem.api.dto.FolderSaveDto;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -13,11 +13,11 @@ import java.util.List;
  * @author calwen
  */
 public interface FolderService {
-    boolean addFileFolder(FileFolder fileFolder) throws IOException;
+    boolean addFileFolder(FolderSaveDto folderSaveDto);
 
     List<FileFolder> queryFoldersByPId(int storeId, int pId);
 
-    boolean delFolder(int folderId) throws IOException;
+    boolean delFolder(int folderId);
 
     /**
      * 重命名文件夹业务

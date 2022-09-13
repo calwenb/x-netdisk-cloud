@@ -1,25 +1,26 @@
 package com.wen.netdisc.user.api.controller.api;
 
-import com.wen.commutil.annotation.PassAuth;
-import com.wen.commutil.util.NullUtil;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
-import com.wen.netdisc.common.exception.OauthException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
-import com.wen.netdisc.common.util.TokenUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
+import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
 import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * UserController类
@@ -27,6 +28,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     @Resource
     UserService userService;
     @Resource
@@ -36,26 +38,29 @@ public class UserController {
 
     @PassAuth
     @PostMapping("/login")
-    public ResultVO<String> login(@RequestBody UserDto dto) {
+    public ResultVO<String> login(@Validated(UserDto.login.class) @RequestBody UserDto dto) {
         String token = userService.login(dto);
         return ResultUtil.success(token);
-
     }
 
     @PassAuth
+    @PostMapping("/login/phone")
+    public ResultVO<String> loginPhone(@Valid @RequestBody LoginPhoneDto dto) {
+        String token = userService.loginPhone(dto);
+        return ResultUtil.success(token);
+    }
+
+
+    @PassAuth
     @PostMapping("/register")
-    public ResultVO<String> register(@RequestBody UserDto dto) {
+    public ResultVO<String> register(@Validated(UserDto.register.class) @RequestBody UserDto dto) {
         String token = userService.register(dto);
         return ResultUtil.success(token);
     }
 
     @PostMapping("/out-login")
     public ResultVO<String> outLogin() {
-        String token = TokenUtil.headerToken();
-        if (NullUtil.hasNull(token)) {
-            throw new OauthException("未携带token");
-        }
-        return oauthClient.removeToken(token);
+        return oauthClient.removeToken();
     }
 
     @GetMapping("/info")
@@ -64,7 +69,7 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public ResultVO<User> upPassword(@RequestBody UserDto dto) {
+    public ResultVO<User> upPassword(@Validated(UserDto.upPassword.class) @RequestBody UserDto dto) {
         userService.upPassword(dto);
         return ResultUtil.successDo();
 
@@ -72,55 +77,42 @@ public class UserController {
 
     @PassAuth
     @PutMapping("/re-pwd")
-    public ResultVO<String> repwd(@RequestParam("loginName") String loginName, @RequestParam("password") String password, @RequestParam("code") String code) {
+    public ResultVO<String> repwd(@RequestParam("loginName") String loginName,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("code") String code) {
 
         if (!userService.verifyCode(loginName, code)) {
             return ResultUtil.error("验证码不正确或已失效");
         }
-        if (userService.repwd(loginName, password)) {
-            return ResultUtil.success("密码重置成功");
-        }
-        return ResultUtil.error("密码重置失败");
+        return userService.repwd(loginName, password) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @PassAuth
     @PostMapping("/send-code")
     public ResultVO<String> sendCode(@RequestParam("loginName") String loginName, @RequestParam("email") String email) {
-        if (userService.sendCode(loginName, email)) {
-            return ResultUtil.success("发送成功，三分钟内有效");
-        }
-        return ResultUtil.error("发送失败。输入用户预留邮箱，未预留邮箱暂不支持服务");
+        userService.sendCode(loginName, email);
+        return ResultUtil.success("发送成功，三分钟内有效");
     }
 
 
     @PostMapping("/upload-head")
     public ResultVO<String> uploadHead(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
-        if (userService.uploadHead(file, userId)) {
-            return ResultUtil.success("头像上传成功");
-        }
-        return ResultUtil.error("头像上传失败");
+        boolean b = userService.uploadHead(file, userId);
+        return b ? ResultUtil.success("头像上传成功") : ResultUtil.error("头像上传失败");
     }
 
-    //todo
     @PutMapping("/{id}")
     public ResultVO<String> updateUser(@PathVariable Integer id, @RequestBody UserDto dto) {
         dto.setId(id);
-        if (userService.updateUser(dto) > 0) {
-            return ResultUtil.successDo();
-        }
-        return ResultUtil.errorDo();
-
+        return userService.updateUser(dto) ? ResultUtil.successDo() : ResultUtil.errorDo();
     }
 
     @GetMapping("/avatar")
     public ResponseEntity<InputStreamResource> getAvatar() {
         User user = UserUtil.getUser();
-        String avatarPath = user.getAvatar();
-        if (avatarPath == null) {
-            throw new FailException("未上传头像");
-        }
+        String path = Optional.ofNullable(user.getAvatar()).orElseThrow(() -> new FailException("未上传头像"));
         try {
-            return filesystemClient.downloadComm(avatarPath);
+            return filesystemClient.downloadComm(path);
         } catch (IOException e) {
             throw new FailException("获取头像失败");
         }

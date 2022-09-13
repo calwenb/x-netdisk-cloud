@@ -1,6 +1,6 @@
 package com.wen.netdisc.oauth.api.config;
 
-import com.wen.commutil.interceptor.NormInterceptor;
+import com.wen.netdisc.common.interceptor.NormInterceptor;
 import com.wen.netdisc.oauth.api.interceptor.AuthenticationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,9 @@
 package com.wen.netdisc.user.api.interceptor;
 
 import com.alibaba.fastjson2.JSON;
-import com.wen.commutil.annotation.PassAuth;
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.annotation.PassAuth;
+import com.wen.netdisc.common.enums.TokenEnum;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
 import org.springframework.web.method.HandlerMethod;
@@ -30,7 +31,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse response, Object object) throws Exception {
         response.setContentType("application/json;charset=UTF-8");
         // 从 http 请求参数中取出 token
-        String token = httpServletRequest.getHeader("token");
+        String token = httpServletRequest.getHeader(TokenEnum.HEADER.getProperty());
         // 如果不是映射到方法直接通过
         if (!(object instanceof HandlerMethod)) {
             return true;

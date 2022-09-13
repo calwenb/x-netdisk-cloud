@@ -1,13 +1,16 @@
 package com.wen.netdisc.user.api.service.impl;
 
-import com.wen.commutil.vo.ResultVO;
+import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
+import com.wen.netdisc.common.util.CommBeanUtils;
+import com.wen.netdisc.common.util.NumberUtil;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.client.rpc.FilesystemClient;
 import com.wen.netdisc.oauth.client.feign.OauthClient;
+import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
-import com.wen.netdisc.user.api.mapper.UserMapper;
-import com.wen.netdisc.user.api.service.MailService;
+import com.wen.netdisc.user.api.service.SmsMailService;
 import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
@@ -20,7 +23,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,11 +35,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
-    UserMapper userMapper;
+    SmsMailService smsMailService;
     @Resource
-    MailService mailService;
-    @Resource
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @Resource
     BaseMapper baseMapper;
@@ -64,29 +67,28 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> queryUsers() {
-        ArrayList<User> users = baseMapper.selectList(User.class);
+        List<User> users = baseMapper.getList(User.class);
         return users;
     }
 
     @Override
-    public ArrayList<User> queryUsersTerm(String term, String value) {
+    public List<User> queryUsersTerm(String term, String value) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.add(term, value);
-        ArrayList<User> users = baseMapper.selectList(User.class, wrapper);
-        return users;
+        wrapper.eq(term, value);
+        return baseMapper.getList(User.class, wrapper);
     }
 
     @Override
     public List<User> queryUsersLike(String term, String key) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.like(term, key);
-        return baseMapper.selectList(User.class, wrapper);
+        return baseMapper.getList(User.class, wrapper);
     }
 
     /**
      * 增加全部用户
      *
-     * @param superAdminName
+     * @param name
      * @return 修改状态
      */
 /*    @Override
@@ -102,16 +104,21 @@ public class UserServiceImpl implements UserService {
         return baseMapper.insertTarget(user);
     }*/
     @Override
-    public int initAdmin(String superAdminName, String superAdminLoginName, String superAdminPassword) {
-        User superAdmin = new User(-10, superAdminName, superAdminLoginName, superAdminPassword, 0, null, null, null, new Date());
-        return baseMapper.replaceTarget(superAdmin);
+    public boolean initAdmin(String name, String loginName, String password) {
+        User superAdmin = new User();
+        superAdmin.setId(-10);
+        superAdmin.setUserName(name);
+        superAdmin.setLoginName(loginName);
+        superAdmin.setPassWord(password);
+        superAdmin.setUserType(0);
+        return baseMapper.save(superAdmin);
     }
 
     @Override
     public int verifyAdmin(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.add("id", userId);
-        User user = baseMapper.selectTarget(User.class);
+        wrapper.eq("id", userId);
+        User user = baseMapper.get(User.class);
         if (user != null) {
             return user.getUserType();
         }
@@ -125,35 +132,35 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int deleteUser(int userId) {
+    public boolean deleteUser(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.add("id", userId);
-        User user = baseMapper.selectTarget(User.class, wrapper);
+        wrapper.eq("id", userId);
+        User user = baseMapper.get(User.class, wrapper);
         if (user != null && user.getUserType() == 0) {
-            return 0;
+            return false;
         }
-        return baseMapper.deleteTarget(User.class, wrapper);
+        return baseMapper.delete(User.class, wrapper);
     }
 
     /**
      * 修改全部用户
      */
     @Override
-    public int updateUser(UserDto dto) {
-        User user = new User();
-        BeanUtils.copyProperties(dto, user);
-        return userMapper.updateUser(user);
+    public boolean updateUser(UserDto dto) {
+        User user = baseMapper.getById(User.class, dto.getId());
+        CommBeanUtils.copyPropertiesIgnoreNull(dto, user);
+        return baseMapper.save(user);
     }
 
     @Override
     public void upPassword(UserDto dto) {
         Integer uid = UserUtil.getUid();
-        User user = userMapper.getUserById(uid);
+        User user = baseMapper.getById(User.class, uid);
         if (!Objects.equals(dto.getPassWord(), user.getPassWord())) {
             throw new FailException("密码不正确");
         }
         user.setPassWord(dto.getNewPassWord());
-        userMapper.updateUser(user);
+        baseMapper.save(user);
     }
 
 
@@ -162,7 +169,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(UserDto dto) {
-        User user = userMapper.login(dto.getLoginName(), dto.getPassWord());
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", dto.getLoginName())
+                .eq("pass_word", dto.getPassWord());
+        User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("账号密码错误或未注册");
         }
@@ -177,16 +187,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String loginPhone(LoginPhoneDto dto) {
+        String phone = dto.getPhone();
+        String code = dto.getCode();
+        if (!smsMailService.verifySmsCode(phone, code)) {
+            throw new FailException("验证码不正确");
+        }
+        QueryWrapper wrapper = new QueryWrapper()
+                .eq("login_name", phone);
+        User user = baseMapper.get(User.class, wrapper);
+        //注册或登录
+        if (user == null) {
+            UserDto userDto = new UserDto();
+            userDto.setUserName(phone);
+            userDto.setLoginName(phone);
+            userDto.setPassWord(phone);
+            userDto.setPhoneNumber(phone);
+            return register(userDto);
+        } else {
+            return oauthClient.saveToken(user.getId(), user.getUserType(), 12)
+                    .getData();
+        }
+    }
+
+    @Override
     public String register(UserDto dto) {
-        if (userMapper.getUserByLName(dto.getLoginName()) != null) {
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", dto.getLoginName());
+        if (baseMapper.get(User.class, wrapper) != null) {
             throw new FailException("注册失败，账号已存在");
         }
         User user = new User();
         BeanUtils.copyProperties(dto, user);
         user.setUserType(2);
         user.setAvatar("/#");
+        user.setRegisterTime(new Date());
         try {
-            if (userMapper.addUser(user) == 0) {
+            if (!baseMapper.add(user)) {
                 throw new FailException("注册失败");
             }
         } catch (Exception e) {
@@ -205,13 +241,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getUserById(int userID) {
-        return userMapper.getUserById(userID);
+    public User getUserById(int uid) {
+        return baseMapper.getById(User.class, uid);
     }
 
     @Override
     public boolean sendCode(String loginName, String email) {
-        User user = userMapper.getUserByLName(loginName);
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", loginName);
+        User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
             throw new FailException("用户不存在");
         }
@@ -219,52 +256,48 @@ public class UserServiceImpl implements UserService {
             throw new FailException("输入邮箱不一致或未预留");
         }
         try {
-            String code = this.createCode();
+            String code = NumberUtil.createCode();
             String subject, content;
             subject = "重置密码";
             content = "账号: " + loginName + "，您好。\n" + "您当前正在重置密码，您的验证码为：" + code;
-            mailService.sendSimpleMail(email, subject, content);
-            String key = "code:lname:" + loginName;
+            smsMailService.sendMail(email, subject, content);
+            String key = RedisEnum.SMS_Mail_CODE_PREFIX.getProperty() + loginName;
             redisTemplate.opsForValue().set(key, code, 3, TimeUnit.MINUTES);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new FailException("发送验证码失败");
         }
 
     }
 
     @Override
-    public boolean verifyCode(String loginName, String code) {
-        String key = "code:lname:" + loginName;
-        Object value = redisTemplate.opsForValue().get(key);
-        if (value == null) {
-            return false;
-        }
-        String realCode = String.valueOf(value);
-        return realCode.equals(code);
+    public boolean verifyCode(String loginName, String inCode) {
+        String key = RedisEnum.SMS_Mail_CODE_PREFIX.getProperty() + loginName;
+        String code = redisTemplate.opsForValue().get(key);
+        return Objects.equals(inCode, code);
     }
 
     @Override
     public boolean repwd(String loginName, String password) {
-        User user = userMapper.getUserByLName(loginName);
+        QueryWrapper wrapper = new QueryWrapper().eq("login_name", loginName);
+        User user = baseMapper.get(User.class, wrapper);
         if (user == null) {
-            return false;
+            throw new FailException("用户不存在");
         }
         user.setPassWord(password);
-
-        return userMapper.updatepwd(user) > 0;
+        return baseMapper.save(user);
     }
 
     @Override
-    public boolean uploadHead(MultipartFile file, Integer userId) {
+    public boolean uploadHead(MultipartFile file, Integer uid) {
         if (file.isEmpty()) {
             throw new FailException("空文件");
         }
         String path = filesystemClient.uploadHead(file).getData();
-        User user = userMapper.getUserById(userId);
+        User user = baseMapper.getById(User.class, uid);
         user.setAvatar(path);
-        return userMapper.updateUser(user) > 0;
+        return baseMapper.save(user);
     }
 
     /**
@@ -287,29 +320,14 @@ public class UserServiceImpl implements UserService {
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         return false;
     }*/
-
-    /**
-     * @param uid
-     * @return
-     */
     @Override
     public boolean applyUpLevel(Integer uid) {
-        User user = userMapper.getUserById(uid);
+        User user = baseMapper.getById(User.class, uid);
         Integer type = user.getUserType();
         if (type > 10) {
             throw new FailException("请勿多次申请");
         }
         user.setUserType(type + 10);
-        return userMapper.updateUser(user) > 0;
-    }
-
-
-    private String createCode() {
-        StringBuilder code = new StringBuilder();
-        //文件生成码
-        for (int i = 0; i < 5; i++) {
-            code.append(new Random().nextInt(9));
-        }
-        return String.valueOf(code);
+        return baseMapper.save(user);
     }
 }
