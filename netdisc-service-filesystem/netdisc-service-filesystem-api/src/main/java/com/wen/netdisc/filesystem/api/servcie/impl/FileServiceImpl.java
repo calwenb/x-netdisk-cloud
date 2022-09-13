@@ -332,13 +332,12 @@ public class FileServiceImpl implements FileService {
         InputStream inputStream = downloadFile.getInputStream();
         byte[] bytes = new byte[1024];
         inputStream.read(bytes);
-        ResponseEntity<InputStreamResource> body = ResponseEntity.ok()
+        //设置响应头
+        return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(downloadFile.contentLength())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new InputStreamResource(downloadFile.getInputStream()));
-        //设置响应头
-        return body;
     }
 
 
