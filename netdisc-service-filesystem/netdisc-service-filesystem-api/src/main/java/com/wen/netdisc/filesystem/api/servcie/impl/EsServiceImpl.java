@@ -1,8 +1,8 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.wen.netdisc.common.util.LoggerUtil;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.common.util.LoggerUtil;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.servcie.EsService;
 import com.wen.netdisc.filesystem.api.util.ConfigUtil;
@@ -22,7 +22,6 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -65,7 +64,6 @@ public class EsServiceImpl implements EsService {
         return list;
     }
 
-    @Async
     @Override
     public void addData(MyFile file) {
         IndexRequest request = new IndexRequest(configUtil.getEsIndex());
@@ -75,7 +73,6 @@ public class EsServiceImpl implements EsService {
         client.indexAsync(request, RequestOptions.DEFAULT, null);
     }
 
-    @Async
     @Override
     public void updateData(MyFile file) {
         UpdateRequest request = new UpdateRequest(configUtil.getEsIndex(), String.valueOf(file.getMyFileId()));
@@ -84,7 +81,6 @@ public class EsServiceImpl implements EsService {
         client.updateAsync(request, RequestOptions.DEFAULT, null);
     }
 
-    @Async
     @Override
     public void delDate(String id) {
         DeleteRequest request = new DeleteRequest(configUtil.getEsIndex(), id);

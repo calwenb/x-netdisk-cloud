@@ -292,7 +292,7 @@ public class FileServiceImpl implements FileService {
         if (fileMapper.delete(fileId) > 0) {
             int uid = UserUtil.getUid();
             FileStore store = storeService.queryStoreByUid(uid);
-            store.setCurrentSize(store.getCurrentSize() - file.getSize());
+            store.setCurrentSize(Math.abs(store.getCurrentSize() - file.getSize()));
             return trashService.addTrash(file, uid) && storeService.updateStore(store);
         }
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -373,7 +373,7 @@ public class FileServiceImpl implements FileService {
     public String share(int fileId) {
         Object scd = redisTemplate.opsForValue().get("share:fid:" + fileId);
         String code = String.valueOf(Optional.ofNullable(scd)
-                        .orElse(NumberUtil.createCode()));
+                .orElse(NumberUtil.createCode()));
         try {
             //SessionCallback事务
             SessionCallback<Object> callback = new SessionCallback<Object>() {

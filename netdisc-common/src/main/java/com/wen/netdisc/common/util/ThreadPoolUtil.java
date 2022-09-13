@@ -41,4 +41,8 @@ public class ThreadPoolUtil {
         }
         return threadPool;
     }
+
+    public static void execute(Runnable command) {
+        getThreadPool().execute(command);
+    }
 }

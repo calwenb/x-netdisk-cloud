@@ -25,7 +25,7 @@ public class SmsController {
     @PostMapping("/send-code")
     public ResultVO<String> sendCode(@RequestParam String phone) {
         service.sendSmsCode(phone);
-        return ResultUtil.success("发送成功，五分钟内有效");
+        return ResultUtil.successDo("发送成功，五分钟内有效");
     }
 
     @PassAuth

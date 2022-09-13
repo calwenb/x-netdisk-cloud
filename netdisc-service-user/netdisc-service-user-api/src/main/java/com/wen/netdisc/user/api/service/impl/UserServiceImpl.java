@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService {
             userDto.setPhoneNumber(phone);
             return register(userDto);
         } else {
-            return oauthClient.saveToken(user.getId(), user.getUserType(), 12)
+            return oauthClient.saveToken(user.getId(), user.getUserType(), 30 * 24)
                     .getData();
         }
     }

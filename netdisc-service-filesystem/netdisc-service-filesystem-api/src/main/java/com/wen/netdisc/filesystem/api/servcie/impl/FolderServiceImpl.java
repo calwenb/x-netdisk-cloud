@@ -48,7 +48,6 @@ public class FolderServiceImpl implements FolderService {
         folder.setParentFolderId(dto.getParentId());
         folder.setFileFolderName(dto.getName());
         folder.setFileStoreId(store.getFileStoreId());
-
         //根路径+仓库Id
         StringBuilder path = new StringBuilder(FileUtil.STORE_ROOT_PATH + folder.getFileStoreId());
         int parentId = folder.getParentFolderId();
