@@ -45,7 +45,7 @@ public class FolderServiceImpl implements FolderService {
         Integer uid = UserUtil.getUid();
         FileStore store = storeMapper.queryStoreByUid(uid);
         FileFolder folder = new FileFolder();
-        folder.setFileFolderId(dto.getParentId());
+        folder.setParentFolderId(dto.getParentId());
         folder.setFileFolderName(dto.getName());
         folder.setFileStoreId(store.getFileStoreId());
 
@@ -162,9 +162,8 @@ public class FolderServiceImpl implements FolderService {
         FileStore store = storeMapper.queryStoreByUid(uid);
         int storeId = store.getFileStoreId();
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.select("file_folder_id , file_folder_name , parent_folder_id");
         wrapper.eq("file_store_id", storeId);
-        List<FileFolder> list = baseMapper.getList(FileFolder.class);
+        List<FileFolder> list = baseMapper.getList(FileFolder.class,wrapper);
         return FolderUtil.getTree(list);
     }
 

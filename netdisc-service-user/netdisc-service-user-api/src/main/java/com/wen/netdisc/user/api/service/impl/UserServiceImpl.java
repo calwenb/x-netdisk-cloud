@@ -67,8 +67,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> queryUsers() {
-        List<User> users = baseMapper.getList(User.class);
-        return users;
+        return baseMapper.getList(User.class);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class UserServiceImpl implements UserService {
     public int verifyAdmin(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("id", userId);
-        User user = baseMapper.get(User.class);
+        User user = baseMapper.get(User.class,wrapper);
         if (user != null) {
             return user.getUserType();
         }

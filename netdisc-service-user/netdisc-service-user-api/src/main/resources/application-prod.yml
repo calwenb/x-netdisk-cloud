@@ -79,3 +79,12 @@ seata:
 releasedao:
   config:
     logger: false
+
+x-netdisc:
+  sms:
+    endpoin: sms.tencentcloudapi.com
+    secret-key: UmqfKkwsYzB8pIZbOwFJAl7E5jBPN6cu
+    secret-id: AKIDLXUDgusb5JI2XnV0HJ6dx2rQlqgIfngK
+    sign-name: 生活中的KuaiLe网
+    template-id: 1516326
+    app_id: 1400725827
