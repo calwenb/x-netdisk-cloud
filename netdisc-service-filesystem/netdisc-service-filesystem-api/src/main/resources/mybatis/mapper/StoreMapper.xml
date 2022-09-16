@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wen.netdisc.filesystem.api.mapper.StoreMapper">
+    <resultMap id="FileStore" type="FileStore">
+        <result property="fileStoreId" column="file_store_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="currentSize" column="current_size"/>
+        <result property="maxSize" column="max_size"/>
+        <association property="user" javaType="User">
+            <id property="id" column="user_id"/>
+            <result property="userName" column="user_name"/>
+            <result property="userType" column="user_type"/>
+        </association>
+    </resultMap>
+
+    <sql id="allField">
+        user_id
+        ,current_size,max_size
+    </sql>
+
+    <insert id="addFileStore" useGeneratedKeys="true" keyProperty="fileStoreId"
+            parameterType="FileStore">
+        insert into file_store (<include refid="allField"/>)
+        values (#{userId},#{currentSize},#{maxSize})
+
+    </insert>
+
+    <select id="queryStoreByUid" resultMap="FileStore">
+        select *
+        from file_store
+        where user_id = #{userId}
+        limit 1;
+    </select>
+
+
+
+    <select id="queryUserStore" resultMap="FileStore">
+        select
+        <include refid="allField"></include>,
+        user_name,user_type
+        from file_store as s left join user as u on s.user_id =u.id;
+    </select>
+
+
+</mapper>
