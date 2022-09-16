@@ -19,7 +19,6 @@ import java.util.Map;
 public class FolderUtil {
 
 
-
     /**
      * 获得文件目录树
      *
@@ -27,8 +26,11 @@ public class FolderUtil {
      * @since 2022/7/23
      */
     public static TreeNode getTree(List<FileFolder> list) {
+        if (list == null || list.isEmpty() || list.get(0).getFileFolderId() == null) {
+            return new TreeNode(0, "Root", new ArrayList<>());
+        }
         int listSize = list.size();
-        TreeNode root = new TreeNode(0, "root", new ArrayList<>());
+        TreeNode root = new TreeNode(0, "Root", new ArrayList<>());
         HashMap<Integer, List<TreeNode>> childMap = new HashMap<>(listSize);
         childMap.put(0, new ArrayList<>());
         //构建 节点map，存放节点和节点孩子的指针。构建root节点

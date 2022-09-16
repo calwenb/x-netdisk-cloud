@@ -50,7 +50,8 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public FileStore queryStoreByUid(int userId) {
         FileStore store = storeMapper.queryStoreByUid(userId);
-        return Optional.ofNullable(store).orElseThrow(() -> new FailException("获取仓库数据失败"));
+        return Optional.ofNullable(store)
+                .orElseThrow(() -> new FailException("获取仓库数据失败"));
     }
 
     /**

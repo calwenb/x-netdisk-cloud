@@ -15,9 +15,9 @@ spring:
         port: 8719
   datasource:
     # 配置数据源
+    url: jdbc:mysql://101.43.95.238:3306/x_netdisk?serverTimezone=Hongkong&useAffectedRows=true
     username: root
     password: WHL531124
-    url: jdbc:mysql://101.43.95.238:3306/x_netdisk?serverTimezone=Hongkong&useAffectedRows=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 配置druid数据源

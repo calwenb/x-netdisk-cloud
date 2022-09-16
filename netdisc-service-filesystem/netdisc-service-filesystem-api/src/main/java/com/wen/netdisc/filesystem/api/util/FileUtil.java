@@ -2,9 +2,9 @@ package com.wen.netdisc.filesystem.api.util;
 
 
 import com.alibaba.fastjson.JSON;
-import com.wen.netdisc.common.util.ThreadPoolUtil;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.common.util.ThreadPoolUtil;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * FileUtil类
@@ -145,10 +144,9 @@ public class FileUtil {
         //多线程处理缩略图，使用数组保证files顺序不变
         Map<String, String>[] rs = new Map[files.size()];
         CountDownLatch latch = new CountDownLatch(files.size());
-        ThreadPoolExecutor threadPool = ThreadPoolUtil.getThreadPool();
         for (int i = 0; i < files.size(); i++) {
             int finalI = i;
-            threadPool.execute(() -> {
+            ThreadPoolUtil.execute(() -> {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 try {
                     Thumbnails.of(files.get(finalI).getMyFilePath())
