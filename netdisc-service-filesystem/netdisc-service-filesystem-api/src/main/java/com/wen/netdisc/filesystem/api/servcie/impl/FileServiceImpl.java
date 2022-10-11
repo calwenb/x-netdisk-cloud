@@ -33,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -327,11 +326,12 @@ public class FileServiceImpl implements FileService {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         FileSystemResource downloadFile = new FileSystemResource(path);
         if (!downloadFile.exists()) {
-            return ResponseEntity.ok().headers(headers).contentLength(0).contentType(MediaType.parseMediaType("application/octet-stream")).body(null);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(0)
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(null);
         }
-        InputStream inputStream = downloadFile.getInputStream();
-        byte[] bytes = new byte[1024];
-        inputStream.read(bytes);
         //设置响应头
         return ResponseEntity.ok()
                 .headers(headers)

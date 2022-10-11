@@ -2,7 +2,6 @@ package com.wen.netdisc.filesystem.api.task;
 
 import com.wen.netdisc.common.util.LoggerUtil;
 import com.wen.netdisc.filesystem.api.servcie.FileService;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -20,7 +19,7 @@ public class ClearFileTask {
     @Resource
     FileService fileService;
 
-    @Scheduled(cron = "0 0 0 */1 * ?")
+    //@Scheduled(cron = "0 0 0 */1 * ?")
 //    @Scheduled(cron = "0/50 * * * * ? ")
     public void clearBadFile() {
         LoggerUtil.info("开始清理 无效文件 ==>\n", ClearFileTask.class);
