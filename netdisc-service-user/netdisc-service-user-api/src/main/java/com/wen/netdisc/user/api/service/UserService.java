@@ -3,6 +3,8 @@ package com.wen.netdisc.user.api.service;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.user.api.dto.LoginPhoneDto;
 import com.wen.netdisc.user.api.dto.UserDto;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -93,4 +95,6 @@ public interface UserService {
     /*    boolean upLevel(Integer uid);*/
 
     boolean applyUpLevel(Integer uid);
+
+    ResponseEntity<InputStreamResource>  getAvatar();
 }

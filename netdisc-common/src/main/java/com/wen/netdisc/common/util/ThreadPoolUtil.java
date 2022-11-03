@@ -30,12 +30,12 @@ public class ThreadPoolUtil {
             synchronized (ThreadPoolUtil.class) {
                 if (threadPool == null || threadPool.isShutdown()) {
                     threadPool = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(),
-                            Runtime.getRuntime().availableProcessors() * 2,
-                            3,
+                            Runtime.getRuntime().availableProcessors() * 4,
+                            2,
                             TimeUnit.SECONDS,
-                            new LinkedBlockingDeque<>(3),
+                            new LinkedBlockingDeque<>(8),
                             Executors.defaultThreadFactory(),
-                            new ThreadPoolExecutor.DiscardOldestPolicy());
+                            new ThreadPoolExecutor.CallerRunsPolicy());
                 }
             }
         }

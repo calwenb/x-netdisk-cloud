@@ -1,7 +1,6 @@
 package com.wen.netdisc.user.api.controller.api;
 
 import com.wen.netdisc.common.annotation.PassAuth;
-import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.User;
 import com.wen.netdisc.common.util.ResultUtil;
 import com.wen.netdisc.common.vo.ResultVO;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.Optional;
 
 /**
  * UserController类
@@ -84,7 +81,9 @@ public class UserController {
         if (!userService.verifyCode(loginName, code)) {
             return ResultUtil.error("验证码不正确或已失效");
         }
-        return userService.repwd(loginName, password) ? ResultUtil.successDo() : ResultUtil.errorDo();
+        return userService.repwd(loginName, password)
+                ? ResultUtil.successDo()
+                : ResultUtil.errorDo();
     }
 
     @PassAuth
@@ -109,19 +108,15 @@ public class UserController {
 
     @GetMapping("/avatar")
     public ResponseEntity<InputStreamResource> getAvatar() {
-        User user = UserUtil.getUser();
-        String path = Optional.ofNullable(user.getAvatar()).orElseThrow(() -> new FailException("未上传头像"));
-        try {
-            return filesystemClient.downloadComm(path);
-        } catch (IOException e) {
-            throw new FailException("获取头像失败");
-        }
+        return userService.getAvatar();
     }
 
     @PutMapping("/level")
     public ResultVO<String> applyUpLevel() {
         Integer uid = UserUtil.getUid();
-        return userService.applyUpLevel(uid) ? ResultUtil.successDo("申请升级成功，待管理员审批") : ResultUtil.error("请勿多次申请升级");
+        return userService.applyUpLevel(uid)
+                ? ResultUtil.successDo("申请升级成功，待管理员审批")
+                : ResultUtil.error("请勿多次申请升级");
     }
 
 }

@@ -1,7 +1,7 @@
 package com.wen.netdisc.common.pojo;
 
+import com.wen.releasedao.core.annotation.FieldId;
 import com.wen.releasedao.core.annotation.FieldName;
-import com.wen.releasedao.core.annotation.IdField;
 import com.wen.releasedao.core.annotation.TableName;
 import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class FileStore implements Serializable {
     /**
      * 文件仓库ID
      */
-    @IdField(idType = IdTypeEnum.AUTO)
+    @FieldId(idType = IdTypeEnum.AUTO)
     private Integer fileStoreId;
     /**
      * 用户ID

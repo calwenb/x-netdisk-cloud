@@ -16,13 +16,19 @@ import com.wen.netdisc.user.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
 import com.wen.releasedao.core.wrapper.QueryWrapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -117,7 +123,7 @@ public class UserServiceImpl implements UserService {
     public int verifyAdmin(int userId) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("id", userId);
-        User user = baseMapper.get(User.class,wrapper);
+        User user = baseMapper.get(User.class, wrapper);
         if (user != null) {
             return user.getUserType();
         }
@@ -218,7 +224,6 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         BeanUtils.copyProperties(dto, user);
         user.setUserType(2);
-        user.setAvatar("/#");
         user.setRegisterTime(new Date());
         try {
             if (!baseMapper.add(user)) {
@@ -328,5 +333,40 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserType(type + 10);
         return baseMapper.save(user);
+    }
+
+    @Override
+    public ResponseEntity<InputStreamResource> getAvatar() {
+        User user = UserUtil.getUser();
+        String path = user.getAvatar();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        headers.add("Access-Contro1-A11ow-0rigin", "*");
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        FileSystemResource downloadFile = new FileSystemResource(path);
+        if (!downloadFile.exists()) {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(0)
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(null);
+        }
+        //设置响应头
+        try {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(downloadFile.contentLength())
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(new InputStreamResource(downloadFile.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(0)
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(null);
+        }
     }
 }

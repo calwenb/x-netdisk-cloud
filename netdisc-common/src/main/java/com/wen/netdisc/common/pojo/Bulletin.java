@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("bulletin")
 public class Bulletin {
-    @IdField(idType = IdTypeEnum.AUTO)
+    @FieldId(idType = IdTypeEnum.AUTO)
     private Integer id;
     private String title;
     private String content;

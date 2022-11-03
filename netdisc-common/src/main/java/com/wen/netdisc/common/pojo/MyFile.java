@@ -1,6 +1,6 @@
 package com.wen.netdisc.common.pojo;
 
-import com.wen.releasedao.core.annotation.IdField;
+import com.wen.releasedao.core.annotation.FieldId;
 import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class MyFile implements Serializable {
     /**
      * 文件ID
      */
-    @IdField(idType = IdTypeEnum.AUTO)
+    @FieldId(idType = IdTypeEnum.AUTO)
     private Integer myFileId;
     /**
      * 文件名
