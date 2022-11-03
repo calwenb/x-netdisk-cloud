@@ -5,6 +5,7 @@ import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.NumberUtil;
+import com.wen.netdisc.common.util.ThreadPoolUtil;
 import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.filesystem.api.mapper.FolderMapper;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
@@ -56,6 +57,8 @@ public class FileServiceImpl implements FileService {
     RedisTemplate<String, Object> redisTemplate;
     @Resource
     TrashService trashService;
+    @Resource
+    FileUtil fileUtil;
 
     @Deprecated
     @Override
@@ -197,13 +200,16 @@ public class FileServiceImpl implements FileService {
         }
         String type = FileUtil.getFileType(suffixName);
         MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
-        Integer i = fileMapper.add(myFile);
-        if (i > 0) {
+        if (fileMapper.add(myFile) > 0) {
             Files.copy(file.toPath(), dest.toPath());
             store.setCurrentSize(store.getCurrentSize() + size);
             storeService.updateStore(store);
             log.info("用户ID：" + userId + " 上传成功。服务器保存地址：" + path);
             log.info("当前仓库容量为：" + store.getCurrentSize() + " KB");
+            if ("图片".equals(type)) {
+                //缓存缩略图
+                ThreadPoolUtil.execute(() -> fileUtil.previewImage(Collections.singletonList(myFile)));
+            }
         }
     }
 
@@ -280,7 +286,7 @@ public class FileServiceImpl implements FileService {
         if (files == null || files.isEmpty()) {
             return PageVO.of(Collections.emptyList(), pageNum, showRow, count);
         }
-        List<Map<String, String>> list = FileUtil.previewImage(files);
+        List<Map<String, String>> list = fileUtil.previewImage(files);
         return PageVO.of(list, pageNum, showRow, count);
     }
 

@@ -2,21 +2,27 @@ package com.wen.netdisc.filesystem.api.util;
 
 
 import com.alibaba.fastjson.JSON;
+import com.wen.netdisc.common.enums.RedisEnum;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ThreadPoolUtil;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * FileUtil类
@@ -24,6 +30,7 @@ import java.util.concurrent.CountDownLatch;
  * @author calwen
  */
 @Component
+@Slf4j
 public class FileUtil {
     /**
      * 上传文件的大小最大2GB
@@ -44,6 +51,8 @@ public class FileUtil {
      */
     public static long STORE_MAX_SIZE;
     private static final Map<String, String> fileTypeMap = new HashMap<>();
+    @Resource
+    RedisTemplate<String, String> redisTemplate;
 
 
     static {
@@ -139,8 +148,13 @@ public class FileUtil {
         STORE_MAX_SIZE = storeMaxSize * 1024;
     }
 
-
-    public static List<Map<String, String>> previewImage(List<MyFile> files) {
+    /**
+     * 生成缩略图，缓存
+     *
+     * @param files
+     * @return
+     */
+    public List<Map<String, String>> previewImage(List<MyFile> files) {
         //多线程处理缩略图，使用数组保证files顺序不变
         Map<String, String>[] rs = new Map[files.size()];
         CountDownLatch latch = new CountDownLatch(files.size());
@@ -149,15 +163,29 @@ public class FileUtil {
             ThreadPoolUtil.execute(() -> {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 try {
-                    Thumbnails.of(files.get(finalI).getMyFilePath())
-                            .size(400, 400)
-                            .outputFormat("jpg")
-                            .toOutputStream(os);
-                    byte[] bytes = os.toByteArray();
-                    String base64Str = Base64.encodeBase64String(bytes);
-                    HashMap<String, String> map = new HashMap<>(2);
-                    map.put("msg", JSON.toJSONString(files.get(finalI)));
-                    map.put("data", "data:image/jpg;base64," + base64Str);
+                    MyFile file = files.get(finalI);
+                    Integer fileId = file.getMyFileId();
+                    String key = RedisEnum.FILE_THUMBNAIL_PREFIX.getProperty() + fileId;
+                    String value = redisTemplate.opsForValue().get(key);
+
+                    String data;
+                    //缓存
+                    if (StringUtils.isNotBlank(value)) {
+                        data = value;
+                        log.info("[缩略图] id={}，有缓存", fileId);
+                    } else {
+                        Thumbnails.of(file.getMyFilePath())
+                                .size(400, 400)
+                                .outputFormat("jpg")
+                                .toOutputStream(os);
+                        byte[] bytes = os.toByteArray();
+                        data = "data:image/jpg;base64," + Base64.encodeBase64String(bytes);
+                        redisTemplate.opsForValue().set(key, data, 30, TimeUnit.DAYS);
+                        log.info("[缩略图] id={}，加入缓存", fileId);
+                    }
+                    HashMap<String, String> map = new HashMap<>(4);
+                    map.put("data", data);
+                    map.put("msg", JSON.toJSONString(file));
                     rs[finalI] = map;
                 } catch (Exception e) {
                     e.printStackTrace();

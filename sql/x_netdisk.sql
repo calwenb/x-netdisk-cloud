@@ -4,7 +4,7 @@
  Source Server         : wen腾讯云
  Source Server Type    : MySQL
  Source Server Version : 50738
- Source Host           : 101.43.95.238:3306
+ Source Host           : 1.117.95.71:3306
  Source Schema         : x_netdisk
 
  Target Server Type    : MySQL

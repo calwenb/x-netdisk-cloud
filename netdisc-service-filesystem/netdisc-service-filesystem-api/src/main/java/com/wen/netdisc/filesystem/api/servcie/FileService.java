@@ -24,6 +24,9 @@ public interface FileService {
      */
     boolean uploadFile(MultipartFile file, int userId, Integer faFolderId);
 
+    /**
+     * 将文件赋给用户，即文件上传
+     */
     void giveUserFile(File file, int userId, Integer faFolderId) throws IOException;
 
 

@@ -1,7 +1,7 @@
 package com.wen.netdisc.common.pojo;
 
 import com.wen.releasedao.core.annotation.CreateTime;
-import com.wen.releasedao.core.annotation.IdField;
+import com.wen.releasedao.core.annotation.FieldId;
 import com.wen.releasedao.core.annotation.TableName;
 import com.wen.releasedao.core.enums.IdTypeEnum;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName("user")
 public class User implements Serializable {
-    @IdField(idType = IdTypeEnum.AUTO)
+    @FieldId(idType = IdTypeEnum.AUTO)
     private Integer id;
     private String userName;
     private String loginName;

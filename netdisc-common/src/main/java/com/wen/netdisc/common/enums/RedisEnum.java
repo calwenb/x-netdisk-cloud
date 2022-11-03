@@ -11,6 +11,7 @@ public enum RedisEnum {
     TRASH_PREFIX("x-netdisk:trash:"),
 
     CHUNK_PREFIX("x-netdisk:backup:"),
+    FILE_THUMBNAIL_PREFIX("x-netdisk:file:thumbnail:"),
     SMS_Mail_CODE_PREFIX("x-netdisk:smsmail:code:");
 
     private final String property;
