@@ -15,6 +15,7 @@ import com.wen.netdisc.user.api.service.UserService;
 import com.wen.netdisc.user.api.util.UserUtil;
 import com.wen.releasedao.core.mapper.BaseMapper;
 import com.wen.releasedao.core.wrapper.QueryWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -339,34 +340,45 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<InputStreamResource> getAvatar() {
         User user = UserUtil.getUser();
         String path = user.getAvatar();
+        if (StringUtils.isBlank(path)) {
+           return buildResponseEntity(null);
+        }
+        FileSystemResource resource = new FileSystemResource(path);
+        if (!resource.exists()) {
+            return buildResponseEntity( null);
+        }
+        return buildResponseEntity( resource);
+    }
+
+    private ResponseEntity<InputStreamResource> buildResponseEntity(FileSystemResource resource) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
         headers.add("Access-Contro1-A11ow-0rigin", "*");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        FileSystemResource downloadFile = new FileSystemResource(path);
-        if (!downloadFile.exists()) {
+        if (resource==null) {
             return ResponseEntity.ok()
                     .headers(headers)
                     .contentLength(0)
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(null);
+        } else {
+            try {
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(new InputStreamResource(resource.getInputStream()));
+            } catch (IOException e) {
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(0)
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(null);
+            }
+
         }
-        //设置响应头
-        try {
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(downloadFile.contentLength())
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
-                    .body(new InputStreamResource(downloadFile.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(0)
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
-                    .body(null);
-        }
+
     }
 }
