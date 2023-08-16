@@ -1,5 +1,6 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
+import com.qcloud.cos.model.COSObjectInputStream;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.FileFolder;
 import com.wen.netdisc.common.pojo.FileStore;
@@ -13,11 +14,11 @@ import com.wen.netdisc.filesystem.api.mapper.StoreMapper;
 import com.wen.netdisc.filesystem.api.servcie.FileService;
 import com.wen.netdisc.filesystem.api.servcie.StoreService;
 import com.wen.netdisc.filesystem.api.servcie.TrashService;
+import com.wen.netdisc.filesystem.api.util.CosUtil;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
@@ -325,25 +326,18 @@ public class FileServiceImpl implements FileService {
      */
     private ResponseEntity<InputStreamResource> download(String path) throws IOException {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
         headers.add("Access-Contro1-A11ow-0rigin", "*");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        FileSystemResource downloadFile = new FileSystemResource(path);
-        if (!downloadFile.exists()) {
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(0)
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.parseMediaType("application/octet-stream"));
+        try (COSObjectInputStream inputStream = CosUtil.download(path)) {
+            return bodyBuilder.contentLength(inputStream.available())
+                    .body(new InputStreamResource(inputStream));
+        } catch (Exception e) {
+            return bodyBuilder.contentLength(0)
                     .body(null);
         }
-        //设置响应头
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(downloadFile.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new InputStreamResource(downloadFile.getInputStream()));
     }
 
 
@@ -425,7 +419,9 @@ public class FileServiceImpl implements FileService {
         }
         map.put("db文件数：", sum);
         File store = new File(FileUtil.STORE_ROOT_PATH);
-        Set<String> validPath = files.stream().collect(Collectors.groupingBy((f) -> f.getMyFilePath().replace('/', '\\'))).keySet();
+        Set<String> validPath = files.stream()
+                .collect(Collectors.groupingBy((f) -> f.getMyFilePath().replace('/', '\\')))
+                .keySet();
         delBadFile(validPath, store);
 
         sum = 0;
@@ -461,16 +457,11 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean uploadFileComm(MultipartFile file, String path) {
+
         try {
-            File dest = new File(path);
-            // 检测是否存在目录
-            if (!dest.getParentFile().exists()) {
-                // 新建文件夹
-                dest.getParentFile().mkdirs();
-            }
-            file.transferTo(dest);
+            CosUtil.upload(path, file.getInputStream());
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

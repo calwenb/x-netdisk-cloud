@@ -13,6 +13,7 @@ import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.servcie.ChunkService;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
 import com.wen.netdisc.filesystem.api.vo.ChunkVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/files")
+@Slf4j
 public class FileController extends BaseController {
 
     @Resource
@@ -116,6 +118,7 @@ public class FileController extends BaseController {
         try {
             return fileService.downloadFile(Integer.parseInt(list.get(0)), Boolean.parseBoolean(preview));
         } catch (Exception e) {
+            log.error("下载文件失败 err ",e);
             throw new FailException("下载文件失败");
         }
     }
