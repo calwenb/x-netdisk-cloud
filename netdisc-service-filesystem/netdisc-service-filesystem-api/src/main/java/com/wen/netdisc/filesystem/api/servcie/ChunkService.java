@@ -14,21 +14,24 @@ public interface ChunkService {
     /**
      * 保存片
      *
-     * @param chunk
-     * @return
+     * @param chunk 片信息
+     * @return 保存结果
      */
     ResultVO<ChunkVo> saveChunk(ChunkDto chunk);
 
     /**
      * 合并片，保存数据
+     *
+     * @param chunk 片信息
+     * @return 合并结果
      */
     ResultVO<ChunkVo> merge(ChunkDto chunk);
 
     /**
      * 秒传，保存数据
      *
-     * @param chunk
-     * @return
+     * @param chunk 片信息
+     * @return 秒传结果
      */
     ResultVO<Integer> skip(ChunkDto chunk);
 }
