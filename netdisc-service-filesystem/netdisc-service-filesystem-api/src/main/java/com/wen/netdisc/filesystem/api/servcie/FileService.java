@@ -20,62 +20,145 @@ import java.util.Map;
  */
 public interface FileService {
     /**
-     * 上传，不建议使用，请使用分片上传
+     * 上传文件，不建议使用，请使用分片上传
+     *
+     * @param file       要上传的文件
+     * @param userId     用户ID
+     * @param faFolderId 文件夹ID
+     * @return 是否上传成功
      */
     boolean uploadFile(MultipartFile file, int userId, Integer faFolderId);
 
     /**
      * 将文件赋给用户，即文件上传
+     *
+     * @param file       要上传的文件
+     * @param userId     用户ID
+     * @param faFolderId 文件夹ID
+     * @throws IOException 如果发生I/O错误
      */
     void giveUserFile(File file, int userId, Integer faFolderId) throws IOException;
 
-
+    /**
+     * 查询用户指定文件夹下的文件列表
+     *
+     * @param userId         用户ID
+     * @param parentFolderId 父文件夹ID
+     * @param pageNum        页码
+     * @return 文件列表
+     */
     List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum);
 
+    /**
+     * 查询用户所有文件的列表
+     *
+     * @param userId  用户ID
+     * @param pageNum 页码
+     * @return 文件列表
+     */
     List<MyFile> queryFilesByUid(int userId, int pageNum);
 
-
+    /**
+     * 获取用户缩略图列表
+     *
+     * @param uid     用户ID
+     * @param pageNum 页码
+     * @return 缩略图列表
+     */
     PageVO<Map<String, String>> thumbnailList(Integer uid, Integer pageNum);
 
-
+    /**
+     * 根据文件ID删除文件
+     *
+     * @param fileId 文件ID
+     * @return 是否删除成功
+     */
     boolean deleteById(int fileId);
 
     /**
-     * 文件下载业务
+     * 下载文件
+     *
+     * @param fileId  文件ID
+     * @param preview 是否预览
+     * @return 下载的文件资源
+     * @throws IOException 如果发生I/O错误
      */
     ResponseEntity<InputStreamResource> downloadFile(int fileId, boolean preview) throws IOException;
 
+    /**
+     * 下载通用文件
+     *
+     * @param path 文件路径
+     * @return 下载的文件资源
+     * @throws IOException 如果发生I/O错误
+     */
     ResponseEntity<InputStreamResource> downloadComm(String path) throws IOException;
 
-
+    /**
+     * 更新文件名
+     *
+     * @param fileId  文件ID
+     * @param newName 新的文件名
+     * @return 是否更新成功
+     */
     boolean updateFileName(int fileId, String newName);
 
     /**
-     * 生成分享码，保存在redis中
-     * {key：fid，value：code}
+     * 生成文件分享码，保存在Redis中
      *
-     * @param fileId 文件id
+     * @param fileId 文件ID
      * @return 文件分享码
      */
     String share(int fileId);
 
     /**
-     * 通过分享码在redis中找到fid，在通过数据库返回文件信息
+     * 根据分享码获取文件信息
      *
      * @param shareCode 分享码
-     * @return
+     * @return 分享的文件信息
      */
     MyFile getShareFile(String shareCode);
 
+    /**
+     * 清除无效的文件
+     *
+     * @return 清除的文件数量
+     */
     Map<String, Integer> clearBadFile();
 
+    /**
+     * 通用文件上传
+     *
+     * @param file 要上传的文件
+     * @param path 文件路径
+     * @return 是否上传成功
+     */
     boolean uploadFileComm(MultipartFile file, String path);
 
+    /**
+     * 根据文件类型查询用户文件列表
+     *
+     * @param uid     用户ID
+     * @param type    文件类型
+     * @param pageNum 页码
+     * @return 文件列表
+     */
     List<MyFile> queryFilesByType(Integer uid, String type, int pageNum);
 
+    /**
+     * 更新数据
+     *
+     * @param file 要更新的文件
+     * @param id   文件ID
+     */
     void updateData(MultipartFile file, Integer id);
 
+    /**
+     * 获取文件和文件夹列表
+     *
+     * @param parentFid 父文件夹ID
+     * @return 文件和文件夹列表
+     */
     List<Object> getFileAndFolder(Integer parentFid);
-
 
 }
