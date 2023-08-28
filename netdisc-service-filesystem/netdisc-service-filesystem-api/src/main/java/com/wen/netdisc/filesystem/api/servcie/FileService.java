@@ -1,7 +1,7 @@
 package com.wen.netdisc.filesystem.api.servcie;
 
-import com.wen.netdisc.common.vo.PageVO;
 import com.wen.netdisc.common.pojo.MyFile;
+import com.wen.netdisc.common.vo.PageVO;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +48,11 @@ public interface FileService {
      * @return 文件列表
      */
     List<MyFile> queryFiles(int userId, int parentFolderId, int pageNum);
+
+    /**
+     * 搜索 文件
+     */
+    List<MyFile> queryFileSearch(int storeId, String keyword);
 
     /**
      * 查询用户所有文件的列表
@@ -160,5 +165,15 @@ public interface FileService {
      * @return 文件和文件夹列表
      */
     List<Object> getFileAndFolder(Integer parentFid);
+
+    /**
+     * 获取共享列表
+     */
+    List<MyFile> sharingList();
+
+    /**
+     * 修改共享状态
+     */
+    boolean setSharing(Integer userId, Integer id);
 
 }

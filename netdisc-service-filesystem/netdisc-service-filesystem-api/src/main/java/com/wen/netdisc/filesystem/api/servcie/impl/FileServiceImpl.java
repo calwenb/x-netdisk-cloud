@@ -16,6 +16,8 @@ import com.wen.netdisc.filesystem.api.servcie.TrashService;
 import com.wen.netdisc.filesystem.api.util.FileUtil;
 import com.wen.netdisc.filesystem.api.util.FolderUtil;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
+import com.wen.releasedao.core.mapper.BaseMapper;
+import com.wen.releasedao.core.wrapper.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -59,6 +61,9 @@ public class FileServiceImpl implements FileService {
     TrashService trashService;
     @Resource
     FileUtil fileUtil;
+
+    @Resource
+    BaseMapper baseMapper;
 
     @Deprecated
     @Override
@@ -120,7 +125,7 @@ public class FileServiceImpl implements FileService {
                 dest.getParentFile().mkdirs();
             }
             String type = FileUtil.getFileType(suffixName);
-            MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
+            MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type,false);
             Integer i = fileMapper.add(myFile);
             if (i > 0) {
                 file.transferTo(dest);
@@ -199,7 +204,7 @@ public class FileServiceImpl implements FileService {
             dest.getParentFile().mkdirs();
         }
         String type = FileUtil.getFileType(suffixName);
-        MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type);
+        MyFile myFile = new MyFile(-1, fileName, storeId, path, 0, new Date(), faFolderId, size, type,false);
         if (fileMapper.add(myFile) > 0) {
             Files.copy(file.toPath(), dest.toPath());
             store.setCurrentSize(store.getCurrentSize() + size);
@@ -224,6 +229,14 @@ public class FileServiceImpl implements FileService {
             showRow = Integer.MAX_VALUE;
         }
         return fileMapper.queryMyFiles(userId, parentFolderId, startRow, showRow);
+    }
+
+    @Override
+    public List<MyFile> queryFileSearch(int storeId, String keyword) {
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("file_store_id", storeId)
+                .like("my_file_name", keyword);
+        return baseMapper.getList(MyFile.class,wrapper);
     }
 
 
@@ -274,6 +287,24 @@ public class FileServiceImpl implements FileService {
         list.addAll(folders);
         list.addAll(files);
         return list;
+    }
+
+    @Override
+    public List<MyFile> sharingList() {
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("sharing",true);
+        return baseMapper.getList(MyFile.class,wrapper);
+    }
+
+    @Override
+    public boolean setSharing(Integer userId, Integer id) {
+        MyFile file = baseMapper.getById(MyFile.class, id);
+        FileStore fileStore = storeService.queryStoreByUid(userId);
+        if (Objects.equals(file.getFileStoreId(), fileStore.getFileStoreId())) {
+            throw new FailException("无权操作");
+        }
+        file.setSharing(!file.getSharing());
+        return baseMapper.save(file);
     }
 
 

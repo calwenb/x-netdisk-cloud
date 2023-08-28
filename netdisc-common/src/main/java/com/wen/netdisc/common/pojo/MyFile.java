@@ -58,5 +58,8 @@ public class MyFile implements Serializable {
      * 文件类型
      */
     private String type;
-
+    /**
+     * 是否 共享文件
+     */
+    private Boolean sharing;
 }

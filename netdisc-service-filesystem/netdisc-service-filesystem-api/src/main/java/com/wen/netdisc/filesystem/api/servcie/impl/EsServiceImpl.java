@@ -1,10 +1,12 @@
 package com.wen.netdisc.filesystem.api.servcie.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.LoggerUtil;
 import com.wen.netdisc.filesystem.api.mapper.MyFileMapper;
 import com.wen.netdisc.filesystem.api.servcie.EsService;
+import com.wen.netdisc.filesystem.api.servcie.FileService;
 import com.wen.netdisc.filesystem.api.util.ConfigUtil;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EsServiceImpl implements EsService {
@@ -39,10 +42,12 @@ public class EsServiceImpl implements EsService {
     MyFileMapper fileMapper;
     @Resource
     ConfigUtil configUtil;
+    @Resource
+    FileService fileService;
 
     @Override
     public List<Map<String, Object>> searchData(int storeId, String keyword) {
-        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        List<Map<String, Object>> list = new LinkedList<>();
         SearchRequest request = new SearchRequest(configUtil.getEsIndex());
 
         //两个条件 根据用户仓库 以及文件名 搜索
@@ -55,11 +60,19 @@ public class EsServiceImpl implements EsService {
         SearchResponse resp;
         try {
             resp = client.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException("es服务错误");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return fileService.queryFileSearch(storeId, keyword)
+                    .stream().map(BeanUtil::beanToMap)
+                    .collect(Collectors.toList());
         }
         for (SearchHit hit : resp.getHits().getHits()) {
             list.add(hit.getSourceAsMap());
+        }
+        if (list.isEmpty()) {
+            list = fileService.queryFileSearch(storeId, keyword)
+                    .stream().map(BeanUtil::beanToMap)
+                    .collect(Collectors.toList());
         }
         return list;
     }

@@ -3,12 +3,12 @@ package com.wen.netdisc.filesystem.api.controller.api;
 
 import com.alibaba.fastjson2.JSON;
 import com.mysql.cj.util.StringUtils;
-import com.wen.netdisc.common.vo.PageVO;
-import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.common.annotation.PassAuth;
 import com.wen.netdisc.common.exception.FailException;
 import com.wen.netdisc.common.pojo.MyFile;
 import com.wen.netdisc.common.util.ResultUtil;
+import com.wen.netdisc.common.vo.PageVO;
+import com.wen.netdisc.common.vo.ResultVO;
 import com.wen.netdisc.filesystem.api.dto.ChunkDto;
 import com.wen.netdisc.filesystem.api.servcie.ChunkService;
 import com.wen.netdisc.filesystem.api.util.UserUtil;
@@ -142,6 +142,19 @@ public class FileController extends BaseController {
     public ResultVO<String> shareFile(@PathVariable Integer id) {
         String shareCode = fileService.share(id);
         return shareCode != null ? ResultUtil.success(shareCode) : ResultUtil.errorDo();
+    }
+
+    @GetMapping("/word")
+    public ResultVO<List<MyFile>> sharingList() {
+        List<MyFile> data = fileService.sharingList();
+        return ResultUtil.success(data);
+    }
+
+    @PostMapping("/word/{id}")
+    public ResultVO<List<MyFile>> updateSharing(@PathVariable Integer id) {
+        Integer uid = UserUtil.getUid();
+        fileService.setSharing(uid, id);
+        return ResultUtil.successDo();
     }
 
 }
