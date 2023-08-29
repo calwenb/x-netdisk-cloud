@@ -150,7 +150,7 @@ public class FileController extends BaseController {
         return ResultUtil.success(data);
     }
 
-    @PostMapping("/word/{id}")
+    @PutMapping("/word/{id}")
     public ResultVO<List<MyFile>> updateSharing(@PathVariable Integer id) {
         Integer uid = UserUtil.getUid();
         fileService.setSharing(uid, id);

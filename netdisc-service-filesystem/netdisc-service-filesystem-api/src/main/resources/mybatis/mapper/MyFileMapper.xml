@@ -12,16 +12,17 @@
         <result property="downloadCount" column="download_count"/>
         <result property="updateTime" column="update_time"/>
         <result property="parentFolderId" column="parent_folder_id"/>
+        <result property="sharing" column="sharing"/>
         <result property="size" column="size"/>
         <result property="type" column="type"/>
     </resultMap>
     <sql id="NoAllField">
         my_file_name
-        ,file_store_id,my_file_path,download_count,update_time,parent_folder_id,size,type
+        ,file_store_id,my_file_path,download_count,update_time,parent_folder_id,size,type,sharing
     </sql>
     <sql id="AllField">
         my_file_id
-        ,my_file_name,my_file.file_store_id,my_file_path,download_count,update_time,parent_folder_id,size,type
+        ,my_file_name,my_file.file_store_id,my_file_path,download_count,update_time,parent_folder_id,size,type,sharing
     </sql>
     <sql id="NoAllProperty">
         #{myFileName}

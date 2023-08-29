@@ -300,10 +300,11 @@ public class FileServiceImpl implements FileService {
     public boolean setSharing(Integer userId, Integer id) {
         MyFile file = baseMapper.getById(MyFile.class, id);
         FileStore fileStore = storeService.queryStoreByUid(userId);
-        if (Objects.equals(file.getFileStoreId(), fileStore.getFileStoreId())) {
+        if (!Objects.equals(file.getFileStoreId(), fileStore.getFileStoreId())) {
             throw new FailException("无权操作");
         }
-        file.setSharing(!file.getSharing());
+        Boolean sharing = Optional.ofNullable(file.getSharing()).orElse(false);
+        file.setSharing(!sharing);
         return baseMapper.save(file);
     }
 
