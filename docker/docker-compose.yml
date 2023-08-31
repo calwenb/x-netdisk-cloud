@@ -1,0 +1,51 @@
+version: '3'
+services:
+  netdisc-service-oauth-gateway:
+    image: mrwen2280/netdisc-gateway:0.0.1-SNAPSHOT
+    environment:
+      - spring.profiles.active=prod
+
+
+  netdisc-service-oauth:
+    image: mrwen2280/netdisc-oauth-api:0.0.1-SNAPSHOT
+    environment:
+      - spring.profiles.active=prod
+
+
+  netdisc-service-filesystem:
+    image: mrwen2280/netdisc-service-filesystem-api:0.0.1-SNAPSHOT
+    environment:
+      - spring.profiles.active=prod
+
+  netdisc-service-user:
+    image: mrwen2280/netdisc-service-user-api:0.0.1-SNAPSHOT
+    environment:
+      - spring.profiles.active=prod
+
+#
+#  netdisc-service-oauth-1:
+#    image: mrwen2280/netdisc-oauth-api:0.0.1-SNAPSHOT
+#    ports:
+#      - "8171:8071"
+#    environment:
+#      - spring.profiles.active=prod
+#  netdisc-service-oauth-2:
+#    image: mrwen2280/netdisc-oauth-api:0.0.1-SNAPSHOT
+#    ports:
+#      - "8271:8071"
+#    environment:
+#      - spring.profiles.active=prod
+#
+#
+#  netdisc-service-user-1:
+#    image: mrwen2280/netdisc-service-user-api:0.0.1-SNAPSHOT
+#    ports:
+#      - "8172:8072"
+#    environment:
+#      - spring.profiles.active=prod
+#  netdisc-service-user-2:
+#    image: mrwen2280/netdisc-service-user-api:0.0.1-SNAPSHOT
+#    ports:
+#      - "8272:8072"
+#    environment:
+#      - spring.profiles.active=prod

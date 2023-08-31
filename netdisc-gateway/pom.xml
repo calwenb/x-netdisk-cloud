@@ -48,13 +48,26 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <outputDirectory>E:/Java/Project/x-netdisk-cloud/dist</outputDirectory>
+                    <!--<outputDirectory>E:/Java/Project/x-netdisk-cloud/dist</outputDirectory>-->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <configuration>
+                    <repository>mrwen2280/${project.name}</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                    <dockerfile>Dockerfile</dockerfile>
                 </configuration>
             </plugin>
         </plugins>
